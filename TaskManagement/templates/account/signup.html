@@ -6,14 +6,13 @@
 <div class="auth">
   <div class="auth_left">
     <div class="card">
-    <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+    <form class="signup" id="signupform" method="post" action="{% url 'account_signup' %}">
       <div class="card-body">
         <div class="card-title">Create new account</div>
            <div class="form-group">
                      {% csrf_token %}
                 {{ form.as_p }}
                 </div>
-               
                 <div class="form-footer">
                     <button type="submit" class="btn btn-primary btn-block">{% trans "Sign Up" %} &raquo;</button>
                 </div>

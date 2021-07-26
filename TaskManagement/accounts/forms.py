@@ -9,7 +9,7 @@ Role = (
     )
 
 class MyCustomSignupForm(SignupForm):
-    first_name = forms.CharField(max_length=122)
+    first_name = forms.CharField(max_length=122,)
     last_name = forms.CharField(max_length=122)
     contact = PhoneNumberField()
     role = forms.ChoiceField(choices=Role)
