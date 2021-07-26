@@ -8,21 +8,17 @@ Role = (
         ('Employee', 'Employee'),
     )
 
+
 class MyCustomSignupForm(SignupForm):
-    first_name = forms.CharField(max_length=122,)
-    last_name = forms.CharField(max_length=122)
-    contact = PhoneNumberField()
+    email = forms.EmailField(max_length=122, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your email name'}))
+    username= forms.CharField(max_length=122, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your username'}))
+    first_name = forms.CharField(max_length=122, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your first name'}))
+    last_name = forms.CharField(max_length=122, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your last name'}))
+    contact = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your contact number'}))
     role = forms.ChoiceField(choices=Role)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-    def clean_contact(self):
-        contact = self.cleaned_data.get("contact")
-        z = contact.parse(contact, "IN")
-        if not contact.is_valid_number(z):
-            raise forms.ValidationError("Number not in IN format")
-        return contact
 
     def save(self, request):
         user = super(MyCustomSignupForm, self).save(request)
@@ -30,6 +26,5 @@ class MyCustomSignupForm(SignupForm):
         user.last_name = self.cleaned_data['last_name']
         user.contact = self.cleaned_data['contact']
         user.role = self.cleaned_data['role']
-        print(user.first_name)
         user.save()
         return user

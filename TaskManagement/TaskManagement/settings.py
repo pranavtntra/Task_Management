@@ -11,7 +11,6 @@ import os
 from environs import Env
 env = Env()
 env.read_env()
-from posixpath import join
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'accounts',
-
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
@@ -50,7 +48,7 @@ INSTALLED_APPS = [
 
 SITE_ID = 1
 AUTH_USER_MODEL = 'accounts.User'
-LOGIN_REDIRECT_URL = '/dashboard'
+LOGIN_REDIRECT_URL = 'dashboard'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -96,8 +94,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': env('DATABASE_NAME'),
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': env('USER_NAME'),
+        'PASSWORD': env('PASSWORD_NAME'),
         'HOST': 'localhost',
         'PORT': '5432',
     }
@@ -152,7 +150,6 @@ ACCOUNT_FORMS = {
     "signup": "accounts.forms.MyCustomSignupForm",
 }
 
-
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED = True
@@ -160,7 +157,6 @@ ACCOUNT_USERNAME_REQUIRED = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'email'
-EMAIL_HOST_PASSWORD = 'pswd'
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_HOST_USER = 'youremail'
+EMAIL_HOST_PASSWORD = 'password'
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

@@ -7,11 +7,12 @@ Role = (
         ('Employee', 'Employee'),
     )
 
+
 class User(AbstractUser):
-    first_name = models.CharField(max_length=122)
-    last_name = models.CharField(max_length=122)
-    contact =  PhoneNumberField()
-    role = models.CharField(max_length =50, choices=Role)
+    first_name = models.CharField(max_length=122, null=True, blank=True)
+    last_name = models.CharField(max_length=122, null=True, blank=True)
+    contact = PhoneNumberField()
+    role = models.CharField(max_length=50, choices=Role, null=True, blank=True)
 
     def __str__(self):
         return self.first_name
