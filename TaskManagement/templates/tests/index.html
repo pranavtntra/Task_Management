@@ -1,4 +1,11 @@
-{% extends 'tests/base.html' %}
+{% extends 'account/base.html'%}
 {% load static %}
 {% block content %}
-{% endblock content %}
+    {% if user.is_authenticated %}
+        <a class="btn btn-primary btn-block" href="{% url 'account_email' %}">Change E-mail</a>
+        <a class="btn btn-primary btn-block" href="{% url 'account_logout' %}">Sign Out</a>
+        {% else %}
+        <a class="btn btn-primary btn-block" href="{% url 'account_login' %}">Sign In</a>
+        <a class="btn btn-primary btn-block" href="{% url 'account_signup' %}">Sign Up</a>
+    {% endif %}
+{% endblock %}

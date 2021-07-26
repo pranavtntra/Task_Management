@@ -12,7 +12,7 @@ class User(AbstractUser):
     )
     firstName = models.CharField(max_length=20)
     lastName = models.CharField(max_length=20)
-    contact = models.CharField(max_length=12)
+    contact = models.CharField(max_length=15)
     role = models.CharField(max_length=20, choices=user_role)
 
     # def __str__(self):

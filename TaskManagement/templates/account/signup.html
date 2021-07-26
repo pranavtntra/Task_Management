@@ -5,7 +5,7 @@
             {% block content %}
             <h2>{% trans "Sign Up" %}</h2>
             <div class="card-body">
-              <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+              <form class="signup" id="signup_form" name="signup_form" method="post" action="{% url 'account_signup' %}">
                 {% csrf_token %}
                 {{ form.as_p }}
                 {% if redirect_field_value %}
@@ -13,8 +13,8 @@
                 {% endif %}
                 <button type="submit" class="btn btn-primary btn-block">{% trans "Sign Up" %} &raquo;</button>
               </form>
-          </div>
-          <div class="text-center text-muted">
+            </div>
+            <div class="text-center text-muted">
                 {% blocktrans %} Already have an account? <a href="{{ login_url }}">sign in</a>{% endblocktrans %}
             </div>
             {% endblock %}

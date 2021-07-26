@@ -9,7 +9,7 @@ user_role = (
     ('Employee', 'Employee'),
 )
 
-alpha = RegexValidator(r'^[a-zA-Z]*$', 'Only characters are allowed!')
+alpha = RegexValidator(r'^[a-zA-Z]*$', 'Numbers are not allowed in name!')
 # number = RegexValidator(r'^[0-9]*$', 'Enter valid contact number!')
 
 
@@ -21,8 +21,8 @@ class MySignupForm(SignupForm):
     role = forms.ChoiceField(choices=user_role)
 
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-
+        super(MySignupForm, self).__init__(*args, **kwargs)
+      
     def save(self, request):
         user = super(MySignupForm, self).save(request)
         user.firstName = self.cleaned_data['firstName']
