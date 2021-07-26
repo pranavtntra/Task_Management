@@ -18,14 +18,6 @@
 <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 <link rel="stylesheet" href="{% static 'css/theme1.css' %}"/>
 
-<script src="{% static 'bundles/lib.vendor.bundle.js' %}"></script>
-<script src="{% static 'js/core.js' %}"></script>
-<script src="{% static 'js/jquery/jquery.js' %}"></script>
-<script src="{% static 'js/jquery/jquery.validate.js' %}"></script>
-<script src="{% static 'js/jquery/jquery.validate.min.js' %}"></script>
-<script src="{% static 'js/jquery/bootstrap.min.js' %}"></script>
-<script src="{% static 'js/jquery/validation.js' %}"></script>
-
 <style>
     .errorlist {
       color: red;
@@ -34,7 +26,6 @@
       color: red;
     }
 </style>
-
 </head>
 <body>
 <div class="auth">
@@ -43,11 +34,16 @@
             {% block content %}
 
             {% endblock %}
-         
         </div>        
     </div>
     <div class="auth_right full_img"></div>
 </div>
-
 </body>
+<script src="{% static 'bundles/lib.vendor.bundle.js' %}"></script>
+<script src="{% static 'js/core.js' %}"></script>
+<script src="{% static 'js/jquery/jquery.js' %}"></script>
+<script src="{% static 'js/jquery/jquery.validate.js' %}"></script>
+<script src="{% static 'js/jquery/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/jquery/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/jquery/validation.js' %}"></script>
 </html>

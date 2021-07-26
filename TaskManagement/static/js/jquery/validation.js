@@ -63,5 +63,28 @@ $(document).ready(function(){
                 equalTo: "Please enter the same password as above"
             }
         }
+    })
+    $("#login_form").validate({
+        rules: {
+            login: {
+                required: true,
+                minlength: 2,
+            },
+            password : {
+                required: true,
+                minlength : 5
+            },
+        },
+        messages: {
+            login: {
+                required: 'Enter the username!',
+                minlength: 'Enter more than two character!',
+                // lettersonly: 'Enter valid name!!!'
+            },
+            password : {
+                required: "Please provide a password",
+                minlength: "Your password must be at least 5 characters long"
+            },
+        }
     });
 });
