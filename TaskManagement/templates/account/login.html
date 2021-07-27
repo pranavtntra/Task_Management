@@ -1,0 +1,69 @@
+{% extends "account/base1.html" %}
+{% load i18n %}
+{% load static%}
+
+
+<title>Login</title>
+
+
+            {% block content %}
+
+            <div class="card-body">
+                <div class="card-title"><h4>{% trans "Login to your account" %}</h4></div>
+
+                {% for error in field.errors %}
+                            <p style = "color : red">{{error|escape}}</p>
+                    {% endfor %}
+                    {% for error in form.non_field_errors %}
+                        <p style = "color : red">{{error|escape}}</p>
+                    {% endfor %}
+                    </p>
+                <form class="login" method="POST" action="{% url 'account_login' %}">
+                  {% csrf_token %}
+                  {% for field in form %}
+                  <div class="form-group">
+                      <label class="form-label">{{field.label_tag}}
+                        {{field}}
+                      
+                    </label>
+                  
+
+                  {% endfor %}
+
+                {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                {% endif %}
+                  <button type="submit" class="btn btn-primary btn-block">{% trans "Sign In" %}</button>
+                
+
+                <a class="button secondaryAction" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a> 
+                <br>
+                 <br>
+                  
+                <div class="text-center text-muted">
+                    Don't have account yet? <a href="{{signup_url}}">Sign up</a>
+                </div>
+
+                {% endblock %}
+
+
+                           
+
+                    
+
+
+
+                    
+                  </form>
+             
+            
+        </div>        
+    </div>
+
+
+<script src="{% static 'bundles/lib.vendor.bundle.js' %}"></script>
+<script src="{% static 'js/core.js' %}"></script>
+</body>
+
+
+</html>

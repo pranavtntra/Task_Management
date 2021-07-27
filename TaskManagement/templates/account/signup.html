@@ -1,0 +1,41 @@
+{% extends "account/base1.html" %}
+{% load i18n %}
+
+
+<title>Registration</title>
+
+                    {% block content %}
+
+                    <div class="card-title"><h4>{% trans "Create New Account" %}</h4></div>
+                        
+                        <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                            {% csrf_token %}
+                            {% for field in form %}
+                            <div class="form-group">
+                                <label class="form-label">{{field.label_tag}}
+                                    <br>
+                                {{field}}
+                                
+                            </label>
+
+                        {% for error in field.errors %}
+                            <p style = "color : red">{{error}}</p>
+                        {% endfor %}
+                    </p>
+                    {% endfor %}
+
+                    </div>
+                    {% if redirect_field_value %}
+                        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <div class="form-footer">
+                        <button type="submit" class="btn btn-primary btn-block">Create new account</button>
+                    </div>        
+                </form>
+                </div>
+                <div class="text-center text-muted">
+                    Already have account? <a href="{{login_url}}">Sign in</a>
+                </div>
+                {% endblock %}
+
+            
