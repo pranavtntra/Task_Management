@@ -12,7 +12,8 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=122, null=True, blank=True)
     last_name = models.CharField(max_length=122, null=True, blank=True)
     contact = PhoneNumberField()
-    Designation = models.CharField(max_length=50, choices=Designation, null=True, blank=True)
+    designation = models.CharField(max_length=50, choices=Designation, null=True, blank=True)
+    email_verified = models.BooleanField(default=False)
 
     def __str__(self):
         return self.first_name
