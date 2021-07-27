@@ -19,11 +19,6 @@ class UserForm(SignupForm):
         model = User
 
 
-    def clean_contact(self):
-        contact = self.cleaned_data.get('contact')
-        if len(str(contact)) < 10:
-            raise forms.ValidationError("Enter valid Contact details")
-        return contact
 
     def clean_username(self):
         username = self.cleaned_data.get('username')

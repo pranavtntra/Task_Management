@@ -11,6 +11,9 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+from environs import Env
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,6 +29,7 @@ SECRET_KEY = 'l0*%@@uh4vewrots$w@7r1&zw)lw3!20hwa-23lc31c4e*8cqn'
 DEBUG = True
 
 ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -101,9 +105,9 @@ WSGI_APPLICATION = 'TaskManagement.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE':'django.db.backends.postgresql_psycopg2',
-        'NAME':'task_management',
-        'USER':'postgres',
-        'PASSWORD':'postgres',
+        'NAME': env('DATABASE_NAME'),
+        'USER': env('USER_NAME'),
+        'PASSWORD':env('PASSWORD_NAME'),
         'HOST':'localhost',
         'PORT':'5432',
     }
