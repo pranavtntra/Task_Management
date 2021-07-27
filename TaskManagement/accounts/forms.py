@@ -1,9 +1,9 @@
+from accounts.models import Designation
 from django import forms
 from allauth.account.forms import SignupForm
 from phonenumber_field.formfields import PhoneNumberField
 
-
-Role = (
+Designation = (
         ('Project Manager', 'Project Manager'),
         ('Employee', 'Employee'),
     )
@@ -15,7 +15,7 @@ class MyCustomSignupForm(SignupForm):
     first_name = forms.CharField(max_length=122, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your first name'}))
     last_name = forms.CharField(max_length=122, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your last name'}))
     contact = PhoneNumberField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your contact number'}))
-    role = forms.ChoiceField(choices=Role)
+    Designation = forms.ChoiceField(choices=Designation)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

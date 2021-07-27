@@ -21,4 +21,5 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('dashboard/', TemplateView.as_view(template_name='dashboard.html'), name="dashboard"),
     path('', TemplateView.as_view(template_name="index.html")),
+    path('djrichtextfield/', include('djrichtextfield.urls')),
 ]
