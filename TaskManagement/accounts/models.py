@@ -16,4 +16,4 @@ class User(AbstractUser):
     email_verified = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.first_name
+        return str(self.first_name)
