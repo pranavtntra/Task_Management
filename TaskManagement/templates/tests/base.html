@@ -25,7 +25,7 @@
 
 <body class="font-montserrat">
 <!-- Page Loader -->
-{% if request.user.is_authenticated %}
+{% comment %} {% if request.user.is_authenticated %} {% endcomment %}
 <div class="page-loader-wrapper">
     <div class="loader">
     </div>
@@ -510,11 +510,10 @@
     </div>    
 </div>
 
-{% else %}
-    {% comment %} <a href="{% url 'account_login' %}">Login</a> {% endcomment %}
+{% comment %} {% else %}
     <a class="btn btn-primary btn-block" href="{% url 'account_login' %}">Sign In</a>
     <a class="btn btn-primary btn-block" href="{% url 'account_signup' %}">Sign Up</a>
-{% endif %}
+{% endif %} {% endcomment %}
 
 
 <script src="{% static 'bundles/lib.vendor.bundle.js' %}"></script>
