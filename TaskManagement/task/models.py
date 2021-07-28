@@ -2,6 +2,7 @@ from django.db import models
 from project.models import Project
 from accounts.models import User
 from djrichtextfield.models import RichTextField
+from django.urls import reverse
 # Create your models here.
 
 PRIORITY = (
@@ -49,6 +50,9 @@ class Task(models.Model):
     end_date = models.DateTimeField()
     tasktype = models.CharField(max_length=30, choices=TASKTYPES)
     parent_task = models.ForeignKey("self", on_delete=models.CASCADE, null=True, blank=True)
+
+    def get_absolute_url(self):
+        return reverse("dashboard")
 
     def __str__(self):
         return self.title
