@@ -76,4 +76,49 @@ $(document).ready(function() {
 
         }
     });
+    $("#add_task").validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 5,
+            },
+            description: {
+                required: true,
+                minlength: 10,
+            }
+        },
+        messages: {
+            title: {
+                required: "Enter valid task name"
+            },
+            description: {
+                required: "Enter proper description"
+            }
+
+        }
+
+    });
+    $("#add_subtask").validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 5,
+            },
+            description: {
+                required: true,
+                minlength: 10,
+            }
+        },
+        messages: {
+            title: {
+                required: "Enter valid task name"
+            },
+            description: {
+                required: "Enter proper description"
+            }
+
+        }
+
+    });
+
 });

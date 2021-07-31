@@ -1,0 +1,44 @@
+{% extends 'dashboard.html' %}
+{% block content %}
+<div class="section-body">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center">
+            <ul class="nav nav-tabs page-header-tab">
+
+                <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#todo-add">Add Task</a></li>
+          
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="section-body mt-3">
+    <div class="container-fluid">
+                    <div class="tab-content">
+                     
+                    <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Add Task</h3>
+                                <div class="card-options ">
+                                    <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                                    <a href="#" class="card-options-remove" data-toggle="card-remove"><i class="fe fe-x"></i></a>
+                                </div>
+                            </div>
+                            <form class="card-body" action="" method="post" id="add_task">
+                                    {% csrf_token %} 
+                                    {{form.as_p}}
+                                   
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"></label>
+                                        <div class="col-md-7">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-outline-secondary">Cancel</button>
+                                        </div>
+                                    </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+    </div>
+        
+{% endblock  %}
