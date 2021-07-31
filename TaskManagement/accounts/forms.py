@@ -10,6 +10,7 @@ Designation = (
 
 
 class MyCustomSignupForm(SignupForm):
+    """User allauth signup form"""
     email = forms.EmailField(required=True, max_length=122, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your email name'}))
     username = forms.CharField(max_length=122, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your username'}))
     first_name = forms.CharField(max_length=122, widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Enter your first name'}))

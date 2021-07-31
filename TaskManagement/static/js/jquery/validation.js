@@ -7,7 +7,7 @@ $(document).ready(function() {
             },
             username: {
                 required: true,
-                minlength: 5,
+                minlength: 2,
             },
             firstName: {
                 required: true,
@@ -74,6 +74,64 @@ $(document).ready(function() {
                 required: "Enter your valid password"
             }
 
+        }
+    });
+    $("#user_signup_form").validate({
+        rules: {
+            email: {
+                required: true,
+                email: true,
+            },
+            username: {
+                required: true,
+                minlength: 2,
+            },
+            first_name: {
+                required: true,
+                minlength: 2,
+            },
+            last_name: {
+                required: true,
+                minlength: 2,
+            },
+            contact: {
+                required: true,
+            },
+            password1: {
+                required: true,
+                minlength: 8
+            },
+            password2: {
+                equalTo: "#id_password1"
+            }
+        },
+        messages: {
+            email: {
+                required: "This field is required.",
+                email: "Please enter a valid email address.",
+            },
+            username: {
+                required: 'Enter your username!',
+                minlength: 'Enter more than two character!',
+            },
+            first_name: {
+                required: 'Enter your name!',
+                minlength: 'Enter more than two character!',
+            },
+            last_name: {
+                required: 'Enter your name!',
+                minlength: 'Enter more than two character!',
+            },
+            contact: {
+                required: 'Enter your Number!',
+            },
+            password1: {
+                required: "Please provide a password",
+                minlength: "Your password must be at least 8 characters long"
+            },
+            password2: {
+                equalTo: "Please enter the same password as above"
+            }
         }
     });
 });

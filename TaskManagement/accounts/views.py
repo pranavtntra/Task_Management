@@ -1,19 +1,37 @@
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
 from accounts.models import User
-from django.urls import reverse_lazy
+from accounts.forms import MyCustomSignupForm
+from django.shortcuts import render, redirect
+from django.views.generic import View
+from django.core.mail import send_mail
 
 
 class UserDetails(ListView):
+    """show the details of user"""
     model = User
     context_object_name = 'userdetails'
     template_name = 'userdetails.html'
 
 
-class AddUser(CreateView):
-    # form_class = MyCustomSignupForm
-    redirect_authenticated_user = True
+class AddUser(View):
+    """create the new custom user"""
+    def get(self, request, *args, **kwargs):
+        user_create_form = MyCustomSignupForm()
+        return render(request, 'createuser.html', {'form': user_create_form})
+
+    def post(self, request, *args, **kwargs):
+        form = MyCustomSignupForm(request.POST)
+        if form.is_valid():
+            userdata = form.save(request)
+            userdata.set_password(userdata.email)
+            userdata.save()
+            send_mail('Tntra: Task Management',
+                        'Your name is Username and email address is Login Password', request.user.email, [userdata.email], fail_silently=False)
+            return redirect('userdetails')
+        return render(request, 'createuser.html', {'form': form})
+
+
+class UserProfile(ListView):
+    """show the profile of user"""
     model = User
-    fields = ['email', 'username', 'first_name', 'last_name', 'contact', 'designation', 'password']
-    success_url = reverse_lazy('dashboard')
-    template_name = 'createuser.html'
+    template_name = 'userprofile.html'

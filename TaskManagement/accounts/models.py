@@ -9,6 +9,7 @@ Designation = (
 
 
 class User(AbstractUser):
+    """Abstract User table"""
     first_name = models.CharField(max_length=122, null=True, blank=True)
     last_name = models.CharField(max_length=122, null=True, blank=True)
     contact = PhoneNumberField()

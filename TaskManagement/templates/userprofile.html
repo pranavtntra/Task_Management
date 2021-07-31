@@ -323,45 +323,41 @@
                 </div>
             </div>
         </div>
-
-        {% if request.user.is_superuser %}
-        <div class="container-fluid">
-        <div class="p-2">
-             <a class="btn btn-lg btn-primary float-right" href="{% url 'createuser' %}">
-                <span>Create User<br><small>|Create user from here|</small></span></a> 
+        <div class="section-body">
+            <div class="container-fluid">
+                <div class="tab-content">
+                    <div class="tab-pane fade show active" id="list" role="tabpanel">
+                        <div class="row clearfix">
+                            <div class="col-xl-4 col-lg-4 col-md-6">
+                                <div class="card">
+                                    <div class="card-body text-center ribbon">
+                                        <h2 class="mt-3 mb-0">{{request.user.username}}</h2>
+                                        <h6 class="mt-3 mb-0">{{request.user.first_name}} {{request.user.last_name}}</h6>
+                                        <span>{{request.user.email}}</span>
+                                        <ul class="mt-3 list-unstyled d-flex justify-content-center">
+                                            <li><a class="p-3" target="_blank" href="#"><i class="fa fa-facebook"></i></a></li>
+                                            <li><a class="p-3" target="_blank" href="#"><i class="fa fa-slack"></i></a></li>
+                                            <li><a class="p-3" target="_blank" href="#"><i class="fa fa-linkedin"></i></a></li>
+                                        </ul>
+                                        <button type="button" class="btn btn-outline-success">Update</button>
+                                        <div class="row text-center mt-4">
+                                            <div class="col-6 border-right">
+                                                <label class="mb-0"><b>CONTACT</b></label>
+                                                <h5 class="font-16">{{request.user.contact}}</h5>
+                                            </div>
+                                            <div class="col-6">
+                                                <label class="mb-0"><b>DESIGNATION</b></label>
+                                                <h4 class="font-16">{{request.user.designation}}</h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <table class="table table-success table-striped">
-        <tr class="table-danger">
-            <th><b>User Name</b></th>
-            <th><b>First Name</b></th>
-            <th><b>Last Name</b></th>
-            <th><b>Contact</b></th>
-            <th><b>Email Address</b></th>
-            <th><b>Designation</b></th>
-            <th colspan=2><b><u>Action</u></b></th>
-        </tr>
-        {% for details in userdetails %}
-        <tr>
-            <td><b>{{details.username}}</b></td>
-            <td><b>{{details.first_name}}</b></td>
-            <td><b>{{details.last_name}}</b></td>
-            <td><b>{{details.contact}}</b></td>
-            <td><b>{{details.email}}</b></td>
-            <td><b>{{details.designation}}</b></td>
-            <td><button type="button" class="btn btn-outline-success">Update</button></td>     
-            <td><button type="button" class="btn btn-outline-danger">Delete</button></td>
-        </tr>
-        {% empty %}
-            <h3>No Item</h3>
-        </br>
-        <hr>
-        {% endfor %}
-        </table>
-        </div>
-        {% endif %}
-        
-
     </div> 
 </div>
 
@@ -371,3 +367,4 @@
 {% endif %}
 </body>
 {% endblock %}
+
