@@ -1,9 +1,9 @@
 from project.models import Project
-from accounts.models import User
 from task.models import Task
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, View
 from task.forms import CreateTaskForm, CreateSubTaskForm
 from django.http import JsonResponse
+import json
 # Create your views here.
 
 
@@ -35,32 +35,43 @@ class TaskListView(ListView):
     model = Task
     template_name = "task/task_list.html"
     context_object_name = "tasklist"
- 
+
     def get_queryset(self):
         return Task.objects.filter(assigned_to=self.request.user)
-        
+
 
 class ProjectTaskListView(ListView):
     """Display list of task Project wise"""
     model = Project
+    form_class = CreateTaskForm
     template_name = "task/project_tasklist.html"
     context_object_name = "projectlist"
-    
-    #def get_queryset(self):
-    #    
-    #    
-    #    id = self.request.GET.get("id")
-    #    print(self.request.GET.get("project"))
-    #    print(id)
-    #    print(self.request.GET)
-    #    #if project == "":
-    #    #    Task.objects.none()
-    #    return Project.objects.filter(project_lead=id)
-    
-    def get_context_data(self, **kwargs):
-        #import code; code.interact(local=dict(globals(), **locals()))
-        project_list = []
-        context = super(ProjectTaskListView, self).get_context_data(**kwargs)
-        project_list = Project.objects.all()
-        context['project'] = [project.title for project in project_list]
-        return context
+
+    def get_queryset(self):
+        return Project.objects.all()
+
+
+class TaskList(View):
+
+    model = Project
+    form_class = CreateTaskForm
+    template_name = "task/project_tasklist.html"
+    context_object_name = "tasklist"
+
+    def get(self, request, *args, **kwargs):
+        # import code; code.interact(local=dict(globals(), **locals()))
+        project_id = self.request.GET.get('id', None)
+        print(id)
+        project_id = Project.objects.filter(id=project_id)
+        if project_id.exists():
+            # import code; code.interact(local=dict(globals(), **locals()))
+            project = project_id.first()
+            t = Task.objects.filter(project=project).values('title', 'status', 'priority')
+            # print(t)
+
+        # t = Task.objects.filter(id = project_id).values('title','status')
+        # print(tasks)
+        tasks = json.dumps(list(t))
+        print(tasks)
+        data = {"task": tasks}
+        return JsonResponse(data, safe=False)
