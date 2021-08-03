@@ -189,10 +189,14 @@
                 <li>
                     <a href="javascript:void(0)"><i class="fa fa-check-square-o"></i><span>Todo List</span></a>
                     <ul>
+                    {% if user.is_staff %}
                         <li><a href="{% url 'add_task' %}">Add Task</a></li>
-                        <li><a href="{% url 'task_list'%}">My List</a></li>
-                        <li><a href="{% url 'add_subtask' %}">Add Sub Task</a></li>
                         <li><a href="{% url 'project_tasklist'%}">Task List</a></li>
+                      
+                    {% else %}
+                        <li><a href="{% url 'add_subtask' %}">Add Sub Task</a></li>
+                        <li><a href="{% url 'mytask_list'%}">My List</a></li>
+                    {% endif %}
                     </ul>
                 </li>
                 <li><a href="app-calendar.html"><i class="fa fa-calendar"></i><span>Calendar</span></a></li>
@@ -258,6 +262,8 @@
 <script src="{% static 'js/jquery/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/jquery/validation.js' %}"></script>  
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+ 
+    <script src="{% static 'js/jquery/tasklistbyproject.js' %}"></script> 
                         
 </body>
 

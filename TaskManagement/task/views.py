@@ -33,7 +33,7 @@ class CreateSubTaskView(CreateView):
 class TaskListView(ListView):
     """ Display list of tasks (for logged in user's list of tasks ) """
     model = Task
-    template_name = "task/task_list.html"
+    template_name = "task/mytask_list.html"
     context_object_name = "tasklist"
 
     def get_queryset(self):
@@ -66,11 +66,7 @@ class TaskList(View):
         if project_id.exists():
             # import code; code.interact(local=dict(globals(), **locals()))
             project = project_id.first()
-            t = Task.objects.filter(project=project).values('title', 'status', 'priority')
-            # print(t)
-
-        # t = Task.objects.filter(id = project_id).values('title','status')
-        # print(tasks)
+            t = Task.objects.filter(project=project).values('title','assigned_to__first_name', 'status', 'priority', 'tasktype')
         tasks = json.dumps(list(t))
         print(tasks)
         data = {"task": tasks}

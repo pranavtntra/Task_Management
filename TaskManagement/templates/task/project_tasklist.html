@@ -4,7 +4,7 @@
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center">
             <ul class="nav nav-tabs page-header-tab">
-                  <li class="nav-item"><a class="nav-link active" href="{% url 'task_list' %}">Task List</a></li>
+                  <li class="nav-item"><a class="nav-link active" href="">Task List</a></li>
             </ul>
         </div>
     </div>
@@ -20,26 +20,23 @@
                     <div class="tab-content">
                         <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
                             <div class="card" id = "card">
+
                                 <div class="card-body">
                                 <div class="table-responsive todo_list">
-                                    <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap" id="table">
+                
+                              
+                              
+                            <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap" id="mytable">
                                         <thead>
                                             <tr>
                                             <th>title</th>
-                                            <th class="w">priority</th>
+                                            <th>assigned to</th>
                                             <th class="w">status</th>
-                                            <th class="w">date</th>
+                                            <th class="w">priority</th>
+                                            <th class="w">tasktype</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                            
-                                            <tr>
-                                                <th>{{l.title}}</a></th>
-                                                <th> {{l.priority}}</th>
-                                                <th> {{l.get_status_display}}</th>
-                                                <th> {{l.start_date}}to<br>{{l.end_date}}</th>
-                                            </tr>
-                                            
+                                        <tbody id="btable">
                                         </tbody>
 
                                         </table>
@@ -51,27 +48,5 @@
                         </div>
                     </div>
     </div>
-   <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
- <script>
-        
-        $('#project_tasklist').change(function(){
-            var id = $(this).val();
-            console.log(id);
-            $.ajax({
-                url: $(this).data('url'),
-            method : 'get',
-                data: {
-                    'id':id,
-                },
-                success: function(data){
-                   console.log(id);
-                   $("#card").html(data);
-                },
-                error: function(data){
-                    console.log("error");
-                }
-            });
-        });
-
-    </script>
+ 
 {% endblock  %}
