@@ -323,78 +323,18 @@
                 </div>
             </div>
         </div>
-
-        {% if request.user.is_superuser %}
-        <div class="container-fluid">
-        <div class="p-2">
-             <a class="btn btn-lg btn-primary float-right" href="{% url 'createuser' %}">
-                <span>Create User<br><small>|Create user from here|</small></span></a> 
-        </div>
-
-        <table class="table table-success table-striped">
-        <tr class="table-danger">
-            <th><b>User Name</b></th>
-            <th><b>First Name</b></th>
-            <th><b>Last Name</b></th>
-            <th><b>Contact</b></th>
-            <th><b>Email Address</b></th>
-            <th><b>Designation</b></th>
-            <th colspan=2><b><u>Action</u></b></th>
-        </tr>
-        {% for details in userdetails %}
-        <tr>
-            <td><b>{{details.username}}</b></td>
-            <td><b>{{details.first_name}}</b></td>
-            <td><b>{{details.last_name}}</b></td>
-            <td><b>{{details.contact}}</b></td>
-            <td><b>{{details.email}}</b></td>
-            <td><b>{{details.designation}}</b></td>
-            <td><button type="button" class="btn btn-outline-success">Update</button></td>     
-            <td><button type="button" class="btn btn-outline-danger">Delete</button></td>
-        </tr>
-        {% empty %}
-            <h3>No Item</h3>
-        </br>
-        <hr>
-        {% endfor %}
-        </table>
-
-        <nav aria-label="Page navigation example">
-            <ul class="pagination justify-content-center">
-                {% if page_obj.has_previous %}
-                    <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                    </li>
-                {% endif %}
-                {% for i in page_obj.paginator.page_range %}
-                    {% if page_obj.number == i %}
-                    <li class="page-item active" aria-current="page">
-                        <span class="page-link">
-                        {{ i }}
-                        <span class="sr-only">(current)</span>
-                        </span>
-                    </li>
-                    {% else %}
-                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
-                    {% endif %}
-                {% endfor %}
-                {% if page_obj.has_next %}
-                    <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-                    </li>
-                {% else %}
-                    <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Next</a>
-                    </li>
-                {% endif %}
-            </ul>
-        </nav>
-
+        
+        <form class="signup" id="user_signup_form" method="post" action="{% url 'createuser' %}">
+        
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
+        <button type="submit" class="btn btn-primary">Sign Up &raquo;</button>
+        
+        </form>
+        <a class="btn btn-sm btn-primary" href="{% url 'userdetails' %}">back..</a>
     </div> 
 </div>
 

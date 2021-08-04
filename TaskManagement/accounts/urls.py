@@ -1,3 +1,4 @@
+from accounts.models import User
 from django.urls import path
 from .views import UserDetails, AddUser, UserProfile
 
