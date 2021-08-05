@@ -24,6 +24,9 @@
 <!-- Core css -->
 <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
 <link rel="stylesheet" href="{% static 'css/theme1.css' %}"/>
+<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+
 </head>
 
 <body class="font-montserrat">
@@ -36,18 +39,7 @@
 
     <div id="header_top" class="header_top">
         <div class="container">
-            <div class="hleft">
-                <a class="header-brand" href="index-2.html"><i class="fa fa-soccer-ball-o brand-logo"></i></a>
-                <div class="dropdown">
-                    <a href="javascript:void(0)" class="nav-link user_btn"><img class="avatar" src="{% static 'images/user.png' %}" alt="" data-toggle="tooltip" data-placement="right" title="User Menu"/></a>
-                    <a href="{% static 'page-search.html' %}" class="nav-link icon xs-hide"><i class="fa fa-search"></i></a>                    
-                    <a href="{% static 'app-calendar.html' %}"  class="nav-link icon app_inbox xs-hide"><i class="fa fa-calendar"></i></a>
-                    <a href="{% static 'app-contact.html' %}"  class="nav-link icon xs-hide"><i class="fa fa-id-card-o"></i></a>
-                    <a href="{% static 'app-chat.html' %}"  class="nav-link icon xs-hide"><i class="fa fa-comments-o"></i></a>
-                    <a href="{% static 'app-filemanager.html' %}"  class="nav-link icon app_file xs-hide"><i class="fa fa-folder-o"></i></a>
-                    <a href="javascript:void(0)" class="nav-link icon theme_btn xs-hide"><i class="fa fa-paint-brush" data-toggle="tooltip" data-placement="right" title="Themes"></i></a>
-                </div>
-            </div>
+
             <div class="hright">
                 <div class="dropdown">
                     <a href="javascript:void(0)" class="nav-link icon settingbar"><i class="fa fa-gear fa-spin" data-toggle="tooltip" data-placement="right" title="Settings"></i></a>
@@ -301,33 +293,37 @@
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
                 <li class="g_heading">Project</li>
-                <li class="active"><a href="index-2.html"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
-                <li><a href="project-list.html"><i class="fa fa-list-ol"></i><span>Project list</span></a></li>
-                <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Taskboard</span></a></li>
+                <li class="active"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
+                <li>
+                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Project</span></a>
+                    <ul>
+                        <li><a href="{% url 'create-project' %}">Create Project</a></li>
+                        <li><a href="{% url 'list-project' %}">Project List</a></li>
+                    </ul>
+                </li>
+                <!-- <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Taskboard</span></a></li>
                 <li><a href="project-ticket.html"><i class="fa fa-list-ul"></i><span>Ticket List</span></a></li>
                 <li><a href="project-ticket-details.html"><i class="icon-tag"></i><span>Ticket Details</span></a></li>
                 <li><a href="project-clients.html"><i class="fa fa-user"></i><span>Clients</span></a></li>
-                <li><a href="project-todo.html"><i class="fa fa-check-square-o"></i><span>Todo List</span></a></li>
+                <li><a href="project-todo.html"><i class="fa fa-check-square-o"></i><span>Todo List</span></a></li> -->
                 <li class="g_heading">App</li>
-                <li><a href="app-calendar.html"><i class="fa fa-calendar"></i><span>Calendar</span></a></li>
+                <!-- <li><a href="app-calendar.html"><i class="fa fa-calendar"></i><span>Calendar</span></a></li> -->
                 <li><a href="app-chat.html"><i class="fa fa-comments"></i><span>Chat</span></a></li>
-                <li><a href="app-contact.html"><i class="fa fa-address-book"></i><span>Contact</span></a></li>
+                <!-- <li><a href="app-contact.html"><i class="fa fa-address-book"></i><span>Contact</span></a></li>
                 <li><a href="app-filemanager.html"><i class="fa fa-folder"></i><span>FileManager</span></a></li>
                 <li><a href="app-setting.html"><i class="fa fa-gear"></i><span>Setting</span></a></li>
-                <li><a href="page-gallery.html"><i class="fa fa-photo"></i><span>Gallery</span></a></li>
+                <!-- <li><a href="page-gallery.html"><i class="fa fa-photo"></i><span>Gallery</span></a></li> -->
                 <li>
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Authentication</span></a>
                     <ul>
-                        <li><a href="login.html">Login</a></li>
-                        <li><a href="register.html">Register</a></li>
-                        <li><a href="forgot-password.html">Forgot password</a></li>
-                        <li><a href="404.html">404 error</a></li>
-                        <li><a href="500.html">500 error</a></li>   
+                        <li><a href="{{ login_url }}">Login</a></li>
+                        <li><a href="{% url 'account_signup' %}">Register</a></li>
+                        <li><a href="{% url 'account_reset_password' %}">Forgot password</a></li>  
                     </ul>
                 </li>
-                <li class="g_heading">Support</li>
+                <!-- <li class="g_heading">Support</li>
                 <li><a href="javascript:void(0)"><i class="fa fa-support"></i><span>Need Help?</span></a></li>
-                <li><a href="javascript:void(0)"><i class="fa fa-tag"></i><span>ContactUs</span></a></li>
+                <li><a href="javascript:void(0)"><i class="fa fa-tag"></i><span>ContactUs</span></a></li> -->
             </ul>
         </nav>        
     </div>
@@ -342,12 +338,13 @@
                     
                 </div>
                 <div class="right">
-                    <div class="input-icon xs-hide mr-4">
-                        <input type="text" class="form-control" placeholder="Search for...">
-                        <span class="input-icon-addon"><i class="fe fe-search"></i></span>
+
+                     <div class="input-icon xs-hide mr-4">
+                        <input type="text" id = "search1" class="form-control" placeholder="Search for...">
+                        <button id="search"></button><span class="input-icon-addon"><i class="fe fe-search"></i></span></button>
                     </div>
                     <div class="notification d-flex">
-                        <div class="dropdown d-flex">
+                        <!-- <div class="dropdown d-flex">
                             <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-language"></i></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                 <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/us.svg">English</a>
@@ -356,8 +353,8 @@
                                 <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/jp.svg">japanese</a>
                                 <a class="dropdown-item" href="#"><img class="w20 mr-2" src="assets/images/flags/bl.svg">France</a>
                             </div>
-                        </div>
-                        <div class="dropdown d-flex">
+                        </div> -->
+                        <!-- <div class="dropdown d-flex">
                             <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success nav-unread"></span></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                 <ul class="right_chat list-unstyled w350 p-0">
@@ -371,8 +368,8 @@
                                                 <span class="badge badge-outline status"></span>
                                             </div>
                                         </a>
-                                    </li>
-                                    <li class="online">
+                                    </li> -->
+                                    <!-- <li class="online">
                                         <a href="javascript:void(0);" class="media">
                                             <img class="media-object " src="assets/images/xs/avatar5.jpg" alt="">
                                             <div class="media-body">
@@ -405,8 +402,8 @@
                                             </div>
                                         </a>                            
                                     </li>                        
-                                </ul>
-                                <div class="dropdown-divider"></div>
+                                </ul> -->
+                                <!-- <div class="dropdown-divider"></div>
                                 <a href="javascript:void(0)" class="dropdown-item text-center text-muted-dark readall">Mark all as read</a>
                             </div>
                         </div>
@@ -453,17 +450,17 @@
                                 <div class="dropdown-divider"></div>
                                 <a href="javascript:void(0)" class="dropdown-item text-center text-muted-dark readall">Mark all as read</a>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="dropdown d-flex">
                             <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-user"></i></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <a class="dropdown-item" href="page-profile.html"><i class="dropdown-icon fe fe-user"></i> Profile</a>
+                                <!-- <a class="dropdown-item" href="page-profile.html"><i class="dropdown-icon fe fe-user"></i> Profile</a>
                                 <a class="dropdown-item" href="app-setting.html"><i class="dropdown-icon fe fe-settings"></i> Settings</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><span class="float-right"><span class="badge badge-primary">6</span></span><i class="dropdown-icon fe fe-mail"></i> Inbox</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fe fe-send"></i> Message</a>
+                                <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fe fe-send"></i> Message</a> -->
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fe fe-help-circle"></i> Need help?</a>
-                                <a class="dropdown-item" href="login.html"><i class="dropdown-icon fe fe-log-out"></i> Sign out</a>
+                                <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="dropdown-icon fe fe-log-out"></i> Sign out</a>
                             </div>
                         </div>
                     </div>
@@ -473,23 +470,24 @@
     </div>
     <div class="section-body mt-3">
         <div class="container-fluid">
-
             {% block content%}
             {% endblock %}     
-                    </div>
-                </div>
+        </div>
+     </div>
             
 
 
-
+<script src="{% static 'js/jquery/jquery.js' %}"></script>
 <script src="{% static 'bundles/lib.vendor.bundle.js' %}"></script>
-
 <script src="{% static 'bundles/apexcharts.bundle.js' %}"></script>
 <script src="{% static 'bundles/counterup.bundle.js' %}"></script>
 <script src="{% static 'bundles/knobjs.bundle.js' %}"></script>
 <script src="{% static 'bundles/c3.bundle.js' %}"></script>
-
+<script src="{% static 'js/jquery/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/core.js' %}"></script>
-<script src="{% static 'js/page/project-index.js"></script>
+<script src="{% static 'js/page/project-index.js' %}"></script>
+
+{% block extrajs %}
+{% endblock %}
 </body>
 </html>

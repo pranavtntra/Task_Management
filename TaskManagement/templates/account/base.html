@@ -1,3 +1,4 @@
+extend dashboard
 {% load static %}
 {% load i18n %}
 <html lang="en" dir="ltr">
@@ -12,23 +13,25 @@
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all" /> 
     </head>
     <body>
+
         {% block content %}
         {% endblock %}
-        <script src={% static "bundles/lib.vendor.bundle.js" %}></script>
         
-        <script src={% static "bundles/apexcharts.bundle.js" %}></script>
-        <script src={% static "bundles/counterup.bundle.js" %}></script>
-        <script src={% static "bundles/knobjs.bundle.js" %}></script>
-        <script src={% static "bundles/c3.bundle.js" %}></script>
-        <script src={% static "js/page/project-index.js" %}></script>
-        <script src={% static "js/core.js" %}></script>
-        <script src={% static "js/jquery/jquery.js" %}></script>
-        <script src={% static "js/jquery/jquery.validate.js" %}></script>
-        <script src={% static "js/jquery/jquery.validate.min.js" %}></script>
-        <script src={% static "js/jquery/bootstrap.min.js" %}></script>
-        <script src={% static "js/jquery/validation.js" %}></script>
-        <script src={% static "js/jquery/custom.js" %}></script>
-        {% block extrajs %}
-        {% endblock %}
+
+
+
+        
+        <script src="{% static 'bundles/lib.vendor.bundle.js' %}"></script>
+        <script src="{% static 'js/core.js' %}"></script>
+        <script src="{% static 'bundles/apexcharts.bundle.js'%}"></script>
+        <script src="{% static 'bundles/counterup.bundle.js'%}"></script>
+        <script src="{% static 'bundles/knobjs.bundle.js'%}"></script>
+        <script src="{% static 'bundles/c3.bundle.js'%}"></script>
+        <script src="{% static 'js/page/project-index.js'%}"></script>
+        <script src="{% static 'js/jquery/jquery.js' %}"></script>
+        <script src="{% static 'js/jquery/jquery.validate.js' %}"></script>
+        <script src="{% static 'js/jquery/jquery.validate.min.js' %}"></script>
+        <script src="{% static 'js/jquery/bootstrap.min.js' %}"></script>
+        <script src="{% static 'js/jquery/validation.js' %}"></script>  
     </body>
 </html>

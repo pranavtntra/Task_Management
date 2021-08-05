@@ -25,27 +25,22 @@ class UserDetails(ListView):
         template_name = 'account/userdetails.html'
         paginate_by = 6
         ordering = ['username']
+    except Exception as e:
+        raise e
 
-        # def get(self, request, *args, **kwargs):
-        #     search = self.request.GET.get('qs_json')
-        #     print(search)
-        #     search = User.objects.filter(username=search).values()
-        #     # if search.exists():
-        #     #     usr = search.first()
-        #     #     search_res = User.objects.filter(usr=usr).values('username', 'first_name', 'last_name', 'contact, email, designation')
-        #     user_list = json.dumps(list(search), cls=DatetimeEncoder)
-        #     print(user_list)
-        #     data = {"user_list": user_list}
-        #     return JsonResponse(data, safe=False)
 
-        # def get_queryset(self, **kwargs):
-        #     query1 = self.request.GET.get('qs_json', '')
-        #     object_list = User.objects.filter(Q(username__icontains=query1) |
-        #                                         Q(email__icontains=query1) |
-        #                                         Q(first_name__icontains=query1) |
-        #                                         Q(designation__icontains=query1))
-        #     return object_list
-
+class SearchUser(View):
+    """show the details of seached user"""
+    try:
+        def get(self, request, *args, **kwargs):
+            search = self.request.GET.get('search_here')
+            print(search)
+            user_list = User.objects.filter(Q(username__icontains=search) |
+                                            Q(email__icontains=search) |
+                                            Q(first_name__icontains=search) |
+                                            Q(designation__icontains=search))
+            data = {"object_list": user_list}
+            return render(request, "account/user_details_list.html", data)
     except Exception as e:
         raise e
 
