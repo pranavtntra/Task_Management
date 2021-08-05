@@ -4,6 +4,8 @@ from django.views.generic import CreateView, ListView, View
 from task.forms import CreateTaskForm, CreateSubTaskForm
 from django.http import JsonResponse
 import json
+from django.shortcuts import render
+from django.db.models import Q
 # Create your views here.
 
 
@@ -58,7 +60,7 @@ class TaskList(View):
     template_name = "task/project_tasklist.html"
     context_object_name = "tasklist"
 
-    def get(self, request, *args, **kwargs):
+    def get(self, request):
         # import code; code.interact(local=dict(globals(), **locals()))
         project_id = self.request.GET.get('id', None)
         print(id)
@@ -66,8 +68,24 @@ class TaskList(View):
         if project_id.exists():
             # import code; code.interact(local=dict(globals(), **locals()))
             project = project_id.first()
-            t = Task.objects.filter(project=project).values('title','assigned_to__first_name', 'status', 'priority', 'tasktype')
+            t = Task.objects.filter(project=project).values('title', 'assigned_to__first_name', 'status', 'priority', 'tasktype')
         tasks = json.dumps(list(t))
         print(tasks)
         data = {"task": tasks}
         return JsonResponse(data, safe=False)
+
+
+class SearchTaskView(View):
+    model = Task
+    form_class = CreateTaskForm
+    template_name = "task/project_tasklist.html"
+    context_object_name = "searct_task"
+
+    def get(self, request):
+        str = request.GET.get('str', None)
+        import code; code.interact(local=dict(globals(), **locals()))
+        print(str)
+        task = Task.objects.filter(Q(title__icontains=str))
+        print(task)
+        return render(request, 'task/project_tasklist.html', {'task': task, 'str': str})
+
