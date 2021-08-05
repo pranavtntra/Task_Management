@@ -8904,7 +8904,7 @@ a:hover {
 .auth .auth_left {
     margin-top: 1rem;
     background: #fff;
-    display: flex;
+    display: grid;
     align-items: center;
     height: 100vh;
     width: 600px;

@@ -1,0 +1,26 @@
+{% extends "dashboard.html"%}
+{% load static %}
+{% load i18n %}
+<title>{% block title %}Create Project{% endblock %}</title>
+{% block content%}
+<div class="form-group row">
+    <form class="card-body" id="createproject_form" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <label class="col-md-3 col-form-label">{{field.label_tag}} <span class="text-danger">*</span></label>
+            <div class="col-md-7">
+                {{field}}
+            </div>
+            {% endfor %}
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label"></label>
+            <div class="col-md-7">
+                <input type="submit" class="btn btn-primary" value="Create">
+                <button type="submit" class="btn btn-outline-secondary">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>                            
+{% endblock %}
+                        
+       
