@@ -1,24 +1,24 @@
 {% load static %}
 <table id="btable" class="table table-success table-striped">
-        <tr class="table-danger">
-            <th><b>User Name</b></th>
-            <th><b>First Name</b></th>
-            <th><b>Last Name</b></th>
-            <th><b>Contact</b></th>
-            <th><b>Email Address</b></th>
-            <th><b>Designation</b></th>
-            <th colspan=2><b><u>Action</u></b></th>
-        </tr>
-        {% for details in object_list %}
-        <tr>
-            <td><b>{{details.username}}</b></td>
-            <td><b>{{details.first_name}}</b></td>
-            <td><b>{{details.last_name}}</b></td>
-            <td><b>{{details.contact}}</b></td>
-            <td><b>{{details.email}}</b></td>
-            <td><b>{{details.designation}}</b></td>
-            <td><button type="button" class="btn btn-outline-success">Update</button></td>     
-            <td><button type="button" class="btn btn-outline-danger confirm-delete">Delete</button></td>
-        </tr>
-        {% endfor %}
-        </table>
+    <tr class="table-danger">
+        <th class="dropdown-toggle" onclick="sortTable(0)"><b>User Name</b></th>
+        <th class="dropdown-toggle" onclick="sortTable(1)"><b>First Name</b></th>
+        <th><b>Last Name</b></th>
+        <th><b>Contact</b></th>
+        <th><b>Email Address</b></th>
+        <th><b>Designation</b></th>
+        <th colspan=2><b><u>Action</u></b></th>
+    </tr>
+    {% for details in object_list %}
+    <tr>
+        <td><b>{{details.username}}</b></td>
+        <td><b>{{details.first_name}}</b></td>
+        <td><b>{{details.last_name}}</b></td>
+        <td><b>{{details.contact}}</b></td>
+        <td><b>{{details.email}}</b></td>
+        <td><b>{{details.designation}}</b></td>
+        <td><button type="button" class="btn btn-outline-success">Update</button></td>     
+        <td><button type="button" class="btn btn-outline-danger confirm-delete">Delete</button></td>
+    </tr>
+    {% endfor %}
+</table>

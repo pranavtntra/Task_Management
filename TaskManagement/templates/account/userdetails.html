@@ -8,16 +8,7 @@
         <div class="p-2">
              <a class="btn btn-lg btn-primary float-right" href="{% url 'createuser' %}">
                 <span>Create User<br><small>|Create user from here|</small></span></a>
-            {% comment %} <form action="{% url 'searchuser' %}" method="get" id="searchform"> {% endcomment %}
                 <input name="search_here" id="search_here" type="text" placeholder="Search..">
-                <b><label>Sort by&raquo;</label></b>
-                <select class="form-select" aria-label="Default select example">
-                    <option selected>Username:A-Z</option>
-                    <option value="1">Username:Z-A</option>
-                    <option value="2">Email:A-Z</option>
-                    <option value="3">Email:Z-A</option>
-                </select>
-            {% comment %} </form> {% endcomment %}
         </div>
 
         <div id="search_result">

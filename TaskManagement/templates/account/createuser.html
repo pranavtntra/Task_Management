@@ -18,6 +18,15 @@
 {% endblock %}
 
 {% block extrajs %}
+<script src={% static "js/jquery/custom.js" %}></script>
 <script src="{% static 'js/jquery/jquery.validate.min.js' %}"></script>
-<script src="{% static 'js/jquery/validation.js' %}"></script> 
+{% comment %} <script src="{% static 'js/jquery/validation.js' %}"></script> {% endcomment %}
+<script type="text/javascript">
+var form = document.getElementById("id_password1");
+console.log(form) 
+function myClick(){
+    form.style.display = "none";
+}  
+</script>
+
 {% endblock %}

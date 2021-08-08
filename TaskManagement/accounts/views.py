@@ -30,11 +30,10 @@ class UserDetails(ListView):
 
 
 class SearchUser(View):
-    """show the details of seached user"""
+    """show the details of searched user"""
     try:
         def get(self, request, *args, **kwargs):
             search = self.request.GET.get('search_here')
-            print(search)
             user_list = User.objects.filter(Q(username__icontains=search) |
                                             Q(email__icontains=search) |
                                             Q(first_name__icontains=search) |
