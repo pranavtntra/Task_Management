@@ -62,6 +62,7 @@ class TaskList(View):
 
     def get(self, request):
         # import code; code.interact(local=dict(globals(), **locals()))
+
         project_id = self.request.GET.get('id', None)
         print(id)
         project_id = Project.objects.filter(id=project_id)
@@ -76,16 +77,16 @@ class TaskList(View):
 
 
 class SearchTaskView(View):
-    model = Task
-    form_class = CreateTaskForm
-    template_name = "task/project_tasklist.html"
-    context_object_name = "searct_task"
 
     def get(self, request):
-        str = request.GET.get('str', None)
-        import code; code.interact(local=dict(globals(), **locals()))
-        print(str)
-        task = Task.objects.filter(Q(title__icontains=str))
+        #import code; code.interact(local=dict(globals(), **locals()))
+        search = self.request.GET.get('search_here', None)
+        print(search)
+        # import code; code.interact(local=dict(globals(), **locals()))
+        task = Task.objects.filter(Q(title__icontains=search)|
+                                Q(assigned_to__first_name__icontains=search)|
+                                Q(priority__icontains=search)|
+                                Q(tasktype__icontains=search))
         print(task)
-        return render(request, 'task/project_tasklist.html', {'task': task, 'str': str})
-
+        data = {"task": task}
+        return render(request, 'task/search_list.html', data)

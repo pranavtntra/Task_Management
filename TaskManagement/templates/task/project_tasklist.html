@@ -1,4 +1,6 @@
-{% extends 'dashboard.html' %} {% block content %}
+{% extends 'dashboard.html' %} 
+{% load static %}
+{% block content %}
 <div class="section-body">
     <div class="container-fluid">
         <div class="d-flex justify-content-between align-items-center">
@@ -8,29 +10,28 @@
         </div>
     </div>
 </div>
-<div class="row">
-    <div class="col-sm-4">
-        <select id="project_tasklist" data-url='{% url "tasklist" %}'>
-                    <option disabled = "true" selected> Projects </option>
-                        {% for p in projectlist %}
-                        <option href="" value={{p.id}} name="id">{{ csrf_input }}{{p.title }}</option>
-                        {% endfor %}
-                </select>
-    </div>
-    <div class="col-sm-8">
-        <div id="search-10" class="widget_search">
-            <form method="get" action="">
-                <div  id="search" style="text-align: right;">
-                    <input class="" type="text" name="str">
-                    <input type="submit" id="search" value="search" />
-                </div>
-            </form>
+<div class="section-body mt-2">
+<div class="container-fluid">
+    <div class="tab-content">
+        <div class="row">
+            <div class="col-sm-4">
+                <select id="project_tasklist" data-url='{% url "tasklist" %}'>
+                        <option disabled = "true" selected> Projects </option>
+                            {% for p in projectlist %}
+                            <option href="" value={{p.id}} name="id">{{ csrf_input }}{{p.title }}</option>
+                            {% endfor %}
+                    </select>
+            </div>
+            <div class="col-sm-5">
+                <input name="search_here" id="search_here" type="text" placeholder="Search..">
+            </div>
         </div>
     </div>
+</div>    
 </div>
 
 
-<div class="section-body mt-3">
+
     <div class="container-fluid">
         <div class="tab-content">
             <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
@@ -39,9 +40,11 @@
                     <div class="card-body">
                         <div class="table-responsive todo_list">
 
+                                    <div id="search_result">
+                                        {% include  'task/search_list.html' %}
+                                    </div>
 
-
-                            <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap" id="mytable">
+                        <!--   <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap" id="mytable">
                                 <thead>
                                     <tr>
                                         <th>title</th>
@@ -51,11 +54,26 @@
                                         <th class="w">tasktype</th>
                                     </tr>
                                 </thead>
-                                <tbody id="btable">
+                                
+                                <tbody>
+                                     <div id="search_result">
+                                        {% include  'task/search_list.html' %}
+                                    </div>
                                 </tbody>
-
+                                <tbody id="search-results">
+                                    {% for d in searct_task %}
+                                    <tr>
+                                        <td>{{d.title}}</td>
+                                        <td>{{d.assigned_to}}</td>
+                                        <td>{{d.status}}</td>
+                                        <td>{{d.priority}}</td>
+                                        <td>{{d.tasktype}}</td>
+        
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
                             </table>
-
+--> 
                         </div>
                     </div>
 
@@ -64,29 +82,13 @@
         </div>
     </div>
     <script>
-    $('#search').click(function() {
-
-    var str = $(this).val();
-    console.log(str);
-
-    $.ajax({
-        url: $(this).data('url'),
-        method: 'get',
-        data: {
-            'str': str,
-        },
-        success: function(data) {
-            $("#btable").empty();
-            JSON.parse(data["task"]).forEach((item) => {
-                console.log(item)
-            });
-        },
-        error: function(data) {
-            console.log("error");
-        }
-    });
-});
+   
 
     </script>
 
-    {% endblock %}
+{% endblock %}
+{% block extrajs %}
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="{% static 'js/jquery/tasklistbyproject.js' %}"></script>  
+    <script src="{% static 'js/jquery/searchtask.js' %}"></script>
+{% endblock %}

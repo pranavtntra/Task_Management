@@ -28,4 +28,5 @@ urlpatterns = [
     path("", TemplateView.as_view(template_name="index.html")),
     path("project/", include("project.urls")),
     path("djrichtextfield/", include("djrichtextfield.urls")),
+    path('task/', include('task.urls')),
 ]

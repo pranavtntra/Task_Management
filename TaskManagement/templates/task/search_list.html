@@ -1,0 +1,32 @@
+{% load static %}
+<table class="table table-hover table-striped table-vcenter mb-0 text-nowrap" id="mytable">
+                                <thead>
+                                    <tr>
+                                        <th>title</th>
+                                        <th>assigned to</th>
+                                        <th class="w">status</th>
+                                        <th class="w">priority</th>
+                                        <th class="w">tasktype</th>
+                                        
+                                    </tr>
+                                </thead>
+                                
+                                
+                                <tbody id="search-results">
+                                  
+        {% for d in task %}
+        <tr>
+            <td>{{d.title}}</td>
+            <td>{{d.assigned_to}}</td>
+            <td>{{d.status}}</td>
+            <td>{{d.priority}}</td>
+            <td>{{d.tasktype}}</td>
+        
+        
+        </tr>
+        {% endfor %}
+
+                                </tbody>
+                            </table>
+
+                                        

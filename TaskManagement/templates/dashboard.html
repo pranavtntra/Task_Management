@@ -194,12 +194,17 @@
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
                 <li class="g_heading">Project</li>
-                <li class="active"><a href="{% url 'dashboard'%}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
-                <li><a href="project-list.html"><i class="fa fa-list-ol"></i><span>Project list</span></a></li>
-                <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Taskboard</span></a></li>
-                     </li>    
+                <li class="active"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
                 <li>
-                    <a href="javascript:void(0)"><i class="fa fa-check-square-o"></i><span>Todo List</span></a>
+                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Project</span></a>
+                    <ul>
+                        <li><a href="{% url 'create-project' %}">Create Project</a></li>
+                        <li><a href="{% url 'list-project' %}">Project List</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Task</span></a>
                     <ul>
                     {% if user.is_staff %}
                         <li><a href="{% url 'add_task' %}">Add Task</a></li>
@@ -209,16 +214,6 @@
                         <li><a href="{% url 'add_subtask' %}">Add Sub Task</a></li>
                         <li><a href="{% url 'mytask_list'%}">My List</a></li>
                     {% endif %}
-                    </ul>
-                </li>
-                <li><a href="app-calendar.html"><i class="fa fa-calendar"></i><span>Calendar</span></a></li>
-                <li><a href="app-setting.html"><i class="fa fa-gear"></i><span>Setting</span></a></li>
-                <li class="active"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
-                <li>
-                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Project</span></a>
-                    <ul>
-                        <li><a href="{% url 'create-project' %}">Create Project</a></li>
-                        <li><a href="{% url 'list-project' %}">Project List</a></li>
                     </ul>
                 </li>
                 <!-- <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Taskboard</span></a></li>
@@ -236,9 +231,13 @@
                 <li>
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Authentication</span></a>
                     <ul>
-                        <li><a href="{{ login_url }}">Login</a></li>
+                    {% if  user.is_authenticated %}
+                        <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                    {% else %}
+                        <li><a href="{% url 'account_login'%}">Login</a></li>
                         <li><a href="{% url 'account_signup' %}">Register</a></li>
                         <li><a href="{% url 'account_reset_password' %}">Forgot password</a></li>  
+                    {% endif %}
                     </ul>
                 </li>
                 <!-- <li class="g_heading">Support</li>
@@ -259,10 +258,7 @@
                 </div>
                 <div class="right">
 
-                     <div class="input-icon xs-hide mr-4">
-                        <input type="text" id = "search1" class="form-control" placeholder="Search for...">
-                        <button id="search"></button><span class="input-icon-addon"><i class="fe fe-search"></i></span></button>
-                    </div>
+                     
                     <div class="notification d-flex">
                         <!-- <div class="dropdown d-flex">
                             <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-language"></i></a>
@@ -387,13 +383,14 @@
                 </div>
             </div>
         </div>
+    </div>
     <div class="section-body mt-3">
         <div class="container-fluid">
             {% block content%}
             {% endblock %}     
         </div>
-     </div>
-            
+    </div>
+</div>            
 
 
 <script src="{% static 'js/jquery/jquery.js' %}"></script>
@@ -404,7 +401,7 @@
 <script src="{% static 'bundles/c3.bundle.js' %}"></script>
 <script src="{% static 'js/jquery/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/core.js' %}"></script>
-<script src="{% static 'js/page/project-index.js' %}"></script>
+{% comment %} <script src="{% static 'js/page/project-index.js' %}"></script> {% endcomment %}
 
 {% block extrajs %}
 {% endblock %}
