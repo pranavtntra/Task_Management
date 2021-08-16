@@ -301,6 +301,17 @@
                         <li><a href="{% url 'list-project' %}">Project List</a></li>
                     </ul>
                 </li>
+
+                <li>
+                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>User</span></a>
+                    <ul>
+                        <li><a href="{% url 'userprofile' %}">Profile</a></li>
+                        {% if user.is_superuser %}
+                        <li><a href="{% url 'userdetails' %}">User Details</a></li>
+                        <li><a href="{% url 'createuser' %}">Create User</a></li>
+                        {% endif %}
+                    </ul>
+                </li>
                 <!-- <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Taskboard</span></a></li>
                 <li><a href="project-ticket.html"><i class="fa fa-list-ul"></i><span>Ticket List</span></a></li>
                 <li><a href="project-ticket-details.html"><i class="icon-tag"></i><span>Ticket Details</span></a></li>

@@ -1,8 +1,9 @@
-// ======for seachig in userdetails page======
+// ======for searchig in userdetails page======
 const searchInput = document.getElementById('search_here')
 console.log(searchInput)
 
 const searchdata =(search_here) => {
+  if (search_here.length > 2){
     $.ajax({
         type: "GET",
         url: 'http://127.0.0.1:8000/accounts/searchuser/',
@@ -18,20 +19,35 @@ const searchdata =(search_here) => {
 
     });
     return false
+  }
 }
 
 searchInput.addEventListener('keyup', e=>{
     console.log(e.target.value);
-
-    searchdata(e.target.value); 
+    searchdata(e.target.value);
+    
 })
+
 
 
 // =======pop-up for delete user in userdetails=======
-$(document).on('click', '.confirm-delete', function(){
-    return confirm('Are you sure you want to delete this?');
-})
+// function deleteFunction(e) {
+//   if(!confirm("Are you sure you want to delete?")){
+//       e.preventDefault();
+//   }else{
+//    $('#person-delete').submit();
+//   }            
+// }
+$.ajax('{% url "deleteuser" details.id %}', {
+  method: 'POST',
+  success: function() {
+      window.location.reload();
+  },
+});
 
+
+
+// =====sorting the user details table by username and user first_name=====
 function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
     table = document.getElementById("btable");

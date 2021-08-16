@@ -11,22 +11,19 @@
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
         <button type="submit" class="btn btn-primary">Sign Up &raquo;</button>
-        <a class="btn btn-primary" href="{% url 'userdetails' %}">&laquo; Back</a>
+        <a class="btn btn-primary" href="{% url 'dashboard' %}">&laquo; Home</a>
         </form>
         
 {% endif %}
 {% endblock %}
 
 {% block extrajs %}
+{% comment %} <script>
+document.getElementById("id_password1").style.display = "none";          
+document.getElementById("id_password2").style.display = "none";
+</script> {% endcomment %}
 <script src={% static "js/jquery/custom.js" %}></script>
 <script src="{% static 'js/jquery/jquery.validate.min.js' %}"></script>
-{% comment %} <script src="{% static 'js/jquery/validation.js' %}"></script> {% endcomment %}
-<script type="text/javascript">
-var form = document.getElementById("id_password1");
-console.log(form) 
-function myClick(){
-    form.style.display = "none";
-}  
-</script>
+<script src="{% static 'js/jquery/validation.js' %}"></script>
 
 {% endblock %}
