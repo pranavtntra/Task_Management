@@ -6,7 +6,7 @@ from django.views.generic import View
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
-from django.db.models import Q
+from accounts.services import AccountManagement
 import json
 
 
@@ -32,10 +32,7 @@ class SearchUser(View):
     def get(self, request, *args, **kwargs):
         try:
             search = self.request.GET.get('search_here')
-            user_list = User.objects.filter(Q(username__icontains=search) |
-                                            Q(email__icontains=search) |
-                                            Q(first_name__icontains=search) |
-                                            Q(designation__icontains=search))
+            user_list = AccountManagement.get_user(self, search)
             data = {"object_list": user_list}
             return render(request, "account/user_details_list.html", data)
         except Exception as e:
@@ -43,6 +40,9 @@ class SearchUser(View):
 
 
 class AddUser(CreateView):
+    """
+    Administration can create user and set email-id as a password
+    """
     model = User
     form_class = AddUserForm
     template_name = 'account/createuser.html'
@@ -56,7 +56,8 @@ class AddUser(CreateView):
                 userdata.set_password(userdata.email)
                 userdata.save()
                 send_mail('Tntra: Task Management',
-                            'Your name is Username and email address is Login Password NOTE:Onces you login then Reset Your password', request.user.email, [userdata.email], fail_silently=False)
+                            'Your name is Username and email address is Login Password. NOTE: Once you login then Reset Your password',
+                            request.user.email, [userdata.email], fail_silently=False)
                 return redirect('userdetails')
             return render(request, 'account/createuser.html', {'form': form})
         except Exception as e:

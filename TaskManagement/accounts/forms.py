@@ -11,6 +11,7 @@ Designation = (
 
 
 class MyCustomSignupForm(SignupForm):
+    """ This form is All auth User registration """
     email = forms.EmailField(
         required=True,
         max_length=122,
@@ -57,6 +58,7 @@ class MyCustomSignupForm(SignupForm):
 
 
 class AddUserForm(forms.ModelForm):
+    """ This form for create new user by administration."""
     email = forms.EmailField(
         required=True,
         max_length=122,
@@ -95,6 +97,9 @@ class AddUserForm(forms.ModelForm):
 
 
 class UserUpdateForm(forms.ModelForm):
+    """
+    this is update form administartion can update user details and user can also update profile
+    """
     username = forms.CharField(
         max_length=122,
         widget=forms.TextInput(
