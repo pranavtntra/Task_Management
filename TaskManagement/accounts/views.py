@@ -66,6 +66,7 @@ class AddUser(CreateView):
             return render(request, 'account/createuser.html', {'form': form})
         except Exception as e:
             logging.error(str(e))
+            return render(request, 'account/createuser.html', {'form': form})
 
 
 class UserProfile(ListView):
