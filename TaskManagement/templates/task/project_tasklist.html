@@ -9,13 +9,13 @@
                 <div class="col-sm-2">
                 <select id="project_tasklist" data-url='{% url "tasklist" %}'>
                     <option disabled = "true" selected> Projects </option>
-                        {% for p in projectlist %}
-                        <option href="" value={{p.id}} name="id">{{ csrf_input }}{{p.title }}</option>
+                        {% for project in projectlist %}
+                        <option value={{project.id}} name="id">{{ csrf_input }}{{project.title }}</option>
                         {% endfor %}
                 </select>
                 </div>
                 <div class="col-sm-4">
-                <input name="search_here" id="search_here" type="text" placeholder="Search..">
+                <input name="search_here" id="search_here" data-url="{% url 'search_task' %}" type="text" placeholder="Search..">
                 </div>
                 <div class="col-sm-4">
                 <form method="GET" action={% url 'searchbydates' %}>

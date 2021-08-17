@@ -20,13 +20,13 @@
                                             </thead>
                                             <tbody>
                                         
-                                            {% for l in tasklist %}
+                                            {% for task in tasklist %}
                                             <tr>
-                                                <th><a href="{% url 'task_detail' l.pk %}">{{l.title}}</a></th>
-                                                <th> {{l.project}}</th>
-                                                <th> {{l.priority}}</th>
-                                                <th> {{l.get_status_display}}</th>
-                                                <th> {{l.start_date}}to<br>{{l.end_date}}</th>
+                                                <th><a href="{% url 'task_detail' task.pk %}">{{task.title}}</a></th>
+                                                <th> {{task.project}}</th>
+                                                <th> {{task.priority}}</th>
+                                                <th> {{task.get_status_display}}</th>
+                                                <th> {{task.start_date}}to<br>{{task.end_date}}</th>
                                             </tr>
                                             {% endfor %}
                                             </tbody>
