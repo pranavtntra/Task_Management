@@ -28,7 +28,6 @@ class CreateProjectView(LoginRequiredMixin,CreateView):
                 return form
             except Exception as error:
                 logging.error(str(e))
-                form.fields['project_lead'].queryset = User.objects.filter(is_superuser=False)
                 return form
 
 
@@ -43,8 +42,6 @@ class ListProjectView(LoginRequiredMixin,ListView):
             return get_projects(self.request.user) 
         except Exception as error:
             logging.error(str(e))
-            return get_projects(self.request.user) 
-
 
 
 class SearchProjectView(View):
