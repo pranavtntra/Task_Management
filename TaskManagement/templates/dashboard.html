@@ -297,7 +297,10 @@
                 <li>
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Project</span></a>
                     <ul>
+                        {% if request.user.is_superuser %}
                         <li><a href="{% url 'create-project' %}">Create Project</a></li>
+                        
+                        {% endif %}
                         <li><a href="{% url 'list-project' %}">Project List</a></li>
                     </ul>
                 </li>
