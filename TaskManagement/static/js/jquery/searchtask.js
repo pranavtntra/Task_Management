@@ -5,7 +5,7 @@ console.log(searchInput)
 const searchdata = (search_here) => {
     $.ajax({
         type: "GET",
-        url: 'http://127.0.0.1:8000/task/search_task/',
+        url: $("#search_here").data('url'),
         data: {
             'search_here': search_here
 
