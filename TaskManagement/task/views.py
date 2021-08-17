@@ -4,7 +4,7 @@ from django.views.generic import CreateView, ListView, View, DetailView
 from task.forms import CreateTaskForm, CreateSubTaskForm
 from django.http import JsonResponse
 import json
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.db.models import Q
 
 # Create your views here.
@@ -69,41 +69,51 @@ class TaskList(View):
     context_object_name = "tasklist"
 
     def get(self, request):
-        project_id = self.request.GET.get('id', None)
-        print(id)
-        project_id = Project.objects.filter(id=project_id)
-        if project_id.exists():
-            # import code; code.interact(local=dict(globals(), **locals()))
-            project = project_id.first()
-            t = Task.objects.filter(project=project).values('title', 'assigned_to__first_name', 'status', 'priority', 'tasktype')
-        tasks = json.dumps(list(t))
-        print(tasks)
-        data = {"task": tasks}
-        return JsonResponse(data, safe=False)
+        try:
+            project_id = self.request.GET.get('id', None)
+            print(id)
+            project_id = Project.objects.filter(id=project_id)
+            if project_id.exists():
+                # import code; code.interact(local=dict(globals(), **locals()))
+                project = project_id.first()
+                t = Task.objects.filter(project=project).values('title', 'assigned_to__first_name', 'status', 'priority', 'tasktype')
+            tasks = json.dumps(list(t))
+            print(tasks)
+            data = {"task": tasks}
+            return JsonResponse(data, safe=False)
+        except:
+            return JsonResponse('dashboard.html')
+
+    
 
 
 class SearchTaskView(View):
     """for search task in all the tasks"""
     def get(self, request):
-        search = self.request.GET.get('search_here', None)
-        print(search)
-        task = Task.objects.filter(Q(title__icontains=search) |
-                                Q(assigned_to__first_name__icontains=search) |
-                                Q(priority__icontains=search) |
-                                Q(tasktype__icontains=search))
-        print(task)
-        data = {"task": task}
-        return render(request, 'task/search_list.html', data)
+        try:
+            search = self.request.GET.get('search_here', None)
+            print(search)
+            task = Task.objects.filter(Q(title__icontains=search) |
+                                    Q(assigned_to__first_name__icontains=search) |
+                                    Q(priority__icontains=search) |
+                                    Q(tasktype__icontains=search))
+            print(task)
+            data = {"task": task}
+            return render(request, 'task/search_list.html', data)
+        except:
+            return render('dashboard.html')
 
 
 class TaskListBetweenDates(View):
     """ Display task in range of selected dates"""
     def get(self, request):
-        print('hello')
-        start_date = self.request.GET.get('start_date')
-        end_date = self.request.GET.get('end_date')
-        print(start_date, end_date)
-        task = Task.objects.filter(start_date__icontains=start_date)
-        print(task)
-        data = {"task": task}
-        return render(request, "task/project_tasklist.html", data)
+        try:
+            start_date = self.request.GET.get('start_date')
+            end_date = self.request.GET.get('end_date')
+            print(start_date, end_date)
+            task = Task.objects.filter(start_date__icontains=start_date)
+            print(task)
+            data = {"task": task}
+            return render(request, "task/project_tasklist.html", data)
+        except:
+            return render('dashboard.html')
