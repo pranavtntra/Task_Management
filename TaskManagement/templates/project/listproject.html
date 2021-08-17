@@ -1,6 +1,9 @@
 {% load static %}
 <div class="tab-pane fade show active" id="Project-OnGoing" role="tabpanel">
     <div class="row">
+        {% if not search_projectlist %}
+            <p>{{error_message}}</p>
+        {% endif %}
         {% for project in search_projectlist %}
         <div class="col-lg-6 col-md-12">
             <div class="card">

@@ -5,6 +5,7 @@
 
 <title>{% block title %}Projects{% endblock %}</title>
 <input name="search_here" id="search_here" type="text" placeholder="Search.." data-url="{% url 'search-project' %}">
+
 <div class="span" style="float:right" >
               <select name="select" id="sort" data-url="{% url 'sort-project' %}">
                 <option value="T+">By Title (Asc)</option>

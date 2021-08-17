@@ -9,6 +9,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 import json
 from .services import get_projects
+import logging
+from .constants import SORTER
+
 
 
 
@@ -19,12 +22,14 @@ class CreateProjectView(LoginRequiredMixin,CreateView):
 
 
     def get_form(self, *args, **kwargs):
-        try:
             form = super(CreateProjectView, self).get_form(*args, **kwargs)
-            form.fields['project_lead'].queryset = User.objects.filter(is_superuser=False)
-            return form
-        except Exception as error:
-            raise error
+            try:
+                form.fields['project_lead'].queryset = User.objects.filter(is_superuser=False)
+                return form
+            except Exception as error:
+                logging.error(str(e))
+                form.fields['project_lead'].queryset = User.objects.filter(is_superuser=False)
+                return form
 
 
 
@@ -37,39 +42,42 @@ class ListProjectView(LoginRequiredMixin,ListView):
         try:
             return get_projects(self.request.user) 
         except Exception as error:
-            raise error
+            logging.error(str(e))
+            return get_projects(self.request.user) 
+
 
 
 class SearchProjectView(View):
-    
-        def get(self, request, *args, **kwargs):
+
+    def get(self, request, *args, **kwargs):
+        search = self.request.GET.get('search')
+        projectlist = get_projects(self.request.user)
+        try:
+            projectlist = projectlist.filter(Q(title__icontains=search) | Q(project_lead__username__icontains=search))
+            proj_list = {
+                "search_projectlist": projectlist,
+                "error_message": 'No such data found'
+            } 
+            return render(request, "project/listproject.html", proj_list)
+        except Exception as e:
+            logging.error(str(e))
+            proj_list = {"search_projectlist": projectlist} 
+            return render(request, "project/listproject.html", proj_list)
+
+class SortProjectView(View):
+
+    def get(self, request):
+            selected = self.request.GET.get('sort')
+            projectlist =  get_projects(self.request.user)    
             try:
-                search = self.request.GET.get('search')
-                projectlist = get_projects(self.request.user).filter(Q(title__icontains=search) | Q(project_lead__username__icontains=search))
+                projectlist = projectlist.order_by(SORTER[selected])
                 proj_list = {"search_projectlist": projectlist} 
                 return render(request, "project/listproject.html", proj_list)
             except Exception as error:
-                raise error
-
-class SortProjectView(View):
-    def get(self, request):
-        try:
-            selected = self.request.GET.get('sort')
-            data = {
-                "T+" : get_projects(self.request.user).order_by('title'),
-                "T-" : get_projects(self.request.user).order_by('-title'),
-                "S+" : get_projects(self.request.user).order_by('start_date'),
-                "S-" : get_projects(self.request.user).order_by('-start_date'),
-                "E+" : get_projects(self.request.user).order_by('end_date'),
-                "E-" : get_projects(self.request.user).order_by('-end_date')
-
-                }
-      
-            projectlist = data[selected]
-            proj_list = {"search_projectlist": projectlist} 
-            return render(request, "project/listproject.html", proj_list)
-        except Exception as error:
-            raise error
+                logging.error(str(e))
+                proj_list = {"search_projectlist": projectlist} 
+                return render(request, "project/listproject.html", proj_list)
+            
 
 class AddEmployeeView(LoginRequiredMixin,CreateView):
     pass
