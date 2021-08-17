@@ -4,8 +4,9 @@ from django.views.generic import CreateView, ListView, View, DetailView
 from task.forms import CreateTaskForm, CreateSubTaskForm
 from django.http import JsonResponse
 import json
-from django.shortcuts import redirect, render
+from django.shortcuts import render
 from django.db.models import Q
+import logging
 
 # Create your views here.
 
@@ -71,20 +72,15 @@ class TaskList(View):
     def get(self, request):
         try:
             project_id = self.request.GET.get('id', None)
-            print(id)
             project_id = Project.objects.filter(id=project_id)
             if project_id.exists():
-                # import code; code.interact(local=dict(globals(), **locals()))
                 project = project_id.first()
-                t = Task.objects.filter(project=project).values('title', 'assigned_to__first_name', 'status', 'priority', 'tasktype')
-            tasks = json.dumps(list(t))
-            print(tasks)
+                task_list = Task.objects.filter(project=project).values('title', 'assigned_to__first_name', 'status', 'priority', 'tasktype')
+            tasks = json.dumps(list(task_list))
             data = {"task": tasks}
             return JsonResponse(data, safe=False)
-        except:
-            return JsonResponse('dashboard.html')
-
-    
+        except Exception as e:
+            logging.error(str(e))
 
 
 class SearchTaskView(View):
@@ -92,16 +88,16 @@ class SearchTaskView(View):
     def get(self, request):
         try:
             search = self.request.GET.get('search_here', None)
-            print(search)
             task = Task.objects.filter(Q(title__icontains=search) |
                                     Q(assigned_to__first_name__icontains=search) |
                                     Q(priority__icontains=search) |
                                     Q(tasktype__icontains=search))
-            print(task)
-            data = {"task": task}
+            data = {"task": task,}
             return render(request, 'task/search_list.html', data)
-        except:
-            return render('dashboard.html')
+        except Exception as e:
+            logging.error(str(e))
+            data = {"task": task} 
+            return render(request, "task/search_list.html", data)
 
 
 class TaskListBetweenDates(View):
@@ -110,9 +106,7 @@ class TaskListBetweenDates(View):
         try:
             start_date = self.request.GET.get('start_date')
             end_date = self.request.GET.get('end_date')
-            print(start_date, end_date)
             task = Task.objects.filter(start_date__icontains=start_date)
-            print(task)
             data = {"task": task}
             return render(request, "task/project_tasklist.html", data)
         except:
