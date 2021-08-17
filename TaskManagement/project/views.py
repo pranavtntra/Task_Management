@@ -37,18 +37,13 @@ class ListProjectView(LoginRequiredMixin,ListView):
 class SearchProjectView(View):
     
         def get(self, request, *args, **kwargs):
-            search = self.request.GET.get('chuzza')
-            # import code; code.interact(local=dict(globals(), **locals()))
-            # project_searchlist = serializers.serialize('json',Project.objects.filter(Q(title__icontains=search) | Q(project_lead__icontains=search)))
+            search = self.request.GET.get('search')
             projectlist = get_projects(self.request.user).filter(Q(title__icontains=search) | Q(project_lead__username__icontains=search))
-            babu = {"search_projectlist": projectlist} 
-            
-            # print(len(babu["search_projectlist"]))
-            return render(request, "project/listproject.html", babu)
+            proj_list = {"search_projectlist": projectlist} 
+            return render(request, "project/listproject.html", proj_list)
 
 class SortProjectView(View):
     def get(self, request):
-        # print("hey")
         selected = self.request.GET.get('sort')
         data = {
              "T+" : get_projects(self.request.user).order_by('title'),
@@ -59,11 +54,10 @@ class SortProjectView(View):
              "E-" : get_projects(self.request.user).order_by('-end_date')
 
         }
-        # if selected == "T-":
-        #     projectlist = get_projects(self.request.user).order_by('title')
+      
         projectlist = data[selected]
-        babu = {"search_projectlist": projectlist} 
-        return render(request, "project/listproject.html", babu)
+        proj_list = {"search_projectlist": projectlist} 
+        return render(request, "project/listproject.html", proj_list)
 
 class AddEmployeeView(LoginRequiredMixin,CreateView):
     pass

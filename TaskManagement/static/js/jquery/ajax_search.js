@@ -7,10 +7,10 @@ const searchdata =(search_here) => {
         url: 'http://127.0.0.1:8000/project/search-project',
 
         data: {
-            'chuzza': search_here
+            'search': search_here
         },
-        success: function(babu){
-            $('#search_result').html(babu)
+        success: function(data){
+            $('#search_result').html(data)
             $(".delete_content").remove();
         },
         error: function(data) {
@@ -28,19 +28,7 @@ searchInput.addEventListener('keyup', e=>{
 })
 
 
-// $('#search').onclick(function() {
-//     console.log("hhhhetyuu")
-//     var search = $('#search1').val()
 
-//     $.ajax({
-//         type: 'get',
-//         url: 'http://127.0.0.1:8000/project/search-project',
-
-//         data: {
-//             'search' : search
-            
-//         },
-//         datatype: 'json',
 
 
 
