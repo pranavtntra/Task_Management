@@ -27,22 +27,13 @@ class CreateProjectForm(forms.ModelForm):
 
     def clean_title(self):
         title = self.cleaned_data['title']
-        # print(title)
-        # print(Project.objects.filter(title=title).exists())
         if Project.objects.filter(title=title).exists():
             raise forms.ValidationError("title already exists.")
         return title
     
     def clean(self):
         start_date = self.cleaned_data.get('start_date')
-        # print(type(start_date))
         end_date = self.cleaned_data.get('end_date')
-        # if type(start_date)!= datetime.date:
-        #     raise forms.ValidationError("Invalid Start Date Format!")
-        # if type(end_date)!= end_date:
-        #     raise forms.ValidationError("Invalid End Date Format!")
-        
-
         if start_date < datetime.date.today():
             raise forms.ValidationError("The date cannot be in the past!")
         if end_date <= start_date:
