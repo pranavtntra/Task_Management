@@ -1,13 +1,10 @@
-from accounts.models import Designation, User
+from accounts.models import User
 from django import forms
 from allauth.account.forms import SignupForm
 from phonenumber_field.formfields import PhoneNumberField
 from accounts.constants import DESIGNATION
 
-Designation = (
-    ("Project Manager", "Project Manager"),
-    ("Employee", "Employee"),
-)
+Designation = DESIGNATION
 
 
 class MyCustomSignupForm(SignupForm):
