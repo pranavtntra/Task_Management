@@ -12,7 +12,6 @@ TASKTYPES = TASKTYPES
 SPRINT_STATUS = SPRINT_STATUS
 
 
-
 class Task(models.Model):
     """Task is a model of task where number of tasks will be created for particular project"""
 
@@ -47,7 +46,3 @@ class Sprint(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(max_length=30, choices=SPRINT_STATUS)
-
-
-# class FileAttachment(models.Model):
-#    file_name = models.CharField(max_length=60, blank=True, null=True)

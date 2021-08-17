@@ -1,91 +1,49 @@
 {% extends 'dashboard.html' %} 
 {% load static %}
 {% block content %}
-<div class="section-body">
-    <div class="container-fluid">
-        <div class="d-flex justify-content-between align-items-center">
-            <ul class="nav nav-tabs page-header-tab">
-                <li class="nav-item"><a class="nav-link active" href="">Task List</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+<title>{% block title %}Task List{% endblock %}</title>
 <div class="section-body mt-2">
-<div class="container-fluid">
-    <div class="tab-content">
-        <div class="row">
-            <div class="col-sm-4">
-                <select id="project_tasklist" data-url='{% url "tasklist" %}'>
-                        <option disabled = "true" selected> Projects </option>
-                            {% for p in projectlist %}
-                            <option href="" value={{p.id}} name="id">{{ csrf_input }}{{p.title }}</option>
-                            {% endfor %}
-                    </select>
-            </div>
-            <div class="col-sm-5">
-                <input name="search_here" id="search_here" type="text" placeholder="Search..">
-            </div>
-        </div>
-    </div>
-</div>    
-</div>
-
-
-
     <div class="container-fluid">
         <div class="tab-content">
-            <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
-                <div class="card" id="card">
-
-                    <div class="card-body">
-                        <div class="table-responsive todo_list">
-
-                                    <div id="search_result">
-                                        {% include  'task/search_list.html' %}
-                                    </div>
-
-                        <!--   <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap" id="mytable">
-                                <thead>
-                                    <tr>
-                                        <th>title</th>
-                                        <th>assigned to</th>
-                                        <th class="w">status</th>
-                                        <th class="w">priority</th>
-                                        <th class="w">tasktype</th>
-                                    </tr>
-                                </thead>
-                                
-                                <tbody>
-                                     <div id="search_result">
-                                        {% include  'task/search_list.html' %}
-                                    </div>
-                                </tbody>
-                                <tbody id="search-results">
-                                    {% for d in searct_task %}
-                                    <tr>
-                                        <td>{{d.title}}</td>
-                                        <td>{{d.assigned_to}}</td>
-                                        <td>{{d.status}}</td>
-                                        <td>{{d.priority}}</td>
-                                        <td>{{d.tasktype}}</td>
-        
-                                    </tr>
-                                    {% endfor %}
-                                </tbody>
-                            </table>
---> 
+            <div class="row">
+                <div class="col-sm-2">
+                <select id="project_tasklist" data-url='{% url "tasklist" %}'>
+                    <option disabled = "true" selected> Projects </option>
+                        {% for p in projectlist %}
+                        <option href="" value={{p.id}} name="id">{{ csrf_input }}{{p.title }}</option>
+                        {% endfor %}
+                </select>
+                </div>
+                <div class="col-sm-4">
+                <input name="search_here" id="search_here" type="text" placeholder="Search..">
+                </div>
+                <div class="col-sm-4">
+                <form method="GET" action={% url 'searchbydates' %}>
+                {% comment %} {% csrf_token %} {% endcomment %}
+                From: <input type="date"name="start_date" id="start_date" >
+                to <input type="date"name="end_date">  
+                <input type="submit" value="search" id="search"> 
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>    
+</div>
+<div class="container-fluid">
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
+            <div class="card" id="card">
+                <div class="card-body">
+                    <div class="table-responsive todo_list">
+                        <div id="search_result">
+                            {% include  'task/search_list.html' %}
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </div>
-    <script>
-   
-
-    </script>
-
+</div>
 {% endblock %}
 {% block extrajs %}
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
