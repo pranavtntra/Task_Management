@@ -1,11 +1,18 @@
 from django import forms
 from accounts.models import User
-from project.models import Project
+from project.models import Project, ProjectTeam
 from djrichtextfield.models import RichTextField
 import datetime
+from django.core.exceptions import ValidationError
 
 
 class CreateProjectForm(forms.ModelForm):
+    title = forms.CharField()
+    start_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required','id':'start'}))
+    end_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required','id':'end'}))
+    
+
+    
     class Meta:
         model = Project
         fields = (
@@ -16,3 +23,40 @@ class CreateProjectForm(forms.ModelForm):
             "project_lead",
             "status",
         )
+
+
+    def clean_title(self):
+        title = self.cleaned_data['title']
+        # print(title)
+        # print(Project.objects.filter(title=title).exists())
+        if Project.objects.filter(title=title).exists():
+            raise forms.ValidationError("title already exists.")
+        return title
+    
+    def clean(self):
+        start_date = self.cleaned_data.get('start_date')
+        # print(type(start_date))
+        end_date = self.cleaned_data.get('end_date')
+        # if type(start_date)!= datetime.date:
+        #     raise forms.ValidationError("Invalid Start Date Format!")
+        # if type(end_date)!= end_date:
+        #     raise forms.ValidationError("Invalid End Date Format!")
+        
+
+        if start_date < datetime.date.today():
+            raise forms.ValidationError("The date cannot be in the past!")
+        if end_date <= start_date:
+            raise forms.ValidationError("End date should be greater than start date.")
+        return self.cleaned_data
+
+
+       
+        
+
+        
+        
+        
+
+
+        
+
