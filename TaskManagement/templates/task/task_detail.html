@@ -1,58 +1,41 @@
-{% extends 'account/base.html' %} {% load static %} {% block content %}
+{% extends "dashboard.html"%}
 
-<body class="font-montserrat">
-    <!-- Page Loader -->
-    <div class="page-loader-wrapper">
-        <div class="loader">
-        </div>
-    </div>
-    <div id="main_content">
-
-        <div class="page">
-            <div id="page_top" class="section-body top_dark">
-                <div class="container-fluid">
-                    <div class="page-header">
-                        <div class="left">
-                            <a href="javascript:void(0)" class="icon menu_toggle mr-3"><i class="fa  fa-align-left"></i></a>
-                            <h1 class="page-title">Dashboard</h1>
-                        </div>
-                        <div class="right">
-                            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-                            <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="section-body">
-                <div class="container-fluid">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <ul class="nav nav-tabs page-header-tab">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab">Task Detail</a></li>
-
-                        </ul>
-                    </div>
-                </div>
-            </div>
-            <div class="section-body mt-3">
-                <div class="container-fluid">
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="todo-list" role="tabpanel">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="table-responsive ">
-                                        {{taskdetail.title}}<br>
-                                        {{taskdetail.description}}<br>
-                                        {{taskdetail.get_status_display}}
-                                        {{taskdetail.priority}}
-                                    </div>
-                                </div>
+{% block content %}
+<title>{% block title %}Task{% endblock %}</title>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="Project-OnGoing" role="tabpanel">
+    
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                            <h3 class="card-title"><strong>Task:</strong>{{task_detail.title}}</h3>
+                            <div class="card-options">
+                                <label class="custom-switch m-0">
+                                    <input type="checkbox" value="1" class="custom-switch-input" checked>
+                               
+                                </label>
+                                <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
                             </div>
-                        </div>
-
+                    </div>
+                    <div class="card-body">
+                            <div class="row">
+                                <div class="col-5 py-1"><strong>Description:</strong></div>
+                                <div class="col-7 py-1">{{task_detail.description| safe}}</div>
+                                <div class="col-5 py-1"><strong>Start Date:</strong></div>
+                                <div class="col-7 py-1">{{task_detail.start_date}}</div>
+                                <div class="col-5 py-1"><strong>End Date:</strong></div>
+                                <div class="col-7 py-1">{{task_detail.end_date}}</div>
+                                <div class="col-5 py-1"><strong>Status</strong></div>
+                                <div class="col-7 py-1"><strong>{{ task_detail.status}}</strong></div>
+                                <div class="col-5 py-1"><strong>Priority</strong></div>
+                                <div class="col-7 py-1"><strong>{{task_detail.priority}}</strong></div>
+                                <div class="col-7 py-1">
+                            </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </div> 
     </div>
-    {% endblock%}
+</div>
+{% endblock  %}

@@ -1,51 +1,14 @@
-{% extends 'account/base.html' %} {% load static %} {% block content %}
-
-<body class="font-montserrat">
-    <!-- Page Loader -->
-    <div class="page-loader-wrapper">
-        <div class="loader">
-        </div>
-    </div>
-    <div id="main_content">
-        <div class="page">
-            <div id="page_top" class="section-body top_dark">
-                <div class="container-fluid">
-                    <div class="page-header">
-                        <div class="left">
-                            <a href="javascript:void(0)" class="icon menu_toggle mr-3"><i class="fa  fa-align-left"></i></a>
-                            <h1 class="page-title">Dashboard</h1>
-                        </div>
-                        <div class="right">
-                            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
-                            <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid">
-                <div class="d-flex justify-content-between align-items-center">
-                    <ul class="nav nav-tabs page-header-tab">
-                        <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#todo-add">Add Todo</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="section-body mt-3">
-                <div class="container-fluid">
-                    <div class="tab-content">
-                        <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
-                            <div class="card">
-                                <div class="card-header">
-                                    <h3 class="card-title">Add SubTask</h3>
-                                </div>
-                                <form class="card-body" action="" method="post">
-                                    {% csrf_token %} {% for field in form %}
-                                    <div class="form-group row">
-                                        <label class="col-md-3   col-form-label">{{field.label_tag}}
-                                                    {{field}}
-                                        </label>
-                                    </div>
-                                    {% endfor %}
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block content %}
+<title>{% block title %}Add my subTask{% endblock %}</title>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
+        <div class="card">
+            <form class="card-body" action="" method="post" id="add_subtask">
+                                    {% csrf_token %} 
+                                    {{form.as_p}}
+                                   
                                     <div class="form-group row">
                                         <label class="col-md-3 col-form-label"></label>
                                         <div class="col-md-7">
@@ -53,14 +16,16 @@
                                             <button type="submit" class="btn btn-outline-secondary">Cancel</button>
                                         </div>
                                     </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
+</div>
+{% endblock  %}
 
-
-    {% endblock%}
+{% block extrajs %}
+<script src="{% static 'js/jquery/jquery.js' %}"></script>
+	<script src="{% static 'js/jquery/jquery.validate.js' %}"></script>
+	<script src="{% static 'js/jquery/jquery.validate.min.js' %}"></script>
+	<script src="{% static 'js/jquery/bootstrap.min.js' %}"></script>
+	<script src="{% static 'js/jquery/validation.js' %}"></script> 
+{% endblock %}

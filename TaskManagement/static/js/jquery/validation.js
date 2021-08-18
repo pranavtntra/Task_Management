@@ -78,43 +78,47 @@ $(document).ready(function() {
     });
     $("#add_task").validate({
         rules: {
-
             title: {
                 required: true,
-                minlength: 2,
+                minlength: 5,
             },
-            contact: {
+            description: {
                 required: true,
-            },
-
+                minlength: 10,
+            }
         },
         messages: {
-            email: {
-                required: "This field is required.",
-                email: "Please enter a valid email address.",
+            title: {
+                required: "Enter valid task name"
             },
-            username: {
-                required: 'Enter your username!',
-                minlength: 'Enter more than two character!',
-            },
-            firstName: {
-                required: 'Enter your name!',
-                minlength: 'Enter more than two character!',
-            },
-            lastName: {
-                required: 'Enter your name!',
-                minlength: 'Enter more than two character!',
-            },
-            contact: {
-                required: 'Enter your Number!',
-            },
-            password1: {
-                required: "Please provide a password",
-                minlength: "Your password must be at least 8 characters long"
-            },
-            password2: {
-                equalTo: "Please enter the same password as above"
+            description: {
+                required: "Enter proper description"
             }
+
         }
+
     });
+    $("#add_subtask").validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 5,
+            },
+            description: {
+                required: true,
+                minlength: 10,
+            }
+        },
+        messages: {
+            title: {
+                required: "Enter valid task name"
+            },
+            description: {
+                required: "Enter proper description"
+            }
+
+        }
+
+    });
+
 });

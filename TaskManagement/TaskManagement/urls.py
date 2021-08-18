@@ -16,11 +16,25 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+
 urlpatterns = [
+<<<<<<< HEAD
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('dashboard/', TemplateView.as_view(template_name='dashboard.html'), name="dashboard"),
     path('', TemplateView.as_view(template_name="index.html")),
     path('djrichtextfield/', include('djrichtextfield.urls')),
+=======
+    path("admin/", admin.site.urls),
+    path("accounts/", include("allauth.urls")),
+    path(
+        "dashboard/",
+        TemplateView.as_view(template_name="dashboard.html"),
+        name="dashboard",
+    ),
+    path("", TemplateView.as_view(template_name="index.html")),
+    path("project/", include("project.urls")),
+    path("djrichtextfield/", include("djrichtextfield.urls")),
+>>>>>>> cb0a3896fbfee675a93348d464b8f8bcbee83dfd
     path('task/', include('task.urls')),
 ]

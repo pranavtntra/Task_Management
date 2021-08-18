@@ -1,73 +1,114 @@
-from django.views.generic import CreateView, ListView
-from django.views.generic import DetailView
-from django.views.generic.base import View
-from task.models import Task
-from task.forms import CreateTaskForm, CreateSubTaskForm
 from project.models import Project
-from django.contrib.auth.mixins import LoginRequiredMixin
+from task.models import Task
+from django.views.generic import CreateView, ListView, View, DetailView
+from task.forms import CreateTaskForm, CreateSubTaskForm
 from django.http import JsonResponse
-from django.core import serializers
+import json
+from django.shortcuts import render
+from django.db.models import Q
+import logging
+
 # Create your views here.
 
 
-class CreateTaskView(LoginRequiredMixin, CreateView):
+class CreateTaskView(CreateView):
     """ Display form where pm can create task and assign to employee."""
     model = Task
-    template_name = 'task/add_task.html'
     form_class = CreateTaskForm
+    template_name = 'task/add_task.html'
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        return super(CreateTaskView, self).form_valid(form)
 
 
-class CreateSubTaskView(LoginRequiredMixin, CreateView):
-    """ Display form where pm can create subtask and assign to employee."""
+class CreateSubTaskView(CreateView):
+    """ Display form where employee can create subtask."""
     model = Task
-    template_name = 'task/add_subtask.html'
     form_class = CreateSubTaskForm
+    template_name = 'task/add_subtask.html'
+
+    def form_valid(self, form):
+        form.instance.created_by = self.request.user
+        form.instance.assigned_to = self.request.user
+        return super(CreateSubTaskView, self).form_valid(form)
 
 
-class TaskListView(LoginRequiredMixin, ListView):
-    """ Display list of tasks (for logged in user's list of tasks ) """
-    model = Project
-    template_name = "task/task_list.html"
+class TaskListView(ListView):
+    """ Display list of tasks (for logged in employee's list of tasks ) """
+    model = Task
+    template_name = "task/mytask_list.html"
     context_object_name = "tasklist"
 
     def get_queryset(self):
-        print(self.request.GET.get("id"))
-        id = self.request.GET.get("id")
-        print(id)
-        print(self.request.GET)
-        #if project_id == "":
-        #    Task.objects.none()
-        return Project.objects.filter(project_lead=id)
-    
-    def get_context_data(self, **kwargs):
-        project_list = []
-        context = super(TaskListView, self).get_context_data(**kwargs)
-        project_list = Project.objects.filter(project_lead=self.request.user)
-        context['project'] = [project.title for project in project_list]
-        return context
-
-    #def get_queryset(self):
-    #    # return Task.objects.filter(assigned_to=self.request.user)
-    #    return Task.objects.filter(created_by__in=User.objects.filter(designation='Project Manager'))
-        
-    #def get_context_data(self, **kwargs):
-    #    context = super(TaskListView, self).get_context_data(**kwargs)
-    #    context['task'] = Task.objects.filter(assigned_to=self.request.user)
-    #    return context
+        return Task.objects.filter(assigned_to=self.request.user)
 
 
-class TaskDetailView(LoginRequiredMixin, DetailView):
-    """Display detail of task."""
+class TaskDetailView(DetailView):
+    """ Display task in detail(for logged in employee) """
     model = Task
-    template_name = "task/task_detail.html"
-    context_object_name = "taskdetail"
+    template_name = 'task/task_detail.html'
+    context_object_name = "task_detail"
 
 
-class ProjectListView(View):
+class ProjectTaskListView(ListView):
+    """Display list of project so that we can select it and get list"""
+    model = Project
+    form_class = CreateTaskForm
+    template_name = "task/project_tasklist.html"
+    context_object_name = "projectlist"
 
-    def get(self, request, *args, **kwargs):
-        if request.is_ajax():
-            project = Project.objects.all()
-            task_serializers = serializers.serialize('json', project)
-            return JsonResponse(task_serializers, safe=False)
-        return JsonResponse({'message' : 'wrong Validation'})
+    def get_queryset(self):
+        return Project.objects.all()
+
+
+class TaskList(View):
+    """Display list of tasks in selected project."""
+    model = Project
+    form_class = CreateTaskForm
+    template_name = "task/project_tasklist.html"
+    context_object_name = "tasklist"
+
+    def get(self, request):
+        try:
+            project_id = self.request.GET.get('id', None)
+            project_id = Project.objects.filter(id=project_id)
+            if project_id.exists():
+                project = project_id.first()
+                task_list = Task.objects.filter(project=project).values('title', 'assigned_to__first_name', 'status', 'priority', 'tasktype')
+            tasks = json.dumps(list(task_list))
+            data = {"task": tasks}
+            return JsonResponse(data, safe=False)
+        except Exception as e:
+            logging.error(str(e))
+
+
+class SearchTaskView(View):
+    """for search task in all the tasks"""
+    def get(self, request):
+        try:
+            search = self.request.GET.get('search_here', None)
+            task = Task.objects.filter(Q(title__icontains=search) |
+                                    Q(assigned_to__first_name__icontains=search) |
+                                    Q(priority__icontains=search) |
+                                    Q(tasktype__icontains=search))
+            data = {"task": task,
+                    "error_message":"there is no task."}
+            return render(request, 'task/search_list.html', data)
+        except Exception as e:
+            logging.error(str(e))
+            data = {"task": task}
+            return render(request, "task/search_list.html", data)
+
+
+class TaskListBetweenDates(View):
+    """ Display task in range of selected dates"""
+    def get(self, request):
+        try:
+            start_date = self.request.GET.get('start_date')
+            end_date = self.request.GET.get('end_date')
+            task = Task.objects.filter(created_at__date__range=(start_date, end_date))
+            data = {"task": task}
+            return render(request, "task/project_tasklist.html", data)
+        except:
+            return render(request, 'dashboard.html')

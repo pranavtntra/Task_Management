@@ -4,22 +4,22 @@ PRIORITY = (
         ('High', 'High'),
 )
 STATUS = (
-    ('1', 'To-do'),
-    ('2', 'In-progress'),
-    ('3', 'Done'),
-    ('4', 'Declined'),
-    ('5', 'Ready For Testing'),
-    ('6', 'Code Review'),
-    ('7', 'Testing in-progress')
+    ('To-do', 'To-do'),
+    ('In-progress', 'In-progress'),
+    ('Done', 'Done'),
+    ('Declined', 'Declined'),
+    ('Ready For Testing', 'Ready For Testing'),
+    ('Code Review', 'Code Review'),
+    ('Testing in-progress', 'Testing in-progress')
 )
 
 TASKTYPES = (
-    ('1', 'Bug'),
-    ('2', 'Improvement'),
-    ('3', 'New Feature'),
-    ('4', 'Story'),
-    ('5', 'Task'),
-    ('6', 'Epic')
+    ('Bug', 'Bug'),
+    ('Improvement', 'Improvement'),
+    ('New Feature', 'New Feature'),
+    ('Story', 'Story'),
+    ('Task', 'Task'),
+    ('Epic', 'Epic')
 )
 
 SPRINT_STATUS = (
