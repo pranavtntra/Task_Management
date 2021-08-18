@@ -92,11 +92,12 @@ class SearchTaskView(View):
                                     Q(assigned_to__first_name__icontains=search) |
                                     Q(priority__icontains=search) |
                                     Q(tasktype__icontains=search))
-            data = {"task": task,}
+            data = {"task": task,
+                    "error_message":"there is no task."}
             return render(request, 'task/search_list.html', data)
         except Exception as e:
             logging.error(str(e))
-            data = {"task": task} 
+            data = {"task": task}
             return render(request, "task/search_list.html", data)
 
 
@@ -106,8 +107,8 @@ class TaskListBetweenDates(View):
         try:
             start_date = self.request.GET.get('start_date')
             end_date = self.request.GET.get('end_date')
-            task = Task.objects.filter(start_date__icontains=start_date)
+            task = Task.objects.filter(created_at__date__range=(start_date, end_date))
             data = {"task": task}
             return render(request, "task/project_tasklist.html", data)
         except:
-            return render('dashboard.html')
+            return render(request, 'dashboard.html')

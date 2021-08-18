@@ -17,6 +17,7 @@
                 <div class="col-sm-4">
                 <input name="search_here" id="search_here" data-url="{% url 'search_task' %}" type="text" placeholder="Search..">
                 </div>
+                
                 <div class="col-sm-4">
                 <form method="GET" action={% url 'searchbydates' %}>
                 {% comment %} {% csrf_token %} {% endcomment %}
@@ -29,6 +30,7 @@
         </div>
     </div>    
 </div>
+
 <div class="container-fluid">
     <div class="tab-content">
         <div class="tab-pane fade show active" id="todo-add" role="tabpanel">

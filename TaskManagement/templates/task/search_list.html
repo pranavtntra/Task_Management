@@ -11,6 +11,9 @@
     </thead> 
     
     <tbody id="search-results">
+        {% if not task %}
+                    <p>{{error_message}}</p>
+                {% endif %}
         {% for data in task %}
             <tr>
                 <td>{{data.title}}</td>
