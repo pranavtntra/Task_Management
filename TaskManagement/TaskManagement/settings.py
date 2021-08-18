@@ -26,8 +26,14 @@ SECRET_KEY = "l0*%@@uh4vewrots$w@7r1&zw)lw3!20hwa-23lc31c4e*8cqn"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000'
+]
 
 # Application definition
 
@@ -48,6 +54,7 @@ INSTALLED_APPS = [
     "task",
     "timeline",
     "djrichtextfield",
+    "corsheaders",
 ]
 
 DJRICHTEXTFIELD_CONFIG = {
@@ -67,6 +74,7 @@ AUTH_USER_MODEL = "accounts.User"
 LOGIN_REDIRECT_URL = "dashboard"
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -164,13 +172,15 @@ ACCOUNT_FORMS = {
     "signup": "accounts.forms.MyCustomSignupForm",
 }
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED = True
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "youremail"
-EMAIL_HOST_PASSWORD = "password"
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'botreetesting@gmail.com'
+EMAIL_HOST_PASSWORD = 'botree123'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

@@ -1,0 +1,38 @@
+{% load static %}
+<div class="tab-pane fade show active" id="Project-OnGoing" role="tabpanel">
+    <div class="row">
+        {% if not search_projectlist %}
+            <p>{{error_message}}</p>
+        {% endif %}
+        {% for project in search_projectlist %}
+        <div class="col-lg-6 col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{project.title}}</h3>
+                </div>
+                <div class="card-body">
+                    <span class="tag tag-blue mb-3" id="title"> {{project.title}}</span>
+                    <br>
+                    <div class="row">
+                        <div class="col-5 py-1"><strong>Start Date:</strong></div>
+                        <div class="col-7 py-1"id="start_date">{{project.start_date}}</div>
+                        <div class="col-5 py-1"><strong>End Date:</strong></div>
+                        <div class="col-7 py-1"id="end_date">{{project.end_date}}</div>
+                        <div class="col-5 py-1"><strong>Status:</strong></div>
+                        <div class="col-7 py-1" id="status">{{ project.get_status_display }}</div>
+                        <div class="col-5 py-1"><strong>Project Lead:</strong></div>
+                        <div class="col-7 py-1"id="lead"><strong>{{project.project_lead}}</strong></div>
+                        <div class="col-5 py-1"><strong>Project Description:</strong></div>
+                        <div class="col-7 py-1"id="description"><strong>{{project.description|safe}}</strong></div>
+                        <br><br>
+                        <div class="p-2">
+                            <a class="btn btn-lg btn-primary" href="{% url 'add-employee' %}">
+                               <span>Add Member</span></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+</div>

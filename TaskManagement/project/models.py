@@ -2,20 +2,16 @@ from django.db import models
 from accounts.models import User
 from djrichtextfield.models import RichTextField
 from django.urls import reverse
+from project.constants import STATUS
 
 # Create your models here.
 
-STATUS = [
-    ("1", "Under progress"),
-    ("2", "Created"),
-    ("3", "Closed"),
-]
 
 
 class Project(models.Model):
     """A project model is for creating a multiple projects"""
 
-    title = models.CharField(max_length=50, blank=True, null=True)
+    title = models.CharField(max_length=50, blank=True, null=True, unique=True)
     description = RichTextField()
     start_date = models.DateField()
     end_date = models.DateField()
