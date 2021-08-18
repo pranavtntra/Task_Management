@@ -2,34 +2,14 @@ from django.db import models
 from project.models import Project
 from accounts.models import User
 from djrichtextfield.models import RichTextField
-
+from django.urls import reverse
+from task.constants import PRIORITY, STATUS, TASKTYPES, SPRINT_STATUS
 # Create your models here.
 
-PRIORITY = (
-    ("Lower", "Lower"),
-    ("Medium", "Medium"),
-    ("High", "High"),
-)
-STATUS = (
-    ("1", "To-do"),
-    ("2", "In-progress"),
-    ("3", "Done"),
-    ("4", "Declined"),
-    ("5", "Ready For Testing"),
-    ("6", "Code Review"),
-    ("7", "Testing in-progress"),
-)
-
-TASKTYPES = (
-    ("1", "Bug"),
-    ("2", "Improvement"),
-    ("3", "New Feature"),
-    ("4", "Story"),
-    ("5", "Task"),
-    ("6", "Epic"),
-)
-
-SPRINT_STATUS = (("1", "Planning"), ("2", "Active"), ("3", "Accepted"), ("4", "Closed"))
+PRIORITY = PRIORITY
+STATUS = STATUS
+TASKTYPES = TASKTYPES
+SPRINT_STATUS = SPRINT_STATUS
 
 
 class Task(models.Model):
@@ -51,8 +31,14 @@ class Task(models.Model):
         "self", on_delete=models.CASCADE, null=True, blank=True
     )
 
+    def get_absolute_url(self):
+        return reverse("dashboard")
+
     def __str__(self):
         return self.title
+
+    def get_absolute_url(self):
+        return reverse("dashboard")
 
 
 class Sprint(models.Model):
@@ -63,7 +49,3 @@ class Sprint(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(max_length=30, choices=SPRINT_STATUS)
-
-
-# class FileAttachment(models.Model):
-#    file_name = models.CharField(max_length=60, blank=True, null=True)

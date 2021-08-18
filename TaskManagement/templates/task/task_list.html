@@ -1,0 +1,164 @@
+{% extends 'account/base.html' %} {% load static %} {% block content %}
+
+<body class="font-montserrat">
+    <!-- Page Loader -->
+    <div class="page-loader-wrapper">
+        <div class="loader">
+        </div>
+    </div>
+    <div id="main_content">
+
+        <div class="page">
+            <div id="page_top" class="section-body top_dark">
+                <div class="container-fluid">
+                    <div class="page-header">
+                        <div class="left">
+                            <a href="javascript:void(0)" class="icon menu_toggle mr-3"><i class="fa  fa-align-left"></i></a>
+                            <h1 class="page-title">Dashboard</h1>
+                        </div>
+                        <div class="right">
+                            <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+                            <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="section-body">
+                <div class="container-fluid">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <ul class="nav nav-tabs page-header-tab">
+                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#todo-list">ToDo List</a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <select id="project_tasklist">
+                    <option disabled = "true" selected> Projects </option>
+                        {% for p in project %}
+                        <option href="{url 'project_tasklist'}" value={{p.id}}>{{p.title }}</option>
+                        {% endfor %}
+                </select>
+                <div class="ptasklist" id="tasklist"></div>
+                <!-- <div class="dropdown show">
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Projects
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                {% for p in tasklist %}
+                <a class="dropdown-item" href="" value="{{p.id}}">{{p.title}}</a>
+                <
+                {% endfor %}
+                
+                </div>
+            </div>-->
+            </div>
+            <div class="section-body mt-3">
+                <div class="container-fluid">
+                    <div class="tab-content">
+                        <div class="tab-pane fade show active" id="todo-list" role="tabpanel">
+                            <div class="card">
+                                <!--    <div class="card-body">
+                                <div class="table-responsive todo_list">
+                                    <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap">
+                                        <thead>
+                                            <tr>
+                                                <th>title</th>
+                                                <th class="w">project</th>
+                                                
+                                                <th class="w">assigned_to</th>
+                                                <th class="w">priority</th>
+                                                <th class="w">status</th>
+                                                <th class="w">date</th>
+                                            
+                                             
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                          {% for l in tasklist %}
+                                                <tr>
+                                               
+                                                <th><a href="{% url 'task_detail' l.pk %}">{{l.title}}</a></th>
+                                                
+                                                <th> {{l.project}}</th>
+                                             
+                                                <th> {{l.assigned_to}}</th>
+                                                <th> {{l.priority}}</th>
+                                                <th> {{l.get_status_display}}</th>
+                                                <th> {{l.start_date}}to{{l.end_date}}</th>
+                                            
+
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <div class="container-fluid">
+                                    </div>
+                                </div>
+                            </div>-->
+                                <div class="card-body">
+                                    <div class="table-responsive todo_list">
+                                        <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap">
+                                            <thead>
+                                                <tr>
+                                                <th>title</th>
+                                                <th class="w">project</th>
+                                                <th class="w">priority</th>
+                                                <th class="w">status</th>
+                                                <th class="w">date</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+
+                                                {% for l in tasklist %}
+                                                <tr>
+
+                                                    <th><a href="{% url 'task_detail' l.pk %}">{{l.title}}</a></th>
+
+                                                    <th> {{l.project}}</th>
+                                                    <th> {{l.priority}}</th>
+                                                    <th> {{l.get_status_display}}</th>
+                                                    <th> {{l.start_date}}to<br>{{l.end_date}}</th>
+                                                </tr>
+
+                                                {% endfor %}
+                                            </tbody>
+
+                                        </table>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+     <script>
+     $(document).ready(function(){
+        
+        $('#project_tasklist').change(function(){
+            
+              var project = $(this).val();
+            console.log('string');
+            $.ajax({
+                url:"{% url 'project_tasklist' %}",
+                type: 'GET',
+                data: {
+                    'project' :project
+                },
+               
+                success: function(data){
+                   console.log("got it");
+                },
+                error: function(data){
+                    console.log("error");
+                }
+            });
+        });
+     });
+    </script>
+    {% endblock%}
