@@ -7,11 +7,8 @@ class AccountManagement():
         """
         search user from the userlist according to name or username or email or designation
         """
-        try:
-            user_list = User.objects.filter(Q(username__icontains=search) |
-                                            Q(email__icontains=search) |
-                                            Q(first_name__icontains=search) |
-                                            Q(designation__icontains=search))
-            return user_list
-        except Exception as e:
-            raise e
+        user_list = User.objects.filter(Q(username__icontains=search) |
+                                        Q(email__icontains=search) |
+                                        Q(first_name__icontains=search) |
+                                        Q(designation__icontains=search))
+        return user_list

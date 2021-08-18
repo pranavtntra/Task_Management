@@ -7,7 +7,12 @@ from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.urls import reverse_lazy
 from django.core.mail import send_mail
 from accounts.services import AccountManagement
+from accounts.constants import SIGNUP_MESSAGES, SIGNUP_SUBJECT
+import logging
 import json
+
+SUBJECT = SIGNUP_SUBJECT
+MESSAGES = SIGNUP_MESSAGES
 
 
 class DatetimeEncoder(json.JSONEncoder):
@@ -21,7 +26,6 @@ class DatetimeEncoder(json.JSONEncoder):
 class UserDetails(ListView):
     """show the details of user"""
     model = User
-    # context_object_name = 'userdetails'
     template_name = 'account/userdetails.html'
     paginate_by = 6
     ordering = ['username']
@@ -36,7 +40,9 @@ class SearchUser(View):
             data = {"object_list": user_list}
             return render(request, "account/user_details_list.html", data)
         except Exception as e:
-            raise e
+            logging.error(str(e))
+            data = {"object_list": user_list}
+            return render(request, "account/user_details_list.html", data)
 
 
 class AddUser(CreateView):
@@ -55,13 +61,12 @@ class AddUser(CreateView):
                 userdata = form.save(request)
                 userdata.set_password(userdata.email)
                 userdata.save()
-                send_mail('Tntra: Task Management',
-                            'Your name is Username and email address is Login Password. NOTE: Once you login then Reset Your password',
-                            request.user.email, [userdata.email], fail_silently=False)
+                send_mail(SUBJECT, MESSAGES, request.user.email, [userdata.email], fail_silently=False)
                 return redirect('userdetails')
             return render(request, 'account/createuser.html', {'form': form})
         except Exception as e:
-            raise e
+            logging.error(str(e))
+            return render(request, 'account/createuser.html', {'form': form})
 
 
 class UserProfile(ListView):
@@ -80,6 +85,5 @@ class UpdateUser(UpdateView):
     """User or administration can update the profile of user"""
     model = User
     form_class = UserUpdateForm
-    # fields = ['username', 'first_name', 'last_name', 'contact', 'email']
     template_name = 'account/update_user.html'
     success_url = reverse_lazy('dashboard')
