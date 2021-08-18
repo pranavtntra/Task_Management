@@ -172,13 +172,15 @@ ACCOUNT_FORMS = {
     "signup": "accounts.forms.MyCustomSignupForm",
 }
 
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED = True
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = "youremail"
-EMAIL_HOST_PASSWORD = "password"
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'botreetesting@gmail.com'
+EMAIL_HOST_PASSWORD = 'botree123'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
