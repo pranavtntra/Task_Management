@@ -214,6 +214,10 @@
                         <li><a href="{% url 'userdetails' %}">User Details</a></li>
                         <li><a href="{% url 'createuser' %}">Create User</a></li>
                         {% endif %}
+                    
+                    </ul>
+                </li>
+                <li>
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Task</span></a>
                     <ul>
                     {% if user.is_staff %}

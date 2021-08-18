@@ -46,17 +46,10 @@ class MyCustomSignupForm(SignupForm):
 
     def save(self, request):
         user = super(MyCustomSignupForm, self).save(request)
-<<<<<<< HEAD
-        user.first_name = self.cleaned_data['first_name']
-        user.last_name = self.cleaned_data['last_name']
-        user.contact = self.cleaned_data['contact']
-        user.designation = self.cleaned_data['designation']
-=======
         user.first_name = self.cleaned_data["first_name"]
         user.last_name = self.cleaned_data["last_name"]
         user.contact = self.cleaned_data["contact"]
         user.designation = self.cleaned_data["designation"]
->>>>>>> cb0a3896fbfee675a93348d464b8f8bcbee83dfd
         user.save()
         return user
 
