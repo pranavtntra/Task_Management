@@ -8,5 +8,5 @@ SIGNUP_SUBJECT = (
 )
 
 SIGNUP_MESSAGES = (
-    'Your name is Username and email address is Login Password. NOTE: Once you login then Reset Your password'
+    'Your Email address is Login Password. NOTE: Once you login then Reset Your password'
 )
