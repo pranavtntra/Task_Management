@@ -59,7 +59,10 @@ class ProjectTaskListView(ListView):
     context_object_name = "projectlist"
 
     def get_queryset(self):
-        return Project.objects.all()
+        if self.request.user.is_superuser:
+            return Project.objects.all()
+        else:
+            return Project.objects.filter(project_lead = self.request.user)
 
 
 class TaskList(View):
