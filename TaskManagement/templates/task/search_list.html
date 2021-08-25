@@ -7,9 +7,9 @@
             <th class="dropdown-toggle" onclick="sortTable(0)">status</th>
             <th class="dropdown-toggle" onclick="sortTable(0)">priority</th>
             <th class="dropdown-toggle" onclick="sortTable(0)">tasktype</th> 
+            <th class="">Startdate to Enddate</th> 
         </tr>
     </thead> 
-    
     <tbody id="search-results">
         {% if not task %}
                     <p>{{error_message}}</p>

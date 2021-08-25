@@ -1,5 +1,4 @@
 $('#project_tasklist').change(function() {
-
     var id = $(this).val();
     console.log(id);
 
@@ -19,7 +18,8 @@ $('#project_tasklist').change(function() {
                     "<td>" + item.assigned_to__first_name + "</td>" +
                     "<td><span class='tag tag-info'>" + item.status + "</span></td>" +
                     "<td>" + item.priority + "</td>" +
-                    "<td>" + item.tasktype + "</td>" +
+                    "<td>" + item.tasktype + "</td>" + "<td>" + item.start_date + " to " +
+                    item.end_date + "</td>" +
                     "</tr>";
                 $('#mytable').append(row);
             });
