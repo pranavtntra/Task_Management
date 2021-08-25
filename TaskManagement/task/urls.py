@@ -1,6 +1,6 @@
 from django.urls import path
 from task.views import CreateTaskView, CreateSubTaskView, SearchTaskView, TaskListView, TaskListBetweenDates, ProjectTaskListView, TaskList, TaskDetailView
-
+from . import views
 urlpatterns = [
     path('add_task/', CreateTaskView.as_view(), name="add_task"),
     path('add_subtask/', CreateSubTaskView.as_view(), name="add_subtask"),
@@ -10,5 +10,5 @@ urlpatterns = [
     path('search_task/', SearchTaskView.as_view(), name="search_task"),
     path('task_detail/<int:pk>/', TaskDetailView.as_view(), name="task_detail"),
     path('searchbydates/', TaskListBetweenDates.as_view(), name='searchbydates'),
-
+    path('ajax/load_project/', views.load_project, name='ajax_load_project'),
 ]
