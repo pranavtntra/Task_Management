@@ -1,18 +1,21 @@
 from django.views.generic.list import ListView
 from accounts.models import User
-from accounts.forms import AddUserForm, UserUpdateForm
+from accounts.forms import AddUserForm, UserUpdateForm, PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
+from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
+# from django.core.mail import send_mail
 from accounts.services import AccountManagement
-from accounts.constants import SIGNUP_MESSAGES, SIGNUP_SUBJECT
+from django.http import JsonResponse
+from django.core.paginator import Paginator
+# from accounts.constants import SIGNUP_MESSAGES, SIGNUP_SUBJECT
 import logging
 import json
 
-SUBJECT = SIGNUP_SUBJECT
-MESSAGES = SIGNUP_MESSAGES
+# SUBJECT = SIGNUP_SUBJECT
+# MESSAGES = SIGNUP_MESSAGES
 
 
 class DatetimeEncoder(json.JSONEncoder):
@@ -27,8 +30,13 @@ class UserDetails(ListView):
     """show the details of user"""
     model = User
     template_name = 'account/userdetails.html'
-    paginate_by = 6
-    ordering = ['username']
+    paginate_by = 7
+    ordering = ['-id']
+    # def get_queryset(self):
+    #     search =self.request.GET.get('search_here')
+    #     if search:
+    #         user_list = AccountManagement.get_user(self, search)
+    #         return user_list
 
 
 class SearchUser(View):
@@ -37,7 +45,8 @@ class SearchUser(View):
         try:
             search = self.request.GET.get('search_here')
             user_list = AccountManagement.get_user(self, search)
-            data = {"object_list": user_list}
+            data = {"object_list": user_list,
+                    "error_message": 'No such data found'}
             return render(request, "account/user_details_list.html", data)
         except Exception as e:
             logging.error(str(e))
@@ -58,10 +67,11 @@ class AddUser(CreateView):
         try:
             form = AddUserForm(request.POST)
             if form.is_valid():
-                userdata = form.save(request)
+                userdata = form.save(commit=False)
                 userdata.set_password(userdata.email)
+                userdata.email_verified = True
                 userdata.save()
-                send_mail(SUBJECT, MESSAGES, request.user.email, [userdata.email], fail_silently=False)
+                userd = AccountManagement.set_email(self, userdata)
                 return redirect('userdetails')
             return render(request, 'account/createuser.html', {'form': form})
         except Exception as e:
@@ -87,3 +97,9 @@ class UpdateUser(UpdateView):
     form_class = UserUpdateForm
     template_name = 'account/update_user.html'
     success_url = reverse_lazy('dashboard')
+
+
+class ChangePassword(PasswordChangeView):
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('dashboard')
+    template_name = 'account/change_password.html'

@@ -2,13 +2,16 @@
 {% load static %}
 {% block content%}
 {% if user.is_authenticated %}
-
+        <title>{% block title %}Users{% endblock %}</title>
         {% if request.user.is_superuser %}
-        <div class="container-fluid">
-        <div class="p-2">
-             <a class="btn btn-lg btn-primary float-right" href="{% url 'createuser' %}">
-                <span>Create User<br><small>|Create user from here|</small></span></a>
+        {% comment %} <div class="container-fluid"> {% endcomment %}
+        <div class="row">
+            <div class="col-md-10">
                 <input name="search_here" id="search_here" type="text" placeholder="Search..">
+            </div>
+            <div class="col-md-2">
+             <a class="btn btn-outline-dark btn-sm btn-block mb-3" href="{% url 'createuser' %}">Create User +</a>
+            </div> 
         </div>
 
         <div id="search_result">
@@ -51,7 +54,6 @@
 
         {% endif %}
     </div> 
-</div>
 
 {% else %}
     <li><a href="{% url 'account_email' %}">Change E-mail</a></li>

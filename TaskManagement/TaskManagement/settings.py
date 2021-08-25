@@ -181,6 +181,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'botreetesting@gmail.com'
+EMAIL_HOST_USER = 'taskmanagement@tntra.io'
 EMAIL_HOST_PASSWORD = 'botree123'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
