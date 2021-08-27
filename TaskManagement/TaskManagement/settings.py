@@ -26,8 +26,14 @@ SECRET_KEY = "l0*%@@uh4vewrots$w@7r1&zw)lw3!20hwa-23lc31c4e*8cqn"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8000',
+    'http://127.0.0.1:8000'
+]
 
 # Application definition
 
@@ -49,7 +55,7 @@ INSTALLED_APPS = [
     "timeline",
     "djrichtextfield",
     'widget_tweaks',
-
+    "corsheaders",
 ]
 
 DJRICHTEXTFIELD_CONFIG = {
@@ -69,6 +75,7 @@ AUTH_USER_MODEL = "accounts.User"
 LOGIN_REDIRECT_URL = "dashboard"
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",

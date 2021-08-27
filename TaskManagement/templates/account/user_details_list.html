@@ -1,0 +1,30 @@
+{% load static %}
+<table id="btable" class="table table-sm">
+    <tr class="table-danger">
+        <th class="dropdown-toggle" onclick="sortTable(0)"><b>User Name</b></th>
+        <th class="dropdown-toggle" onclick="sortTable(1)"><b>First Name</b></th>
+        <th><b>Last Name</b></th>
+        <th><b>Contact</b></th>
+        <th class="dropdown-toggle" onclick="sortTable(4)"><b>Email Address</b></th>
+        <th class="dropdown-toggle" onclick="sortTable(5)"><b>Designation</b></th>
+        <th colspan=2><b><u>Action</u></b></th>
+    </tr>
+    {% for details in object_list %}
+    <tr class="table-info">
+        <td><b>{{details.username}}</b></td>
+        <td><b>{{details.first_name}}</b></td>
+        <td><b>{{details.last_name}}</b></td>
+        <td><b>{{details.contact}}</b></td>
+        <td><b>{{details.email}}</b></td>
+        <td><b>{{details.designation}}</b></td>
+        <td>
+        <a type="button" href="{% url 'updateuser' details.id %}" class="btn btn-outline-success">Update</a></td>     
+        <td>
+            <form id='person-delete' method="POST" action="{% url 'deleteuser' details.id %}">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger" onClick="return confirm('Are you sure to delete?');">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
