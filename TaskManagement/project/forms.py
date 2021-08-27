@@ -40,6 +40,11 @@ class CreateProjectForm(forms.ModelForm):
             raise forms.ValidationError("End date should be greater than start date.")
         return self.cleaned_data
 
+class AddMemberForm(forms.ModelForm):
+    class Meta:
+        model = ProjectTeam
+        fields =('teammate','role')
+
 
        
         

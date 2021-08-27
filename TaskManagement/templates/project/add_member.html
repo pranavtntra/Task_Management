@@ -1,0 +1,33 @@
+{% load widget_tweaks %}
+
+<form method="post" action="{% url 'add-member' %}" class="add-member" data-id="{{proj_id}}">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    <h4 class="modal-title">Add Member</h4>
+  </div>
+  <div class="modal-body">
+
+    
+    <h4><strong>{{proj_title}}</strong></h4>
+    <br>
+    {% for field in form %}
+    <div class="form-group{% if field.errors %} has-error{% endif %}">
+      <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+      {% render_field field class="form-control" %}
+      {% for error in field.errors %}
+      <p class="help-block">{{ error }}</p>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+    <button type="submit" data-id="{{proj_id}}" class="btn btn-primary">Add</button>
+  </div>
+</form>
+
+
+
+
