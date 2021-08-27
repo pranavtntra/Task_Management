@@ -1,9 +1,14 @@
+from accounts.models import User
 from django import forms
 from task.models import Task
+from project.models import Project
+from task.constants import STATUS
 
 
 class CreateTaskForm(forms.ModelForm):
     """This form is for project manager to create a tasks and assign to employee."""
+    status = forms.TypedChoiceField(choices=STATUS, initial='To-Do')
+
     class Meta:
         model = Task
         fields = (
@@ -15,6 +20,13 @@ class CreateTaskForm(forms.ModelForm):
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
 
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request")
+        super().__init__(*args, **kwargs)
+        # import code; code.interact(local=dict(globals(), **locals()))
+        self.fields["project"].queryset = Project.objects.filter(project_lead=self.request.user)
+        self.fields["assigned_to"].queryset = User.objects.filter(designation="Employee")
+
     def clean_title(self):
         title = self.cleaned_data['title']
         if Task.objects.filter(title=title).exists():
@@ -24,6 +36,7 @@ class CreateTaskForm(forms.ModelForm):
 
 class CreateSubTaskForm(forms.ModelForm):
     """This form is for employee to create sub task"""
+
     class Meta:
         model = Task
         fields = (
@@ -34,7 +47,21 @@ class CreateSubTaskForm(forms.ModelForm):
             'start_date': forms.DateInput(attrs={'type': 'date'}),
             'end_date': forms.DateInput(attrs={'type': 'date'}),
         }
-        
+
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop("request")
+        super(CreateSubTaskForm, self).__init__(*args, **kwargs)
+        self.fields["parent_task"].queryset = Task.objects.filter(assigned_to=self.request.user)
+        self.fields['project'].queryset = Task.objects.none()
+
+        if 'parent_task' in self.data:
+            try:
+                task_id = self.data.get('parent_task')
+                task = Task.objects.get(id=task_id)
+                self.fields['project'].queryset = Project.objects.filter(id=task.project.id) if task else Project.objects.none()
+            except (ValueError, TypeError):
+                pass
+
     def clean_title(self):
         title = self.cleaned_data['title']
         if Task.objects.filter(title=title).exists():
