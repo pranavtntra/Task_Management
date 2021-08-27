@@ -2,6 +2,7 @@ from accounts.models import User
 from django import forms
 from allauth.account.forms import SignupForm
 from phonenumber_field.formfields import PhoneNumberField
+from django.contrib.auth.forms import PasswordChangeForm
 from accounts.constants import DESIGNATION
 
 Designation = DESIGNATION
@@ -131,3 +132,25 @@ class UserUpdateForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('username', 'first_name', 'last_name', 'contact', 'email')
+
+
+class PasswordChangeForm(PasswordChangeForm):
+        error_css_class = 'has-error'
+        error_messages = {'password_incorrect':
+                  "The old password is not correct. Please try again."}
+        old_password = forms.CharField(required=True, label='Old Password',
+                      widget=forms.PasswordInput(attrs={
+                        'class': 'form-control'}),
+                      error_messages={
+                        'required': 'The password can not be empty'})
+
+        new_password1 = forms.CharField(required=True, label='New Password',
+                      widget=forms.PasswordInput(attrs={
+                        'class': 'form-control'}),
+                      error_messages={
+                        'required': 'The password can not be empty'})
+        new_password2 = forms.CharField(required=True, label='New Password (Repeat)',
+                      widget=forms.PasswordInput(attrs={
+                        'class': 'form-control'}),
+                      error_messages={
+                        'required': 'The password can not be empty'})

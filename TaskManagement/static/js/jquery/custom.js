@@ -3,7 +3,7 @@ const searchInput = document.getElementById('search_here')
 console.log(searchInput)
 
 const searchdata =(search_here) => {
-  if (search_here.length > 2){
+  if (search_here.length > 2 || search_here.length < 1){
     $.ajax({
         type: "GET",
         url: 'http://127.0.0.1:8000/accounts/searchuser/',

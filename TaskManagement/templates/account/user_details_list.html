@@ -1,6 +1,10 @@
 {% load static %}
-<table id="btable" class="table table-sm">
-    <tr class="table-danger">
+<div class="shadow-lg mb-5 bg-body rounded">
+{% if not object_list %}
+        <p>{{error_message}}</p>
+{% else %}
+<table id="btable" class="table table-sm table-hover">
+    <tr class="">
         <th class="dropdown-toggle" onclick="sortTable(0)"><b>User Name</b></th>
         <th class="dropdown-toggle" onclick="sortTable(1)"><b>First Name</b></th>
         <th><b>Last Name</b></th>
@@ -10,7 +14,7 @@
         <th colspan=2><b><u>Action</u></b></th>
     </tr>
     {% for details in object_list %}
-    <tr class="table-info">
+    <tr class="">
         <td><b>{{details.username}}</b></td>
         <td><b>{{details.first_name}}</b></td>
         <td><b>{{details.last_name}}</b></td>
@@ -18,7 +22,7 @@
         <td><b>{{details.email}}</b></td>
         <td><b>{{details.designation}}</b></td>
         <td>
-        <a type="button" href="{% url 'updateuser' details.id %}" class="btn btn-outline-success">Update</a></td>     
+        <a type="button" href="{% url 'updateuser' details.id %}" class="btn btn-outline-secondary">Update</a></td>     
         <td>
             <form id='person-delete' method="POST" action="{% url 'deleteuser' details.id %}">
                 {% csrf_token %}
@@ -26,5 +30,8 @@
             </form>
         </td>
     </tr>
-    {% endfor %}
+    {% endfor %}   
+    
 </table>
+{% endif %}
+</div>
