@@ -1,0 +1,29 @@
+{% extends 'dashboard.html'%}
+{% load static %}
+{% block content%}
+{% if user.is_authenticated %}
+        
+        <form class="signup" id="user_signup_form" method="post" action="{% url 'createuser' %}">
+        
+        {% csrf_token %}
+        {{ form.as_p }}
+        {% if redirect_field_value %}
+        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+        {% endif %}
+        <button type="submit" class="btn btn-primary">Sign Up &raquo;</button>
+        <a class="btn btn-primary" href="{% url 'dashboard' %}">&laquo; Home</a>
+        </form>
+        
+{% endif %}
+{% endblock %}
+
+{% block extrajs %}
+{% comment %} <script>
+document.getElementById("id_password1").style.display = "none";          
+document.getElementById("id_password2").style.display = "none";
+</script> {% endcomment %}
+<script src={% static "js/jquery/custom.js" %}></script>
+<script src="{% static 'js/jquery/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/jquery/validation.js' %}"></script>
+
+{% endblock %}
