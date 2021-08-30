@@ -64,16 +64,16 @@ class CreateSubTaskForm(forms.ModelForm):
         self.request = kwargs.pop("request")
         super(CreateSubTaskForm, self).__init__(*args, **kwargs)
         #import code; code.interact(local=dict(globals(), **locals()))
-        self.fields["parent_task"].queryset = Task.objects.filter(assigned_to=self.request.user)
-        self.fields['project'].queryset = Task.objects.none()
+        # self.fields["parent_task"].queryset = Task.objects.filter(assigned_to=self.request.user)
+        # self.fields['project'].queryset = Task.objects.none()
 
-        if 'parent_task' in self.data:
-            try:
-                task_id = self.data.get('parent_task')
-                task = Task.objects.get(id=task_id)
-                self.fields['project'].queryset = Project.objects.filter(id=task.project.id) if task else Project.objects.none()
-            except (ValueError, TypeError):
-                pass
+        # if 'parent_task' in self.data:
+        #     try:
+        #         task_id = self.data.get('parent_task')
+        #         task = Task.objects.get(id=task_id)
+        #         self.fields['project'].queryset = Project.objects.filter(id=task.project.id) if task else Project.objects.none()
+        #     except (ValueError, TypeError):
+        #         pass
 
     def clean_title(self):
         title = self.cleaned_data['title']

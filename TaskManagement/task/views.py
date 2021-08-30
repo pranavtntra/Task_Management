@@ -31,7 +31,7 @@ class CreateTaskView(PassRequestToFormViewMixin, CreateView):
 #     assigned_to = ProjectTeam.objects.filter(id=assign.teammate.id)
                 #ProjectTeam.objects.filter(project=project_id).values('teammate__first_name')
 #     return render(request, 'task/load_teammate.html', {'assigned_to': assigned_to})
-  
+
 
 class CreateSubTaskView(PassRequestToFormViewMixin, CreateView):
     """ Display form where employee can create subtask."""
@@ -45,14 +45,31 @@ class CreateSubTaskView(PassRequestToFormViewMixin, CreateView):
         form.instance.assigned_to = self.request.user
         return super(CreateSubTaskView, self).form_valid(form)
 
+    def get_form(self, *args, **kwargs):
+        form = super(CreateSubTaskView, self).get_form(*args, **kwargs)
+        try:
+            #import code; code.interact(local=dict(globals(), **locals()))
+            form.fields['project'].queryset = Project.objects.filter(project= Task.objects.filter(assigned_to = self.request.user))
+            return form
+        except Exception as e:
+            logging.error(str(e))
+            return form
 
-def load_project(request):
-    """for load project when parent task is selected in subtask form"""
-    if request.is_ajax:
-        task_id = request.GET.get('task_id')
-        task = Task.objects.get(id=task_id)
-        projects = Project.objects.filter(id=task.project.id) if task else Project.objects.none()
-    return render(request, 'task/load_project.html', {'projects': projects})
+
+
+# def load_task(request):
+#     """load task when project is selected in subtask form"""
+#     project_id = request.GET.get()
+
+
+
+# def load_project(request):
+#     """for load project when parent task is selected in subtask form"""
+#     if request.is_ajax:
+#         task_id = request.GET.get('task_id')
+#         task = Task.objects.get(id=task_id)
+#         projects = Project.objects.filter(id=task.project.id) if task else Project.objects.none()
+#     return render(request, 'task/load_project.html', {'projects': projects})
 
 
 class TaskListView(ListView):
@@ -134,9 +151,10 @@ class TaskListBetweenDates(View):
         try:
             start_date = self.request.GET.get('start_date')
             end_date = self.request.GET.get('end_date')
-            task = Task.objects.filter(start_date=start_date)
+            #import code; code.interact(local=dict(globals(), **locals()))
+            task = Task.objects.filter(Q(start_date__gte=start_date)& Q(end_date__lte=end_date))
             data = {"task": task}
             return render(request, "task/project_tasklist.html", data)
         except Exception as e:
             logging.error(str(e))
-            return render(request, 'dashboard.html')
+            return render(request, "task/project_tasklist.html", data)
