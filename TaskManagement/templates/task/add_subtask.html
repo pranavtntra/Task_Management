@@ -1,13 +1,26 @@
 {% extends 'dashboard.html' %}
 {% load static %}
 {% block content %}
-<title>{% block title %}Add my subTask{% endblock %}</title>
+<title>{% block title %}Add subTask{% endblock %}</title>
 <div class="tab-content">
     <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
         <div class="card">
             <form class="card-body" action="" method="post"  data-url="{% url 'ajax_load_project' %}" id="add_subtask">
-                {% csrf_token %} 
-                {{form.as_p}}
+                {% csrf_token %}
+                <div ></div>
+                {% for field in form %}
+                  <div class= "row">
+                    <label class="col-md-3 col-form-label">{{field.label_tag}} <span class="text-danger">*</span></label>
+                    <div class="col-md-7">{{field}}</div>
+                  </div>
+                  {% for error in field.errors %}
+                    <p style = "color : red">{{error}}
+                  {% endfor %}</p>
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                  <p style = "color : red">{{error}}</p>
+                {% endfor %} 
+                {% comment %} {{form.as_p}} {% endcomment %}
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label"></label>
                     <div class="col-md-7">

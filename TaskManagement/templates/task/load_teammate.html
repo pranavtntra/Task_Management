@@ -1,0 +1,4 @@
+<option value="">---------</option>
+{% for u in assigned_to %}
+<option value="{{ user.pk }}">{{ user.teammate__first_name }}</option>
+{% endfor %}

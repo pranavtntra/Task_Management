@@ -1,4 +1,4 @@
-from project.models import Project
+from project.models import Project, ProjectTeam
 from task.models import Task
 from django.views.generic import CreateView, ListView, View, DetailView
 from task.forms import CreateTaskForm, CreateSubTaskForm
@@ -23,6 +23,15 @@ class CreateTaskView(PassRequestToFormViewMixin, CreateView):
         form.instance.created_by = self.request.user
         return super(CreateTaskView, self).form_valid(form)
 
+# def load_teammate(request):
+#     project_id = request.GET.get('project')
+#     # import code; code.interact(local=dict(globals(), **locals()))
+#     assign = Project.objects.filter(project = project_id)
+                
+#     assigned_to = ProjectTeam.objects.filter(id=assign.teammate.id)
+                #ProjectTeam.objects.filter(project=project_id).values('teammate__first_name')
+#     return render(request, 'task/load_teammate.html', {'assigned_to': assigned_to})
+  
 
 class CreateSubTaskView(PassRequestToFormViewMixin, CreateView):
     """ Display form where employee can create subtask."""
@@ -53,7 +62,7 @@ class TaskListView(ListView):
     context_object_name = "tasklist"
 
     def get_queryset(self):
-        return Task.objects.filter(assigned_to=self.request.user)
+        return Task.objects.filter(assigned_to=self.request.user).order_by('-id')
 
 
 class TaskDetailView(DetailView):
@@ -111,7 +120,7 @@ class SearchTaskView(View):
             task = task_list.filter(Q(title__icontains=search) |
                                     Q(assigned_to__first_name__icontains=search) |
                                     Q(priority__icontains=search) |
-                                    Q(tasktype__icontains=search))
+                                    Q(tasktype__icontains=search)).order_by('-id')
             data = {"task": task,
                     "error_message": "there is no task."}
             return render(request, 'task/search_list.html', data)

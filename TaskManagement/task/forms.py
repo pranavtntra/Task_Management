@@ -1,7 +1,7 @@
 from accounts.models import User
 from django import forms
 from task.models import Task
-from project.models import Project
+from project.models import Project,ProjectTeam
 from task.constants import STATUS
 
 
@@ -23,15 +23,27 @@ class CreateTaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")
         super().__init__(*args, **kwargs)
-        # import code; code.interact(local=dict(globals(), **locals()))
-        self.fields["project"].queryset = Project.objects.filter(project_lead=self.request.user)
+        if self.request.user.is_superuser:
+            self.fields["project"].queryset = Project.objects.all()
+        else:
+            self.fields["project"].queryset = Project.objects.filter(project_lead = self.request.user)
+
         self.fields["assigned_to"].queryset = User.objects.filter(designation="Employee")
 
-    def clean_title(self):
-        title = self.cleaned_data['title']
-        if Task.objects.filter(title=title).exists():
-            raise forms.ValidationError(u'title "%s" is already in use!' % title)
-        return title
+        #self.fields['assigned_to'].queryset = ProjectTeam.objects.none()
+        #if 'project' in self.data:
+        #    try:
+        #        project_id = int(self.data.get('project'))
+        #        assign = Project.objects.filter(id = project_id)
+        #        self.fields['assigned_to'].queryset =  ProjectTeam.objects.filter(id=assign.teammate.id)
+        #    except (ValueError, TypeError):
+        #        pass
+    
+    # def clean_title(self):
+    #     title = self.cleaned_data['title']
+    #     if Task.objects.filter(title=title).exists():
+    #         raise forms.ValidationError(u'title "%s" is already in use!' % title)
+    #     return title
 
 
 class CreateSubTaskForm(forms.ModelForm):
@@ -51,6 +63,7 @@ class CreateSubTaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop("request")
         super(CreateSubTaskForm, self).__init__(*args, **kwargs)
+        #import code; code.interact(local=dict(globals(), **locals()))
         self.fields["parent_task"].queryset = Task.objects.filter(assigned_to=self.request.user)
         self.fields['project'].queryset = Task.objects.none()
 

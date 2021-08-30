@@ -11,4 +11,5 @@ urlpatterns = [
     path('task_detail/<int:pk>/', TaskDetailView.as_view(), name="task_detail"),
     path('searchbydates/', TaskListBetweenDates.as_view(), name='searchbydates'),
     path('ajax/load_project/', views.load_project, name='ajax_load_project'),
+    # path('ajax/load_teammate/', views.load_teammate, name='ajax_load_teammate'),
 ]
