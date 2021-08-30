@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
 from django.views.generic import View, CreateView, ListView
-from project.forms import CreateProjectForm
+from project.forms import CreateProjectForm, AddMemberForm
 from project.models import Project, ProjectTeam
 from django.urls import reverse_lazy
 from accounts.models import User
@@ -11,6 +11,10 @@ import json
 from .services import get_projects
 import logging
 from .constants import SORTER
+from django.template.loader import render_to_string
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 
@@ -39,8 +43,8 @@ class ListProjectView(LoginRequiredMixin,ListView):
 
     def get_queryset(self):
         try:
-            return get_projects(self.request.user) 
-        except Exception as error:
+            return get_projects(self.request.user)
+        except Exception as e:
             logging.error(str(e))
 
 
@@ -70,14 +74,53 @@ class SortProjectView(View):
                 projectlist = projectlist.order_by(SORTER[selected])
                 proj_list = {"search_projectlist": projectlist} 
                 return render(request, "project/listproject.html", proj_list)
-            except Exception as error:
+            except Exception as e:
                 logging.error(str(e))
                 proj_list = {"search_projectlist": projectlist} 
                 return render(request, "project/listproject.html", proj_list)
             
 
-class AddEmployeeView(LoginRequiredMixin,CreateView):
-    pass
+
+@method_decorator(csrf_exempt, name='dispatch')
+class AddEmployeeView(View):
+    def get(self, request):
+        proj_id = self.request.GET.get('proj')
+        proj_obj=Project.objects.get(id=proj_id)
+        form = AddMemberForm()
+        context = {"form": form, "proj_title": proj_obj.title, "proj_id": str(proj_obj.id)}
+        html_form = render_to_string('project/add_member.html',
+        context=context
+    )
+        return JsonResponse({"form": html_form})
+    
+    def post(self, request):
+        data = dict()
+        if request.method == 'POST':
+            form = AddMemberForm(request.POST)
+            if form.is_valid():
+                # import code; code.interact(local=dict(globals(), **locals()))
+                obj = form.save(commit=False)
+                obj.project = Project.objects.get(id=request.POST.get("project"))
+                obj.save()
+                data['form_is_valid'] = True
+            else:
+                data['form_is_valid'] = False
+        else:
+                form = AddMemberForm()
+
+        context = {'form': form}
+        data['html_form'] = render_to_string('project/add_member.html',
+        context,
+        request=request
+    )
+        return JsonResponse(data)
+
+
+
+
+
+
+
 
 
             

@@ -8,8 +8,8 @@ $("#sort").change(function () {
         },
         datatype: 'json',
 
-        success: function(babu){
-            $('#search_result').html(babu)
+        success: function(data){
+            $('#search_result').html(data)
             $(".delete_content").remove();
         },
         error: function(data) {

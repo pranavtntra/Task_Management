@@ -2,6 +2,8 @@
 {% load static %}
 {% load i18n %}
 {% block content %}
+{% load widget_tweaks %}
+
 
 <title>{% block title %}Projects{% endblock %}</title>
 <input name="search_here" id="search_here" type="text" placeholder="Search.." data-url="{% url 'search-project' %}">
@@ -48,9 +50,9 @@
                             <div class="col-5 py-1"><strong>Project Description:</strong></div>
                             <div class="col-7 py-1"id="description"><strong>{{project.description|safe}}</strong></div>
                             <br> <br>
-                            <div class="p-2">
-                                <a class="btn btn-lg btn-primary" href="{% url 'add-employee' %}">
-                                   <span>Add Member</span></a></div>
+                            <button type="button" class="btn btn-primary btn add", value="{{project.id}}"  id ="add" data-url="{% url 'add-member' %}">Add Member</button>
+                             
+                                   
                     </div>
                     </div>
                 </div>
@@ -59,7 +61,11 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="modal-add">
+    <div class="modal-dialog">
+      <div class="modal-content">
+</div>
+</div>
 
 {% endblock %} 
 
@@ -67,6 +73,7 @@
 
 <script src="{% static 'js/jquery/ajax_search.js' %}"></script>
 <script src="{% static 'js/jquery/sort.js' %}"></script>
+<script src="{% static 'js/jquery/add_member.js' %}"></script>
 
 {% endblock %} 
 
