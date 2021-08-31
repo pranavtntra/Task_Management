@@ -115,6 +115,12 @@ class AddEmployeeView(View):
     )
         return JsonResponse(data)
 
+# class ViewEmployeeView(View):
+#     def get(self, request):
+#         proj_id = self.request.GET.get('proj')
+#         proj_obj=Project.objects.get(id=proj_id)
+#     pass
+
 
 
 

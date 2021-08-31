@@ -50,8 +50,12 @@
                             <div class="col-5 py-1"><strong>Project Description:</strong></div>
                             <div class="col-7 py-1"id="description"><strong>{{project.description|safe}}</strong></div>
                             <br> <br>
+                            {% if request.user.is_superuser or request.user.is_staff %} 
                             <button type="button" class="btn btn-primary btn add", value="{{project.id}}"  id ="add" data-url="{% url 'add-member' %}">Add Member</button>
-                             
+                            {% endif %} <br>
+                            
+                            <div class="col-7 py-1">
+                            <button type="button" class="btn btn-primary btn view",  value="{{project.id}}", id ="view" data-url="{% url 'view-member' %}"> Members</button></div>
                                    
                     </div>
                     </div>
@@ -62,6 +66,12 @@
     </div>
 </div>
 <div class="modal fade" id="modal-add">
+    <div class="modal-dialog">
+      <div class="modal-content">
+</div>
+</div>
+
+<div class="modal fade" id="modal-view">
     <div class="modal-dialog">
       <div class="modal-content">
 </div>
