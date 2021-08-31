@@ -12,5 +12,5 @@ urlpatterns = [
     path("search-project", SearchProjectView.as_view(), name="search-project"),
     path("sort-project", SortProjectView.as_view(), name="sort-project"),
     path("add-member", AddEmployeeView.as_view(), name="add-member"),
-    # path("view-member", ViewEmployeeView.as_view(), name="view-member"),
+    path("view-member", ViewEmployeeView.as_view(), name="view-member"),
 ]

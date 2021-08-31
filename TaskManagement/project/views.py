@@ -115,11 +115,18 @@ class AddEmployeeView(View):
     )
         return JsonResponse(data)
 
-# class ViewEmployeeView(View):
-#     def get(self, request):
-#         proj_id = self.request.GET.get('proj')
-#         proj_obj=Project.objects.get(id=proj_id)
-#     pass
+class ViewEmployeeView(View):
+    def get(self, request):
+        proj_id = self.request.GET.get('proj')
+        proj_obj=Project.objects.get(id=proj_id)
+        team = ProjectTeam.objects.filter(project=proj_obj)
+        context = {"proj_title": proj_obj.title, "proj_id": str(proj_obj.id),"team":team}
+        html_form = render_to_string('project/view_member.html',
+        context=context
+    )
+
+        return JsonResponse({"form": html_form})
+    
 
 
 

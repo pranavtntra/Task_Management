@@ -42,22 +42,22 @@ $(".add").click(function () {
 
 
 
-// $(".view").click(function () {
-//   var proj = $(this).val();
-//   $.ajax({
-//     url: $("#view").data('url'),
-//             type: 'get',
-//             data: {
-//               'proj': proj
-//             },
-//             datatype: 'json',
-//             beforeSend: function () {
-//                 $("#modal-view").modal("show");
-//               },
-//               success: function (data) {
-//                 $("#modal-view .modal-content").html(data.form);
-//               },
-//             error: function(data) {
-//                 console.log("error")
-//             }
-//         })}); 
+$(".view").click(function () {
+  var proj = $(this).val();
+  $.ajax({
+    url: $("#view").data('url'),
+            type: 'get',
+            data: {
+              'proj': proj
+            },
+            datatype: 'json',
+            beforeSend: function () {
+                $("#modal-view").modal("show");
+              },
+              success: function (data) {
+                $("#modal-view .modal-content").html(data.form);
+              },
+            error: function(data) {
+                console.log("error")
+            }
+        })}); 
