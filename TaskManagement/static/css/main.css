@@ -8392,7 +8392,8 @@ a:hover {
 
 .row {
     margin-right: -5px;
-    margin-left: -5px
+    margin-left: -5px;
+    padding: 5px;
 }
 
 .col,
@@ -8465,8 +8466,8 @@ a:hover {
 .col-xl-8,
 .col-xl-9,
 .col-xl-auto {
-    padding-right: 5px;
-    padding-left: 5px
+    padding-right: 10px;
+    padding-left: 10px
 }
 
 .form-control,

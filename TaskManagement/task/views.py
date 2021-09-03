@@ -18,19 +18,11 @@ class CreateTaskView(PassRequestToFormViewMixin, CreateView):
 
     form_class = CreateTaskForm
     template_name = 'task/add_task.html'
+    initial = {'start_date': datetime.date.today()}
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super(CreateTaskView, self).form_valid(form)
-
-# def load_teammate(request):
-#     project_id = request.GET.get('project')
-#     # import code; code.interact(local=dict(globals(), **locals()))
-#     assign = Project.objects.filter(project = project_id)
-                
-#     assigned_to = ProjectTeam.objects.filter(id=assign.teammate.id)
-                #ProjectTeam.objects.filter(project=project_id).values('teammate__first_name')
-#     return render(request, 'task/load_teammate.html', {'assigned_to': assigned_to})
 
 
 class CreateSubTaskView(PassRequestToFormViewMixin, CreateView):
@@ -45,31 +37,18 @@ class CreateSubTaskView(PassRequestToFormViewMixin, CreateView):
         form.instance.assigned_to = self.request.user
         return super(CreateSubTaskView, self).form_valid(form)
 
-    def get_form(self, *args, **kwargs):
-        form = super(CreateSubTaskView, self).get_form(*args, **kwargs)
-        try:
-            #import code; code.interact(local=dict(globals(), **locals()))
-            form.fields['project'].queryset = Project.objects.filter(project= Task.objects.filter(assigned_to = self.request.user))
-            return form
-        except Exception as e:
-            logging.error(str(e))
-            return form
-
-
-
-# def load_task(request):
-#     """load task when project is selected in subtask form"""
-#     project_id = request.GET.get()
-
-
-
-# def load_project(request):
-#     """for load project when parent task is selected in subtask form"""
-#     if request.is_ajax:
-#         task_id = request.GET.get('task_id')
-#         task = Task.objects.get(id=task_id)
-#         projects = Project.objects.filter(id=task.project.id) if task else Project.objects.none()
-#     return render(request, 'task/load_project.html', {'projects': projects})
+def load_task(request):
+    """load task when project is selected in subtask form"""
+    project_id = request.GET.get('project_id')
+    print(project_id)
+    parent_t = Task.objects.filter(project=project_id) 
+    parent_task= parent_t.filter(assigned_to = request.user)
+    data = []
+    [data.append({'id': task.id, 'title':task.title}) for task in parent_task ] 
+    print(data)
+    #data = {'parent_task' : parent_task}
+    # return render(request, 'task/load_task.html', {'parent_task': parent_task})
+    return JsonResponse(data, safe=False)
 
 
 class TaskListView(ListView):
@@ -79,8 +58,16 @@ class TaskListView(ListView):
     context_object_name = "tasklist"
 
     def get_queryset(self):
-        return Task.objects.filter(assigned_to=self.request.user).order_by('-id')
+        return Task.objects.filter(assigned_to=self.request.user).order_by('-id') and Task.objects.filter(parent_task = None)
 
+class TaskSubListView(ListView):
+    """ Display list of tasks (for logged in employee's list of tasks ) """
+    model = Task
+    template_name = "task/mysubtask_list.html"
+    context_object_name = "subtasklist"
+
+    def get_queryset(self):
+        return Task.objects.filter(created_by=self.request.user) 
 
 class TaskDetailView(DetailView):
     """ Display task in detail(for logged in employee) """
@@ -131,8 +118,6 @@ class SearchTaskView(View):
             project_id = self.request.GET.get('id', None)
             project = Project.objects.filter(id=project_id).last()
             search = self.request.GET.get('search_here', None)
-            print(project)
-            print(search)
             task_list = Task.objects.filter(project=project)
             task = task_list.filter(Q(title__icontains=search) |
                                     Q(assigned_to__first_name__icontains=search) |

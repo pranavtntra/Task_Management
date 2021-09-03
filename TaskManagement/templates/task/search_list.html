@@ -7,7 +7,8 @@
             <th class="dropdown-toggle" onclick="sortTable(0)">status</th>
             <th class="dropdown-toggle" onclick="sortTable(0)">priority</th>
             <th class="dropdown-toggle" onclick="sortTable(0)">tasktype</th> 
-            <th class="">Startdate to Enddate</th> 
+            <th class="">Startdate </th>
+            <th class="">Enddate</th> 
         </tr>
     </thead> 
     <tbody id="search-results">
@@ -21,7 +22,8 @@
                 <td><span class="tag tag-info">{{data.status}}</span></td>
                 <td>{{data.priority}}</td>
                 <td>{{data.tasktype}}</td>
-                <th> {{data.start_date}}to<br>{{data.end_date}}</th>
+                <th> {{data.start_date|date:'d M Y'}} </hh>
+                <th>{{data.end_date|date:'d M Y' }}</th>
             </tr>
         {% endfor %}
     </tbody>
