@@ -1,7 +1,8 @@
-const searchInput = document.getElementById('search_here')
-console.log(searchInput)
+// const searchInput = document.getElementById('search_here')
+// console.log(searchInput)
 
-const searchdata =(search_here) => {
+$("#search_here").on("keyup", function (e) {
+    e.preventDefault()
     $.ajax({
         type: "GET",
         url: $("#search_here").data('url'),
@@ -15,63 +16,18 @@ const searchdata =(search_here) => {
         },
         error: function(data) {
             console.log("error")
+          
         }
 
     });
     return false
-}
+});
 
-searchInput.addEventListener('keyup', e=>{
-    console.log(e.target.value);
+// document.getElementById('search_here').addEventListener('keyup', e=>{
+//     console.log(e.target.value);
 
-    searchdata(e.target.value); 
-})
-
-
+//     searchdata(e.target.value); 
+// })
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // $(function(){
-
-// //     $('#search').keyup(function() {
-    
-// //         $.ajax({
-        
-// //             url: "//search/",
-// //             data: { 
-// //                 'search_text' : $('#search').val(),
-// //                 'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
-// //             },
-// //             success: searchSuccess,
-// //             dataType: 'html'
-// //         });
-        
-// //     });
-
-// // });
-
-// // function searchSuccess(data, textStatus, jqXHR)
-// // {
-// //     $('#search-results').html(data);
-// // }

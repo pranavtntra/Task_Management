@@ -29,10 +29,9 @@ class CreateProjectView(LoginRequiredMixin,CreateView):
             form = super(CreateProjectView, self).get_form(*args, **kwargs)
             try:
                 form.fields['project_lead'].queryset = User.objects.filter(is_superuser=False)
-                return form
-            except Exception as error:
+            except Exception as e:
                 logging.error(str(e))
-                return form
+            return form
 
 
 
@@ -48,6 +47,7 @@ class ListProjectView(LoginRequiredMixin,ListView):
             logging.error(str(e))
 
 
+
 class SearchProjectView(View):
 
     def get(self, request, *args, **kwargs):
@@ -59,11 +59,10 @@ class SearchProjectView(View):
                 "search_projectlist": projectlist,
                 "error_message": 'No such data found'
             } 
-            return render(request, "project/listproject.html", proj_list)
         except Exception as e:
             logging.error(str(e))
             proj_list = {"search_projectlist": projectlist} 
-            return render(request, "project/listproject.html", proj_list)
+        return render(request, "project/listproject.html", proj_list)
 
 class SortProjectView(View):
 
@@ -73,11 +72,10 @@ class SortProjectView(View):
             try:
                 projectlist = projectlist.order_by(SORTER[selected])
                 proj_list = {"search_projectlist": projectlist} 
-                return render(request, "project/listproject.html", proj_list)
             except Exception as e:
                 logging.error(str(e))
                 proj_list = {"search_projectlist": projectlist} 
-                return render(request, "project/listproject.html", proj_list)
+            return render(request, "project/listproject.html", proj_list)
             
 
 
@@ -95,18 +93,14 @@ class AddEmployeeView(View):
     
     def post(self, request):
         data = dict()
-        if request.method == 'POST':
-            form = AddMemberForm(request.POST)
-            if form.is_valid():
-                # import code; code.interact(local=dict(globals(), **locals()))
-                obj = form.save(commit=False)
-                obj.project = Project.objects.get(id=request.POST.get("project"))
-                obj.save()
-                data['form_is_valid'] = True
-            else:
-                data['form_is_valid'] = False
+        form = AddMemberForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.project = Project.objects.get(id=request.POST.get("project"))
+            obj.save()
+            data['form_is_valid'] = True
         else:
-                form = AddMemberForm()
+            data['form_is_valid'] = False
 
         context = {'form': form}
         data['html_form'] = render_to_string('project/add_member.html',
@@ -126,6 +120,24 @@ class ViewEmployeeView(View):
     )
 
         return JsonResponse({"form": html_form})
+
+
+class SearchDateProjectView(View):
+
+    def get(self, request, *args, **kwargs):
+        start = self.request.GET.get('start')
+        end = self.request.GET.get('end')
+        projectlist = get_projects(self.request.user)
+        try:
+            projectlist = projectlist.filter(Q(start_date__icontains__gte=start) & Q(end_date__icontains__lte=end))
+            proj_list = {
+                "search_projectlist": projectlist,
+                "error_message": 'No such data found'
+            } 
+        except Exception as e:
+            logging.error(str(e))
+            proj_list = {"search_projectlist": projectlist} 
+        return render(request, "project/listproject.html", proj_list)
     
 
 

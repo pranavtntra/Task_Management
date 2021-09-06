@@ -6,7 +6,10 @@
 
 
 <title>{% block title %}Projects{% endblock %}</title>
-<input name="search_here" id="search_here" type="text" placeholder="Search.." data-url="{% url 'search-project' %}">
+<input onkeyup="abc(event)" name="search_here" id="search_here" type="text" placeholder="Search.." data-url="{% url 'search-project' %}">
+<strong>Start date: </strong><input type="date" id="startdate" class="search_date" data-url="{% url 'searchdate-project' %}" />
+<strong>End date: </strong><input type="date" id="enddate" class="search_date"/>
+
 
 <div class="span" style="float:right" >
               <select name="select" id="sort" data-url="{% url 'sort-project' %}">
@@ -20,18 +23,22 @@
               
         
 </div>
-      
+    
 
 
 <div class="tab-content" id="search_result" >
     {% include  'project/listproject.html' %}
-</div>
+    </div>
+    <br><br>
+   
+    
 <div class="tab-content delete_content">
     <div class="tab-pane fade show active" id="Project-OnGoing" role="tabpanel">
         <div class="row">
              {%for project in projectlist %}
             <div class="col-lg-6 col-md-12">
                 <div class="card">
+                    
                     <div class="card-header">
                         <h3 class="card-title">{{project.title}}</h3>
                     </div>
@@ -79,8 +86,9 @@
 
  {% block extrajs %}
 
-<script src="{% static 'js/jquery/ajax_search.js' %}"></script>
-<script src="{% static 'js/jquery/sort.js' %}"></script>
+ <script src="{% static 'js/jquery/sort.js' %}"></script>
+ <script src="{% static 'js/jquery/datesearch.js' %}"></script>
+ <script src="{% static 'js/jquery/ajax_search.js' %}"></script>
 <script src="{% static 'js/jquery/add_member.js' %}"></script>
 
 {% endblock %} 

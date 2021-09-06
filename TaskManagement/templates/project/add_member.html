@@ -18,7 +18,12 @@
       {% endfor %}
     </div>
     {% endfor %}
+    {% for error in form.non_field_errors %}
+            <p style = "color : red">{{error}}</p>
+        {% endfor %}
+        </p>
   </div>
+  
   <div class="modal-footer">
     <button type="submit" class="btn btn-default" data-bs-dismiss="modal">Close</button>
     <button type="submit" data-id="{{proj_id}}" class="btn btn-primary">Add</button>
