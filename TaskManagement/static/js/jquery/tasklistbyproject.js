@@ -10,16 +10,16 @@ $('#project_tasklist').change(function() {
         },
         success: function(data) {
             $("#search-results").empty();
+
             JSON.parse(data["task"]).forEach((item) => {
                 console.log(item)
-
                 var row = "<tr>" +
                     "<td>" + item.title + "</td>" +
                     "<td>" + item.assigned_to__first_name + "</td>" +
                     "<td><span class='tag tag-info'>" + item.status + "</span></td>" +
                     "<td>" + item.priority + "</td>" +
-                    "<td>" + item.tasktype + "</td>" + "<td>" + item.start_date + "</td>" +
-                    "<td>" + item.end_date + "</td>" +
+                    "<td>" + item.tasktype + "</td>" + "<td>" + item.start_date__date + "</td>" +
+                    "<td>" + item.end_date__date + "</td>" +
                     "</tr>";
                 $('#mytable').append(row);
             });
@@ -30,26 +30,6 @@ $('#project_tasklist').change(function() {
     });
 });
 
-// $('#search').click(function() {
-
-//     var start_date = $(this).val();
-//     console.log(start_date);
-
-//     $.ajax({
-//         url: $(this).data('url'),
-//         method: 'get',
-//         data: {
-//             'start_date': start_date,
-//         },
-//         success: function(data) {
-//             console.log('hello');
-
-//         },
-//         error: function(data) {
-//             console.log("error");
-//         }
-//     });
-// });
 
 function sortTable(n) {
     var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;

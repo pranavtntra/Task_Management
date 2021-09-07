@@ -1,19 +1,19 @@
-from project.models import Project, ProjectTeam
+from project.models import Project
 from task.models import Task
 from django.views.generic import CreateView, ListView, View, DetailView
 from task.forms import CreateTaskForm, CreateSubTaskForm
 from django.http import JsonResponse
-import json
 from django.shortcuts import render
 from django.db.models import Q
 import logging
 from task.mixins import PassRequestToFormViewMixin
-from django.core.serializers.json import DjangoJSONEncoder
 import datetime
+from django.contrib.auth.mixins import LoginRequiredMixin
+from task.services import get_tasklist, search_task, search_task_by_dates
 # Create your views here.
 
 
-class CreateTaskView(PassRequestToFormViewMixin, CreateView):
+class CreateTaskView(LoginRequiredMixin, PassRequestToFormViewMixin, CreateView):
     """ Display form where pm can create task and assign to employee."""
 
     form_class = CreateTaskForm
@@ -25,7 +25,7 @@ class CreateTaskView(PassRequestToFormViewMixin, CreateView):
         return super(CreateTaskView, self).form_valid(form)
 
 
-class CreateSubTaskView(PassRequestToFormViewMixin, CreateView):
+class CreateSubTaskView(LoginRequiredMixin, PassRequestToFormViewMixin, CreateView):
     """ Display form where employee can create subtask."""
     model = Task
     form_class = CreateSubTaskForm
@@ -37,46 +37,46 @@ class CreateSubTaskView(PassRequestToFormViewMixin, CreateView):
         form.instance.assigned_to = self.request.user
         return super(CreateSubTaskView, self).form_valid(form)
 
+
 def load_task(request):
     """load task when project is selected in subtask form"""
     project_id = request.GET.get('project_id')
     print(project_id)
-    parent_t = Task.objects.filter(project=project_id) 
-    parent_task= parent_t.filter(assigned_to = request.user)
+    parent_t = Task.objects.filter(project=project_id)
+    parent_task = parent_t.filter(assigned_to=request.user)
     data = []
-    [data.append({'id': task.id, 'title':task.title}) for task in parent_task ] 
-    print(data)
-    #data = {'parent_task' : parent_task}
-    # return render(request, 'task/load_task.html', {'parent_task': parent_task})
+    [data.append({'id': task.id, 'title': task.title}) for task in parent_task]
     return JsonResponse(data, safe=False)
 
 
-class TaskListView(ListView):
+class TaskListView(LoginRequiredMixin, ListView):
     """ Display list of tasks (for logged in employee's list of tasks ) """
     model = Task
     template_name = "task/mytask_list.html"
     context_object_name = "tasklist"
 
     def get_queryset(self):
-        return Task.objects.filter(assigned_to=self.request.user).order_by('-id') and Task.objects.filter(parent_task = None)
+        return Task.objects.filter(assigned_to=self.request.user).order_by('-id') and Task.objects.filter(parent_task=None)
 
-class TaskSubListView(ListView):
+
+class TaskSubListView(LoginRequiredMixin, ListView):
     """ Display list of tasks (for logged in employee's list of tasks ) """
     model = Task
     template_name = "task/mysubtask_list.html"
     context_object_name = "subtasklist"
 
     def get_queryset(self):
-        return Task.objects.filter(created_by=self.request.user) 
+        return Task.objects.filter(created_by=self.request.user)
 
-class TaskDetailView(DetailView):
+
+class TaskDetailView(LoginRequiredMixin, DetailView):
     """ Display task in detail(for logged in employee) """
     model = Task
     template_name = 'task/task_detail.html'
     context_object_name = "task_detail"
 
 
-class ProjectTaskListView(ListView):
+class ProjectTaskListView(LoginRequiredMixin, ListView):
     """Display list of project so that we can select it and get list"""
     model = Project
     form_class = CreateTaskForm
@@ -90,7 +90,7 @@ class ProjectTaskListView(ListView):
             return Project.objects.filter(project_lead=self.request.user)
 
 
-class TaskList(View):
+class TaskList(LoginRequiredMixin, View):
     """Display list of tasks in selected project."""
     model = Project
     form_class = CreateTaskForm
@@ -100,11 +100,7 @@ class TaskList(View):
     def get(self, request):
         try:
             project_id = self.request.GET.get('id', None)
-            project_id = Project.objects.filter(id=project_id)
-            if project_id.exists():
-                project = project_id.first()
-                task_list = Task.objects.filter(project=project).values('title', 'assigned_to__first_name', 'status', 'priority', 'tasktype', 'start_date', 'end_date')
-            tasks = json.dumps(list(task_list), cls=DjangoJSONEncoder)
+            tasks = get_tasklist(project_id)
             data = {"task": tasks}
             return JsonResponse(data, safe=False)
         except Exception as e:
@@ -116,13 +112,8 @@ class SearchTaskView(View):
     def get(self, request):
         try:
             project_id = self.request.GET.get('id', None)
-            project = Project.objects.filter(id=project_id).last()
             search = self.request.GET.get('search_here', None)
-            task_list = Task.objects.filter(project=project)
-            task = task_list.filter(Q(title__icontains=search) |
-                                    Q(assigned_to__first_name__icontains=search) |
-                                    Q(priority__icontains=search) |
-                                    Q(tasktype__icontains=search)).order_by('-id')
+            task = search_task(project_id, search)
             data = {"task": task,
                     "error_message": "there is no task."}
             return render(request, 'task/search_list.html', data)
@@ -134,12 +125,12 @@ class TaskListBetweenDates(View):
     """ Display task in range of selected dates"""
     def get(self, request):
         try:
+            project_id = self.request.GET.get('id', None)
             start_date = self.request.GET.get('start_date')
             end_date = self.request.GET.get('end_date')
-            #import code; code.interact(local=dict(globals(), **locals()))
-            task = Task.objects.filter(Q(start_date__gte=start_date)& Q(end_date__lte=end_date))
+            task = search_task_by_dates(project_id, start_date, end_date)
             data = {"task": task}
-            return render(request, "task/project_tasklist.html", data)
+            return render(request, "task/search_list.html", data)
         except Exception as e:
             logging.error(str(e))
-            return render(request, "task/project_tasklist.html", data)
+            return render(request, "task/search_list.html", data)

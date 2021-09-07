@@ -12,9 +12,6 @@
         </tr>
     </thead> 
     <tbody id="search-results">
-        {% if not task %}
-                    <p>{{error_message}}</p>
-                {% endif %}
         {% for data in task %}
             <tr>
                 <td>{{data.title}}</td>
@@ -22,9 +19,17 @@
                 <td><span class="tag tag-info">{{data.status}}</span></td>
                 <td>{{data.priority}}</td>
                 <td>{{data.tasktype}}</td>
-                <th> {{data.start_date|date:'d M Y'}} </hh>
-                <th>{{data.end_date|date:'d M Y' }}</th>
+                <td> {{data.start_date|date:"y-m-d"}} </td>
+                <td>{{data.end_date|date:'y-m-d' }}</td>
             </tr>
         {% endfor %}
+
+        
     </tbody>
+              
 </table>
+<div>
+                {% if not task %}
+                    {{error_message}}
+                {% endif %}
+</div>
