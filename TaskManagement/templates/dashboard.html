@@ -208,7 +208,8 @@
         <h5 class="brand-name">Task Management<a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
-                <li class="{% if request.path == dashboard %} active {%endif%}"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
+                <li class="{% if request.path == dashboard %} active {%endif%}"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+                
                 <li class="{% if request.path == 'create-project' or request.path == 'list-project'  %} active {%endif%}">
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Project</span></a>
                     <ul>
@@ -219,15 +220,7 @@
                         <li class="{% if request.path == 'list-project' %} active {%endif%}"><a href="{% url 'list-project' %}">Project List</a></li>
                     </ul>
                 </li>
-                    {% if user.is_superuser %}
-                <li class="{% if request.path == userlist or request.path == createuser %} active {%endif%}">
-                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>User</span></a>
-                    <ul>
-                        <li class="{% if request.path == userlist %} active {%endif%}"><a href="{% url 'userlist' %}">User List</a></li>
-                        <li class="{% if request.path == createuser %} active {%endif%}"><a href="{% url 'createuser' %}">Create User</a></li>
-                    </ul>
-                </li>
-                    {% endif %}
+                
                 <li class="{% if request.path == add_task or request.path == project_tasklist or request.path == add_subtask or request.path == mytask_list%} active {%endif%}">
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Task</span></a>
                     <ul>
@@ -240,6 +233,16 @@
                         {% endif %}
                     </ul>
                 </li>
+
+                    {% if user.is_superuser %}
+                <li class="{% if request.path == userlist or request.path == createuser %} active {%endif%}">
+                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>User</span></a>
+                    <ul>
+                        <li class="{% if request.path == userlist %} active {%endif%}"><a href="{% url 'userlist' %}">User List</a></li>
+                        <li class="{% if request.path == createuser %} active {%endif%}"><a href="{% url 'createuser' %}">Create User</a></li>
+                    </ul>
+                </li>
+                    {% endif %}
                 <!-- <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Taskboard</span></a></li>
                 <li><a href="project-ticket.html"><i class="fa fa-list-ul"></i><span>Ticket List</span></a></li>
                 <li><a href="project-ticket-details.html"><i class="icon-tag"></i><span>Ticket Details</span></a></li>

@@ -1,7 +1,6 @@
 // ======for searchig or pagination in userlist page======
 $(document).ready(function() {
 const searchInput = document.getElementById('search_here')
-console.log(searchInput)
 
 const searchdata =(search_here) => {
   if (search_here.length > 2 || search_here.length < 1){
@@ -50,14 +49,6 @@ function userListAjax(search, page){
   }); 
 }
 
-
-// =======pop-up for delete user in userlist=======
-$.ajax('{% url "deleteuser" details.id %}', {
-  method: 'POST',
-  success: function() {
-      window.location.reload();
-  },
-});
 
 
 

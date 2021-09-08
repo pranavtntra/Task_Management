@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from accounts.services import AccountManagement
 from django.http import JsonResponse
 from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
 import logging
 import json
 
@@ -21,7 +22,7 @@ class DatetimeEncoder(json.JSONEncoder):
             return str(obj)
 
 
-class UserList(ListView):
+class UserList(LoginRequiredMixin, ListView):
     """show the details of user"""
     model = User
     template_name = 'account/userlist.html'
@@ -29,7 +30,7 @@ class UserList(ListView):
     ordering = ['-id']
     
 
-class SearchUser(View):
+class SearchUser(LoginRequiredMixin, View):
     """show the details of searched user"""
     def get(self, request, *args, **kwargs):
         try:
@@ -47,7 +48,7 @@ class SearchUser(View):
             return render(request, "account/user_details_list.html", data)
 
 
-class AddUser(CreateView):
+class AddUser(LoginRequiredMixin, CreateView):
     """
     Administration can create user and set email-id as a password
     """
@@ -72,19 +73,19 @@ class AddUser(CreateView):
             return render(request, 'account/createuser.html', {'form': form})
 
 
-class UserProfile(ListView):
+class UserProfile(LoginRequiredMixin,ListView):
     """show the profile of user"""
     model = User
     template_name = 'account/userprofile.html'
 
 
-class DeleteUser(DeleteView):
+class DeleteUser(LoginRequiredMixin, DeleteView):
     """delete the user from userlist"""
     model = User
     success_url = reverse_lazy('userlist')
 
 
-class UpdateUser(UpdateView):
+class UpdateUser(LoginRequiredMixin, UpdateView):
     """User or administration can update the profile of user"""
     model = User
     form_class = UserUpdateForm
