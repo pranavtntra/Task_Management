@@ -125,11 +125,11 @@ class ViewEmployeeView(View):
 class SearchDateProjectView(View):
 
     def get(self, request, *args, **kwargs):
-        start = self.request.GET.get('start')
-        end = self.request.GET.get('end')
+        start = self.request.GET.get('start_date')
+        end = self.request.GET.get('end_date')
         projectlist = get_projects(self.request.user)
         try:
-            projectlist = projectlist.filter(Q(start_date__icontains__gte=start) & Q(end_date__icontains__lte=end))
+            projectlist = projectlist.filter(Q(start_date__gte=start) & Q(end_date__lte=end))
             proj_list = {
                 "search_projectlist": projectlist,
                 "error_message": 'No such data found'

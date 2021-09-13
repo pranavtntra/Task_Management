@@ -7,8 +7,10 @@
 
 <title>{% block title %}Projects{% endblock %}</title>
 <input onkeyup="abc(event)" name="search_here" id="search_here" type="text" placeholder="Search.." data-url="{% url 'search-project' %}">
-<strong>Start date: </strong><input type="date" id="startdate" class="search_date" data-url="{% url 'searchdate-project' %}" />
+<strong>Start date: </strong><input type="date" id="startdate" class="search_date"  />
 <strong>End date: </strong><input type="date" id="enddate" class="search_date"/>
+ <input type="submit" value="search" class="btn btn-primary btn"  id="search" data-url="{% url 'searchdate-project' %}">
+
 
 
 <div class="span" style="float:right" >

@@ -1,8 +1,9 @@
 // const searchInput = document.getElementById('search_here')
 // console.log(searchInput)
 
-$("#search_here").on("keyup", function (e) {
-    e.preventDefault()
+// $("#search_here").on("keyup", function (e) {
+const searchdata = (search_here) => {
+    // e.preventDefault()
     $.ajax({
         type: "GET",
         url: $("#search_here").data('url'),
@@ -21,13 +22,14 @@ $("#search_here").on("keyup", function (e) {
 
     });
     return false
-});
+}
+// });
 
-// document.getElementById('search_here').addEventListener('keyup', e=>{
-//     console.log(e.target.value);
+document.getElementById('search_here').addEventListener('keyup', e=>{
+    console.log(e.target.value);
 
-//     searchdata(e.target.value); 
-// })
+    searchdata(e.target.value); 
+})
 
 
 
