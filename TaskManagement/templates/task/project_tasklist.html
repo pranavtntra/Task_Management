@@ -17,8 +17,6 @@
                                     <div class="col-lg-4 col-md-4 col-sm-6">
                                          <input name="search_here" id="search_here" data-url="{% url 'search_task' %}" type="text" placeholder="Search..">
                                     </div>
-                                    
-                                    
                                     <div class="col-lg-6 col-md-4 col-sm-6">
                             
                                         <div class="input-group">
@@ -55,7 +53,7 @@
 </div>
 {% endblock %} 
 {% block extrajs %}
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery/jquery.js' %}"></script>
 <script src="{% static 'js/jquery/tasklistbyproject.js' %}"></script>
 <script src="{% static 'js/jquery/searchtask.js' %}"></script>
 <script src="{% static 'js/jquery/searchbydates.js' %}"></script>

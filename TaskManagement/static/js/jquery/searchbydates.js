@@ -1,5 +1,4 @@
 $('#search').click(function() {
-
     var start_date = $("#start_date").val();
     var end_date = $("#end_date").val();
     const p_id = document.getElementById('project_tasklist').value
