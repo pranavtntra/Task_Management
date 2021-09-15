@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import render, HttpResponseRedirect, HttpResponse
-from django.views.generic import View, CreateView, ListView
-from project.forms import CreateProjectForm, AddMemberForm
+from django.views.generic import View, CreateView, ListView, UpdateView, DeleteView
+from project.forms import CreateProjectForm, AddMemberForm, ProjectUpdateForm
 from project.models import Project, ProjectTeam
 from django.urls import reverse_lazy
 from accounts.models import User
@@ -138,6 +138,21 @@ class SearchDateProjectView(View):
             logging.error(str(e))
             proj_list = {"search_projectlist": projectlist} 
         return render(request, "project/listproject.html", proj_list)
+
+
+
+
+class UpdateProjectView(LoginRequiredMixin, UpdateView):
+    model = Project
+    form_class = ProjectUpdateForm
+    template_name = 'project/update_project.html'
+    success_url = reverse_lazy('listproject')
+
+
+
+class DeleteProjectView(DeleteView):
+    model = Project
+    success_url = reverse_lazy('listproject')
     
 
 

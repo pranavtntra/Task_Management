@@ -1,5 +1,4 @@
 $("#sort").change(function () {
-    console.log("abcd")
     var sort = $(this).val()
     $.ajax({
         url: $(this).data('url'),
