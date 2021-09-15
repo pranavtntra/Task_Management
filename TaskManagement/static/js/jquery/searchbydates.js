@@ -2,9 +2,7 @@ $('#search').click(function() {
     var start_date = $("#start_date").val();
     var end_date = $("#end_date").val();
     const p_id = document.getElementById('project_tasklist').value
-    console.log(start_date);
-    console.log(end_date);
-    console.log(p_id);
+
     $.ajax({
 
         url: $("#search").data('url'),

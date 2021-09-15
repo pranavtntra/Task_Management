@@ -15,8 +15,7 @@ def get_tasklist(project_id):
 
 
 def search_task(project_id, search):
-    project = Project.objects.filter(id=project_id).last()
-    task_list = Task.objects.filter(project=project)
+    task_list = Task.objects.filter(project=Project.objects.filter(id=project_id).last())
     task = task_list.filter(Q(title__icontains=search) |
                             Q(assigned_to__first_name__icontains=search) |
                             Q(priority__icontains=search) |

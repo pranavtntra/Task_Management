@@ -35,11 +35,17 @@
                                                 <th><a href="{% url 'task_detail' task.pk %}">{{task.title}}</a></th>
                                                 <th> {{task.project}}</th>
                                                 <th> {{task.priority}}</th>
-                                                <th> {{task.get_status_display}}</th>
+                                                <th><span class="tag tag-info">
+                                                <select id="project_tasklist" data-url='{% url "tasklist" %}'>
+                                                    <option disabled = "true" selected>{{task.get_status_display}}  </option>
+                                                    {% comment %} {% for status in model.STATUS %}
+                                                        <option>{{status.status}}</option>
+                                                    {% endfor %} {% endcomment %}
+                                                </select>
+                                                    </span></th>
                                                 <th> {{task.start_date|date:'d M Y' }}to<br>{{task.end_date|date:'d M Y' }}</th>
                                             </tr>
                                             {% endfor %}
-                                            
                                             </tbody>
                                         </table>
                                     

@@ -1,10 +1,10 @@
+from django.views.generic.edit import UpdateView
 from project.models import Project
 from task.models import Task
 from django.views.generic import CreateView, ListView, View, DetailView
 from task.forms import CreateTaskForm, CreateSubTaskForm
 from django.http import JsonResponse
 from django.shortcuts import render
-from django.db.models import Q
 import logging
 from task.mixins import PassRequestToFormViewMixin
 import datetime
@@ -134,3 +134,4 @@ class TaskListBetweenDates(View):
         except Exception as e:
             logging.error(str(e))
             return render(request, "task/search_list.html", data)
+

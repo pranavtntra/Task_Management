@@ -4,6 +4,7 @@ from django import forms
 from task.models import Task
 from project.models import Project,ProjectTeam, Role
 from task.constants import STATUS
+import logging
 
 
 class CreateTaskForm(forms.ModelForm):
@@ -56,9 +57,9 @@ class CreateSubTaskForm(forms.ModelForm):
             try:
                 project_id = self.data.get('project')
                 parent_t = Task.objects.filter(project=project_id)
-                self.fields['parent_task'].queryset = parent_t.filter(assigned_to = self.request.user)
+                self.fields['parent_task'].queryset = parent_t.filter(assigned_to=self.request.user)
             except (ValueError, TypeError):
-                pass
+                logging.error(ValueError, TypeError)
 
     def clean_title(self):
         title = self.cleaned_data['title']

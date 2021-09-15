@@ -34,7 +34,7 @@
                                                 <th><a href="{% url 'task_detail' t.pk %}">{{t.title}}</a></th>
                                                 <th> {{t.project}}</th>
                                                 <th> {{t.priority}}</th>
-                                                <th> {{t.get_status_display}}</th>
+                                                <th><span class="tag tag-info">{{t.get_status_display}}</span></th>
                                                 <th> {{t.start_date|date:'d M Y' }}to<br>{{t.end_date|date:'d M Y' }}</th>
                                                 <th><a href="{% url 'task_detail' t.pk %}"> {{t.parent_task}}</th>
                                             </tr>
