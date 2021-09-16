@@ -52,30 +52,29 @@ class SearchProjectView(View):
 
     def get(self, request, *args, **kwargs):
         search = self.request.GET.get('search')
+        start = self.request.GET.get('start_date')
+        end = self.request.GET.get('end_date')
+        selected = self.request.GET.get('sort')
+
         projectlist = get_projects(self.request.user)
         try:
             projectlist = projectlist.filter(Q(title__icontains=search) | Q(project_lead__username__icontains=search))
+            if start and end:
+                projectlist = projectlist.filter(Q(start_date__gte=start) & Q(end_date__lte=end))
+            if selected:
+                projectlist = projectlist.order_by(SORTER[selected])
+
             proj_list = {
                 "search_projectlist": projectlist,
                 "error_message": 'No such data found'
             } 
+
         except Exception as e:
             logging.error(str(e))
             proj_list = {"search_projectlist": projectlist} 
         return render(request, "project/listproject.html", proj_list)
 
-class SortProjectView(View):
 
-    def get(self, request):
-            selected = self.request.GET.get('sort')
-            projectlist =  get_projects(self.request.user)    
-            try:
-                projectlist = projectlist.order_by(SORTER[selected])
-                proj_list = {"search_projectlist": projectlist} 
-            except Exception as e:
-                logging.error(str(e))
-                proj_list = {"search_projectlist": projectlist} 
-            return render(request, "project/listproject.html", proj_list)
             
 
 
@@ -120,26 +119,6 @@ class ViewEmployeeView(View):
     )
 
         return JsonResponse({"form": html_form})
-
-
-class SearchDateProjectView(View):
-
-    def get(self, request, *args, **kwargs):
-        start = self.request.GET.get('start_date')
-        end = self.request.GET.get('end_date')
-        projectlist = get_projects(self.request.user)
-        try:
-            projectlist = projectlist.filter(Q(start_date__gte=start) & Q(end_date__lte=end))
-            proj_list = {
-                "search_projectlist": projectlist,
-                "error_message": 'No such data found'
-            } 
-        except Exception as e:
-            logging.error(str(e))
-            proj_list = {"search_projectlist": projectlist} 
-        return render(request, "project/listproject.html", proj_list)
-
-
 
 
 class UpdateProjectView(LoginRequiredMixin, UpdateView):

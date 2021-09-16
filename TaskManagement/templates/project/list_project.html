@@ -9,13 +9,13 @@
 <input onkeyup="abc(event)" name="search_here" id="search_here" type="text" placeholder="Search.." data-url="{% url 'search-project' %}">
 <strong>Start date: </strong><input type="date" id="startdate" class="search_date"  />
 <strong>End date: </strong><input type="date" id="enddate" class="search_date"/>
- <input type="submit" value="search" class="btn btn-primary btn"  id="search" data-url="{% url 'searchdate-project' %}">
+ <input type="submit" value="search" class="btn btn-primary btn"  id="search">
 
 
 
 <div class="span" style="float:right" >
-              <select name="select" id="sort" data-url="{% url 'sort-project' %}">
-                <option value="T+">By Title (Asc)</option>
+              <select name="select" id="sort">
+                <option value="T+" selected>By Title (Asc)</option>
                 <option value="T-">By Title (Desc) </option>
                 <option value="S+">By Start date (Asc)</option>
                 <option value="S-">By Start date (Desc)</option>
@@ -98,8 +98,6 @@
 
  {% block extrajs %}
 
- <script src="{% static 'js/jquery/sort.js' %}"></script>
- <script src="{% static 'js/jquery/datesearch.js' %}"></script>
  <script src="{% static 'js/jquery/ajax_search.js' %}"></script>
 <script src="{% static 'js/jquery/add_member.js' %}"></script>
 

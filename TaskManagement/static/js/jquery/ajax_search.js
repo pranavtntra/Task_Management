@@ -1,11 +1,14 @@
 
-const searchdata = (search_here) => {
+const searchdata = () => {
     $.ajax({
         type: "GET",
         url: $("#search_here").data('url'),
 
         data: {
-            'search': search_here
+            'search': $("#search_here").val(),
+            'start_date': $("#startdate").val(),
+            "end_date": $("#enddate").val(),
+            'sort': $('#sort').val(),
         },
         success: function(data){
             $('#search_result').html(data)
@@ -21,10 +24,18 @@ const searchdata = (search_here) => {
 }
 
 document.getElementById('search_here').addEventListener('keyup', e=>{
-    console.log(e.target.value);
 
-    searchdata(e.target.value); 
+    searchdata(); 
 })
 
+document.getElementById('sort').addEventListener('change', e=>{
+
+    searchdata(); 
+})
+
+document.getElementById('search').addEventListener('click', e=>{
+
+    searchdata(); 
+})
 
 
