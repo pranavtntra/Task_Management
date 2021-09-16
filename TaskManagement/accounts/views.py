@@ -1,18 +1,17 @@
 from django.views.generic.list import ListView
 from accounts.models import User
-from accounts.forms import AddUserForm, UserUpdateForm
+from accounts.forms import AddUserForm, UserUpdateForm, PasswordChangeForm
 from django.shortcuts import render, redirect
 from django.views.generic import View
 from django.views.generic.edit import DeleteView, UpdateView, CreateView
+from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
-from django.core.mail import send_mail
 from accounts.services import AccountManagement
-from accounts.constants import SIGNUP_MESSAGES, SIGNUP_SUBJECT
+from django.http import JsonResponse
+from django.core.paginator import Paginator
+from django.contrib.auth.mixins import LoginRequiredMixin
 import logging
 import json
-
-SUBJECT = SIGNUP_SUBJECT
-MESSAGES = SIGNUP_MESSAGES
 
 
 class DatetimeEncoder(json.JSONEncoder):
@@ -23,21 +22,25 @@ class DatetimeEncoder(json.JSONEncoder):
             return str(obj)
 
 
-class UserDetails(ListView):
+class UserList(LoginRequiredMixin, ListView):
     """show the details of user"""
     model = User
-    template_name = 'account/userdetails.html'
-    paginate_by = 6
-    ordering = ['username']
+    template_name = 'account/userlist.html'
+    paginate_by = 7
+    ordering = ['-id']
+    
 
-
-class SearchUser(View):
+class SearchUser(LoginRequiredMixin, View):
     """show the details of searched user"""
     def get(self, request, *args, **kwargs):
         try:
-            search = self.request.GET.get('search_here')
+            search = self.request.GET.get('search')
             user_list = AccountManagement.get_user(self, search)
-            data = {"object_list": user_list}
+            paginator = Paginator(user_list, 7)
+            page_number = request.GET.get('page')
+            user_list = paginator.get_page(page_number)
+            data = {"page_obj": user_list,
+                    "error_message": 'No such data found'}
             return render(request, "account/user_details_list.html", data)
         except Exception as e:
             logging.error(str(e))
@@ -45,45 +48,53 @@ class SearchUser(View):
             return render(request, "account/user_details_list.html", data)
 
 
-class AddUser(CreateView):
+class AddUser(LoginRequiredMixin, CreateView):
     """
     Administration can create user and set email-id as a password
     """
     model = User
     form_class = AddUserForm
     template_name = 'account/createuser.html'
-    success_url = 'userdetails'
+    success_url = 'userlist'
 
     def post(self, request, *args, **kwargs):
         try:
             form = AddUserForm(request.POST)
             if form.is_valid():
-                userdata = form.save(request)
+                userdata = form.save(commit=False)
                 userdata.set_password(userdata.email)
+                userdata.email_verified = True
                 userdata.save()
-                send_mail(SUBJECT, MESSAGES, request.user.email, [userdata.email], fail_silently=False)
-                return redirect('userdetails')
+                userd = AccountManagement.set_email(self, userdata)
+                return redirect('userlist')
             return render(request, 'account/createuser.html', {'form': form})
         except Exception as e:
             logging.error(str(e))
             return render(request, 'account/createuser.html', {'form': form})
 
 
-class UserProfile(ListView):
+class UserProfile(LoginRequiredMixin,ListView):
     """show the profile of user"""
     model = User
     template_name = 'account/userprofile.html'
 
 
-class DeleteUser(DeleteView):
+class DeleteUser(LoginRequiredMixin, DeleteView):
     """delete the user from userlist"""
     model = User
-    success_url = reverse_lazy('userdetails')
+    success_url = reverse_lazy('userlist')
 
 
-class UpdateUser(UpdateView):
+class UpdateUser(LoginRequiredMixin, UpdateView):
     """User or administration can update the profile of user"""
     model = User
     form_class = UserUpdateForm
     template_name = 'account/update_user.html'
     success_url = reverse_lazy('dashboard')
+
+
+class ChangePassword(PasswordChangeView):
+    """User or administration can change the account password"""
+    form_class = PasswordChangeForm
+    success_url = reverse_lazy('dashboard')
+    template_name = 'account/change_password.html'

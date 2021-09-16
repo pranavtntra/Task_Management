@@ -1,15 +1,24 @@
 {% extends 'dashboard.html'%}
 {% load static %}
+{% block extra_css %}
+<style>
+.error{
+        color:red;
+}
+.errorlist{
+        color:red;
+}
+</style>
+{% endblock %}
 {% block content%}
 <form action="" method="post" id="updateform">
     {% csrf_token %}
     {{form.as_p}}
     <input type="submit" class="btn btn-primary" value="Submit &raquo;">
-    <a class="btn btn-primary" href="{% url 'dashboard' %}">&laquo; Home</a>
 </form>
 {% endblock %}
 {% block extrajs %}
-<script src="{% static 'js/jquery/jquery.validate.min.js' %}"></script>
+<script src="{% static 'js/jquery/jquery_validate.min.js' %}"></script>
 <script src="{% static 'js/jquery/validation.js' %}"></script>
 <script src={% static "js/jquery/custom.js" %}></script>
 {% endblock %}

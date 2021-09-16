@@ -222,5 +222,31 @@ $(document).ready(function() {
         }
 
     });
+    $("#changepassword").validate({
+        rules: {
+            old_password: {
+                required: true,
+            },
+            new_password1: {
+                required: true,
+                minlength: 8
+            },
+            new_password2: {
+                equalTo: "#id_new_password1"
+            },
+        messages: {
+            old_password: {
+                required: "This field is required.",
+            },
+            new_password1: {
+                required: "This field is required.",
+                minlength: "Your password must be at least 8 characters long"
+            },
+            new_password2: {
+                equalTo: "Please enter the same password as above"
+            }
+        }
+        },
+    })
 
 });
