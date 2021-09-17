@@ -6,11 +6,16 @@
 
 
 <title>{% block title %}Projects{% endblock %}</title>
-<input name="search_here" id="search_here" type="text" placeholder="Search.." data-url="{% url 'search-project' %}">
+<input onkeyup="abc(event)" name="search_here" id="search_here" type="text" placeholder="Search.." data-url="{% url 'search-project' %}">
+<strong>Start date: </strong><input type="date" id="startdate" class="search_date"  />
+<strong>End date: </strong><input type="date" id="enddate" class="search_date"/>
+ <input type="submit" value="search" class="btn btn-primary btn"  id="search">
+
+
 
 <div class="span" style="float:right" >
-              <select name="select" id="sort" data-url="{% url 'sort-project' %}">
-                <option value="T+">By Title (Asc)</option>
+              <select name="select" id="sort">
+                <option value="T+" selected>By Title (Asc)</option>
                 <option value="T-">By Title (Desc) </option>
                 <option value="S+">By Start date (Asc)</option>
                 <option value="S-">By Start date (Desc)</option>
@@ -20,24 +25,38 @@
               
         
 </div>
-      
+    
 
 
 <div class="tab-content" id="search_result" >
     {% include  'project/listproject.html' %}
-</div>
+    </div>
+    <br><br>
+   
+    
 <div class="tab-content delete_content">
     <div class="tab-pane fade show active" id="Project-OnGoing" role="tabpanel">
         <div class="row">
-            {% for project in projectlist %}
+             {%for project in projectlist %}
             <div class="col-lg-6 col-md-12">
                 <div class="card">
+                    
                     <div class="card-header">
                         <h3 class="card-title">{{project.title}}</h3>
+                       
                     </div>
                     <div class="card-body">
+                        
+                        <a type="button" href="{% url 'updateproject' project.id %}" class="btn btn-primary a-btn-slide-text" style="float:right; margin-right:75px">
+
+                        <span class="glyphicon glyphicon-pencil"></span> Edit
+                        </a>
                         <span class="tag tag-blue mb-3" id="title"> {{project.title}}</span>
-                        <br>
+                        <form id='delete_project' method="POST" action="{% url 'deleteproject' project.id %}">
+                            {% csrf_token %}
+                            <button class= "btn btn-primary a-btn-slide-text" style="float:right; margin-top:-39px" onClick="return confirm('Are you sure to delete?');">Delete</button>
+                            </form>
+                    
                         <div class="row">
                             <div class="col-5 py-1"><strong>Start Date:</strong></div>
                             <div class="col-7 py-1"id="start_date">{{project.start_date}}</div>
@@ -50,8 +69,10 @@
                             <div class="col-5 py-1"><strong>Project Description:</strong></div>
                             <div class="col-7 py-1"id="description"><strong>{{project.description|safe}}</strong></div>
                             <br> <br>
+                            {% if request.user.is_superuser or request.user.is_staff %} 
                             <button type="button" class="btn btn-primary btn add", value="{{project.id}}"  id ="add" data-url="{% url 'add-member' %}">Add Member</button>
-                             
+                            {% endif %}&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary btn view",  value="{{project.id}}", id ="view" data-url="{% url 'view-member' %}">View Members</button>
                                    
                     </div>
                     </div>
@@ -66,13 +87,18 @@
       <div class="modal-content">
 </div>
 </div>
-
+</div>
+<div class="modal fade" id="modal-view">
+    <div class="modal-dialog">
+      <div class="modal-content">
+</div>
+</div>
+</div>
 {% endblock %} 
 
  {% block extrajs %}
 
-<script src="{% static 'js/jquery/ajax_search.js' %}"></script>
-<script src="{% static 'js/jquery/sort.js' %}"></script>
+ <script src="{% static 'js/jquery/ajax_search.js' %}"></script>
 <script src="{% static 'js/jquery/add_member.js' %}"></script>
 
 {% endblock %} 

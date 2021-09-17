@@ -55,7 +55,7 @@ INSTALLED_APPS = [
     "timeline",
     "djrichtextfield",
     'widget_tweaks',
-
+    "corsheaders",
 ]
 
 DJRICHTEXTFIELD_CONFIG = {

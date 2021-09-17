@@ -1,13 +1,14 @@
-const searchInput = document.getElementById('search_here')
-console.log(searchInput)
 
-const searchdata =(search_here) => {
+const searchdata = () => {
     $.ajax({
         type: "GET",
         url: $("#search_here").data('url'),
 
         data: {
-            'search': search_here
+            'search': $("#search_here").val(),
+            'start_date': $("#startdate").val(),
+            "end_date": $("#enddate").val(),
+            'sort': $('#sort').val(),
         },
         success: function(data){
             $('#search_result').html(data)
@@ -15,63 +16,26 @@ const searchdata =(search_here) => {
         },
         error: function(data) {
             console.log("error")
+          
         }
 
     });
     return false
 }
 
-searchInput.addEventListener('keyup', e=>{
-    console.log(e.target.value);
+document.getElementById('search_here').addEventListener('keyup', e=>{
 
-    searchdata(e.target.value); 
+    searchdata(); 
+})
+
+document.getElementById('sort').addEventListener('change', e=>{
+
+    searchdata(); 
+})
+
+document.getElementById('search').addEventListener('click', e=>{
+
+    searchdata(); 
 })
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// // $(function(){
-
-// //     $('#search').keyup(function() {
-    
-// //         $.ajax({
-        
-// //             url: "//search/",
-// //             data: { 
-// //                 'search_text' : $('#search').val(),
-// //                 'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
-// //             },
-// //             success: searchSuccess,
-// //             dataType: 'html'
-// //         });
-        
-// //     });
-
-// // });
-
-// // function searchSuccess(data, textStatus, jqXHR)
-// // {
-// //     $('#search-results').html(data);
-// // }
