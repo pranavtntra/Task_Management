@@ -24,9 +24,24 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
 
+{% block extra_css %}
+{% endblock %}
+
+
 </head>
 
 <body class="font-montserrat">
+
+{% url 'dashboard' as dashboard %}
+{% url 'create-project' as create-project%}
+{% url 'list-project' as list-project %}
+{% url 'userlist' as userlist %}
+{% url 'createuser' as createuser %}
+{% url 'add_task' as add_task %}
+{% url 'add_subtask' as add_subtask %}
+{% url 'mytask_list' as mytask_list %}
+{% url 'project_tasklist' as project_tasklist %}
+
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
@@ -193,56 +208,54 @@
         <h5 class="brand-name">Task Management<a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
-                <li class="g_heading">Project</li>
-                <li class="active"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
-                <li>
+                <li class="{% if request.path == dashboard %} active {%endif%}"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
+                
+                <li class="{% if request.path == 'create-project' or request.path == 'list-project'  %} active {%endif%}">
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Project</span></a>
                     <ul>
                         {% if request.user.is_superuser %}
-                        <li><a href="{% url 'create-project' %}">Create Project</a></li>
+                        <li class="{% if request.path == 'create-project' %} active {%endif%}"><a href="{% url 'create-project' %}">Create Project</a></li>
                         
                         {% endif %}
-                        <li><a href="{% url 'list-project' %}">Project List</a></li>
+                        <li class="{% if request.path == 'list-project' %} active {%endif%}"><a href="{% url 'list-project' %}">Project List</a></li>
+                    </ul>
+                </li>
+                
+                <li class="{% if request.path == add_task or request.path == project_tasklist or request.path == add_subtask or request.path == mytask_list%} active {%endif%}">
+                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Task</span></a>
+                    <ul>
+                        {% if user.is_staff %}
+                        <li class="{% if request.path == add_task %} active {%endif%}"><a href="{% url 'add_task' %}">Add Task</a></li>
+                        <li class="{% if request.path == project_tasklist %} active {%endif%}"><a href="{% url 'project_tasklist' %}">Task List</a></li>
+                        {% else %}
+                        <li class="{% if request.path == add_subtask %} active {%endif%}"><a href="{% url 'add_subtask' %}">Add Sub Task</a></li>
+                        <li class="{% if request.path == mytask_list %} active {%endif%}"><a href="{% url 'mytask_list'%}">My List</a></li>
+                        {% endif %}
                     </ul>
                 </li>
 
-                <li>
+                    {% if user.is_superuser %}
+                <li class="{% if request.path == userlist or request.path == createuser %} active {%endif%}">
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>User</span></a>
                     <ul>
-                        <li><a href="{% url 'userprofile' %}">Profile</a></li>
-                        {% if user.is_superuser %}
-                        <li><a href="{% url 'userdetails' %}">User Details</a></li>
-                        <li><a href="{% url 'createuser' %}">Create User</a></li>
-                        {% endif %}
-                    
+                        <li class="{% if request.path == userlist %} active {%endif%}"><a href="{% url 'userlist' %}">User List</a></li>
+                        <li class="{% if request.path == createuser %} active {%endif%}"><a href="{% url 'createuser' %}">Create User</a></li>
                     </ul>
                 </li>
-                <li>
-                    <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Task</span></a>
-                    <ul>
-                    {% if user.is_staff %}
-                        <li><a href="{% url 'add_task' %}">Add Task</a></li>
-                        <li><a href="{% url 'project_tasklist'%}">Task List</a></li>
-                      
-                    {% else %}
-                        <li><a href="{% url 'add_subtask' %}">Add Sub Task</a></li>
-                        <li><a href="{% url 'mytask_list'%}">My List</a></li>
                     {% endif %}
-                    </ul>
-                </li>
                 <!-- <li><a href="project-taskboard.html"><i class="fa fa-calendar-check-o"></i><span>Taskboard</span></a></li>
                 <li><a href="project-ticket.html"><i class="fa fa-list-ul"></i><span>Ticket List</span></a></li>
                 <li><a href="project-ticket-details.html"><i class="icon-tag"></i><span>Ticket Details</span></a></li>
                 <li><a href="project-clients.html"><i class="fa fa-user"></i><span>Clients</span></a></li>
                 <li><a href="project-todo.html"><i class="fa fa-check-square-o"></i><span>Todo List</span></a></li> -->
-                <li class="g_heading">App</li>
+                {% comment %} <li class="g_heading">App</li> {% endcomment %}
                 <!-- <li><a href="app-calendar.html"><i class="fa fa-calendar"></i><span>Calendar</span></a></li> -->
-                <li><a href="app-chat.html"><i class="fa fa-comments"></i><span>Chat</span></a></li>
+                {% comment %} <li><a href="app-chat.html"><i class="fa fa-comments"></i><span>Chat</span></a></li> {% endcomment %}
                 <!-- <li><a href="app-contact.html"><i class="fa fa-address-book"></i><span>Contact</span></a></li>
                 <li><a href="app-filemanager.html"><i class="fa fa-folder"></i><span>FileManager</span></a></li>
                 <li><a href="app-setting.html"><i class="fa fa-gear"></i><span>Setting</span></a></li>
                 <!-- <li><a href="page-gallery.html"><i class="fa fa-photo"></i><span>Gallery</span></a></li> -->
-                <li>
+                {% comment %} <li>
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Authentication</span></a>
                     <ul>
                     {% if  user.is_authenticated %}
@@ -253,7 +266,7 @@
                         <li><a href="{% url 'account_reset_password' %}">Forgot password</a></li>  
                     {% endif %}
                     </ul>
-                </li>
+                </li> {% endcomment %}
                 <!-- <li class="g_heading">Support</li>
                 <li><a href="javascript:void(0)"><i class="fa fa-support"></i><span>Need Help?</span></a></li>
                 <li><a href="javascript:void(0)"><i class="fa fa-tag"></i><span>ContactUs</span></a></li> -->
@@ -382,15 +395,15 @@
                             </div>
                         </div> -->
                         <div class="dropdown d-flex">
-                            <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><i class="fa fa-user"></i></a>
+                            <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><img class="card-profile-img" src="{% static 'images/sm/userprofile.jpg' %}" alt="" style="margin:0;padding:0;width:40px;height:40px;"></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
                                 <!-- <a class="dropdown-item" href="page-profile.html"><i class="dropdown-icon fe fe-user"></i> Profile</a>
-                                <a class="dropdown-item" href="app-setting.html"><i class="dropdown-icon fe fe-settings"></i> Settings</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><span class="float-right"><span class="badge badge-primary">6</span></span><i class="dropdown-icon fe fe-mail"></i> Inbox</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fe fe-send"></i> Message</a> -->
+                                -->
+                                <a class="dropdown-item" href="{% url 'userprofile' %}"><i class="dropdown-icon fe fe-log-out"></i> Profile</a>
+                                <a class="dropdown-item" href="{% url 'changepassword' %}"><i class="dropdown-icon fe fe-log-out"></i> Change Password</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="dropdown-icon fe fe-help-circle"></i> Need help?</a>
                                 <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="dropdown-icon fe fe-log-out"></i> Sign out</a>
+                                
                             </div>
                         </div>
                     </div>
