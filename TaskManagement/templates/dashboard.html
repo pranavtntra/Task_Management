@@ -33,6 +33,7 @@
 <body class="font-montserrat">
 
 {% url 'dashboard' as dashboard %}
+
 {% url 'createproject' as createproject%}
 {% url 'listproject' as listproject %}
 {% url 'userdetails' as userdetails %}
@@ -208,7 +209,6 @@
         <h5 class="brand-name">Task Management<a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
-
                 <li class="{% if request.path == dashboard %} active {%endif%}"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
                 <li class="{% if request.path == createproject or request.path == listproject  %} active {%endif%}">
 
