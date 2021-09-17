@@ -1,16 +1,14 @@
 {% extends 'dashboard.html' %}
 {% block content %}
-<title>{% block title %}My Task List{% endblock %}</title>
- <div class="section-body">
-            <div class="container-fluid">
+<title>{% block title %}Sub Task List{% endblock %}</title>
+ <div class="container-fluid">
                 <div class="d-flex justify-content-between align-items-center">
                     <ul class="nav nav-tabs page-header-tab">
-                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#todo-list">Task List</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'tasksublist'%}">subtask</a></li>
+                        <li class="nav-item"><a class="nav-link " href="{% url 'mytask_list' %}">Task List</a></li>
+                        <li class="nav-item"><a class="nav-link active" href="{% url 'tasksublist'%}">subtask</a></li>
                     </ul>
                 </div>
             </div>
-        </div>
 <div class="section-body mt-3">
     <div class="container-fluid">
         <div class="tab-content">
@@ -18,7 +16,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="table-responsive todo_list">
-                            <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap">
+                                        <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap">
                                             <thead>
                                             <tr>
                                             <th>title</th>
@@ -26,21 +24,24 @@
                                             <th class="w">priority</th>
                                             <th class="w">status</th>
                                             <th class="w">date</th>
+                                            <th class="w">Task Name</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                         
-                                            {% for task in tasklist %}
+                                            {% for t in subtasklist %}
                                             <tr>
-                                                <th><a href="{% url 'task_detail' task.pk %}">{{task.title}}</a></th>
-                                                <th> {{task.project}}</th>
-                                                <th> {{task.priority}}</th>
-                                                <th><span class="tag tag-info">{{task.get_status_display}}</span></th>
-                                                <th> {{task.start_date|date:'d M Y' }}to<br>{{task.end_date|date:'d M Y' }}</th>
+                                                <th><a href="{% url 'task_detail' t.pk %}">{{t.title}}</a></th>
+                                                <th> {{t.project}}</th>
+                                                <th> {{t.priority}}</th>
+                                                <th><span class="tag tag-info">{{t.get_status_display}}</span></th>
+                                                <th> {{t.start_date|date:'d M Y' }}to<br>{{t.end_date|date:'d M Y' }}</th>
+                                                <th><a href="{% url 'task_detail' t.pk %}"> {{t.parent_task}}</th>
                                             </tr>
                                             {% endfor %}
+                                           
                                             </tbody>
-                            </table>  
+                                        </table>
                         </div>
                     </div>    
                 </div>

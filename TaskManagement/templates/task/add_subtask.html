@@ -1,13 +1,26 @@
 {% extends 'dashboard.html' %}
 {% load static %}
 {% block content %}
-<title>{% block title %}Add my subTask{% endblock %}</title>
+<title>{% block title %}Add subTask{% endblock %}</title>
 <div class="tab-content">
     <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
         <div class="card">
-            <form class="card-body" action="" method="post"  data-url="{% url 'ajax_load_project' %}" id="add_subtask">
-                {% csrf_token %} 
-                {{form.as_p}}
+            <form class="card-body" action="" method="post" data-url="{% url 'ajax_load_task' %}"  id="add_subtask">
+                {% csrf_token %}
+
+                <div ></div>
+                {% for field in form %}
+                  <div class= "row">
+                    <label class="col-md-3 col-form-label">{{field.label_tag}} <span class="text-danger">*</span></label>
+                    <div class="col-md-7">{{field}}</div>
+                  </div>
+                  {% for error in field.errors %}
+                    <p style = "color : red">{{error}}
+                  {% endfor %}</p>
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                  <p style = "color : red">{{error}}</p>
+                {% endfor %} 
                 <div class="form-group row">
                     <label class="col-md-3 col-form-label"></label>
                     <div class="col-md-7">
@@ -19,6 +32,8 @@
         </div>
     </div>
 </div>
+
+	
 {% endblock  %}
 {% block extrajs %}
 <script src="{% static 'js/jquery/jquery.js' %}"></script>
@@ -26,6 +41,7 @@
 	<script src="{% static 'js/jquery/jquery_validate.min.js' %}"></script>
 	<script src="{% static 'js/jquery/bootstrap.min.js' %}"></script>
 	<script src="{% static 'js/jquery/validation.js' %}"></script>
-    <script src="{% static 'js/jquery/jquery.js' %}"></script>
-    <script src="{% static 'js/jquery/subtask_project.js' %}"></script> 
+  <script src="{% static 'js/jquery/jquery.js' %}"></script>
+  <script src="{% static 'js/jquery/subtask_project.js' %}"></script> 
+
 {% endblock %}

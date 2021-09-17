@@ -7,12 +7,12 @@ from task.constants import PRIORITY, STATUS, TASKTYPES, SPRINT_STATUS
 # Create your models here.
 
 PRIORITY = PRIORITY
-STATUS = STATUS
 TASKTYPES = TASKTYPES
 SPRINT_STATUS = SPRINT_STATUS
 
 
 class Task(models.Model):
+    STATUS = STATUS
     """Task is a model of task where number of tasks will be created for particular project"""
 
     title = models.CharField(max_length=50, blank=True, null=True)
