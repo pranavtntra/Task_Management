@@ -2,14 +2,14 @@
 <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap"  id="mytable">
     <thead>
         <tr>
-            <th onclick="sortTable(0)">title</th>
+            <th class="dropdown-toggle" onclick="sortTable(0)">title</th>
             <th >assigned to</th>
-            <th class="w" onclick="sortTable(0)">status</th>
-            <th class="w" onclick="sortTable(0)">priority</th>
-            <th class="w" onclick="sortTable(0)">tasktype</th> 
+            <th class="dropdown-toggle" onclick="sortTable(0)">status</th>
+            <th class="dropdown-toggle" onclick="sortTable(0)">priority</th>
+            <th class="dropdown-toggle" onclick="sortTable(0)">tasktype</th> 
+            <th class="">Startdate to Enddate</th> 
         </tr>
     </thead> 
-    
     <tbody id="search-results">
         {% if not task %}
                     <p>{{error_message}}</p>

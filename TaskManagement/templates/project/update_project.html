@@ -1,0 +1,46 @@
+{% extends "dashboard.html"%}
+{% load static %}
+{% load i18n %}
+<title>{% block title %}Edit Project{% endblock %}</title>
+{% block content%}
+{% if request.user.is_superuser %}
+<div class="form-group row">
+    <form class="card-body" id="updateproject" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+            <label class="col-md-3 col-form-label">{{field.label_tag}} <span class="text-danger">*</span></label>
+            <div class="col-md-7">{{field}}
+
+            </div>
+            {% for error in field.errors %}
+                <p style = "color : red">{{error}}
+            {% endfor %}</p>
+        {% endfor %}
+
+          
+        
+        
+        {% for error in form.non_field_errors %}
+            <p style = "color : red">{{error}}</p>
+        {% endfor %}
+        </p>
+    
+            
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label"></label>
+            <div class="col-md-7">
+                <input type="submit" class="btn btn-primary" value="Update">
+            </div>
+        </div>
+    </form>
+</div>  
+{% endif %}                          
+{% endblock %}
+
+
+{% block extrajs %}
+
+<script src="{% static 'js/jquery/project_validation.js' %}"></script>
+
+{% endblock %}                        
+       

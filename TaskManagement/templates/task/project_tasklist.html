@@ -1,36 +1,30 @@
-{% extends 'dashboard.html' %} 
-{% load static %}
-{% block content %}
+{% extends 'dashboard.html' %} {% load static %} {% block content %}
 <title>{% block title %}Task List{% endblock %}</title>
 <div class="section-body mt-2">
     <div class="container-fluid">
         <div class="tab-content">
             <div class="row">
                 <div class="col-sm-2">
-                <select id="project_tasklist" data-url='{% url "tasklist" %}'>
+                    <select id="project_tasklist" data-url='{% url "tasklist" %}'>
                     <option disabled = "true" selected> Projects </option>
                         {% for project in projectlist %}
-                        <option value={{project.id}} name="id">{{ csrf_input }}{{project.title }}</option>
+                        <option value={{project.id}} id="project_id">{{ csrf_input }}{{project.title }}</option>
                         {% endfor %}
-                </select>
+                    </select>
                 </div>
                 <div class="col-sm-4">
-                <input name="search_here" id="search_here" data-url="{% url 'search_task' %}" type="text" placeholder="Search..">
+                    <input name="search_here" id="search_here" data-url="{% url 'search_task' %}" type="text" placeholder="Search..">
                 </div>
-                
                 <div class="col-sm-4">
-                <form method="GET" action={% url 'searchbydates' %}>
-                {% comment %} {% csrf_token %} {% endcomment %}
-                From: <input type="date"name="start_date" id="start_date" >
-                to <input type="date"name="end_date">  
-                <input type="submit" value="search" id="search"> 
-                </form>
+                    <form method="GET" action={% url 'searchbydates' %}>
+                        {% comment %} {% csrf_token %} {% endcomment %} From: <input type="date" name="start_date" id="start_date"> to <input type="date" name="end_date">
+                        <input type="submit" value="search" id="search">
+                    </form>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
-
 <div class="container-fluid">
     <div class="tab-content">
         <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
@@ -38,7 +32,7 @@
                 <div class="card-body">
                     <div class="table-responsive todo_list">
                         <div id="search_result">
-                            {% include  'task/search_list.html' %}
+                            {% include 'task/search_list.html' %}
                         </div>
                     </div>
                 </div>
@@ -46,9 +40,8 @@
         </div>
     </div>
 </div>
-{% endblock %}
-{% block extrajs %}
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    <script src="{% static 'js/jquery/tasklistbyproject.js' %}"></script>  
-    <script src="{% static 'js/jquery/searchtask.js' %}"></script>
+{% endblock %} {% block extrajs %}
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script src="{% static 'js/jquery/tasklistbyproject.js' %}"></script>
+<script src="{% static 'js/jquery/searchtask.js' %}"></script>
 {% endblock %}

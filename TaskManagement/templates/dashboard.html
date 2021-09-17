@@ -33,9 +33,9 @@
 <body class="font-montserrat">
 
 {% url 'dashboard' as dashboard %}
-{% url 'create-project' as create-project%}
-{% url 'list-project' as list-project %}
-{% url 'userlist' as userlist %}
+{% url 'createproject' as createproject%}
+{% url 'listproject' as listproject %}
+{% url 'userdetails' as userdetails %}
 {% url 'createuser' as createuser %}
 {% url 'add_task' as add_task %}
 {% url 'add_subtask' as add_subtask %}
@@ -208,16 +208,17 @@
         <h5 class="brand-name">Task Management<a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
             <ul class="metismenu">
-                <li class="{% if request.path == dashboard %} active {%endif%}"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>
-                
-                <li class="{% if request.path == 'create-project' or request.path == 'list-project'  %} active {%endif%}">
+
+                <li class="{% if request.path == dashboard %} active {%endif%}"><a href="{% url 'dashboard' %}"><i class="fa fa-dashboard"></i><span>Dashboard</span></a></li>                        
+                <li class="{% if request.path == createproject or request.path == listproject  %} active {%endif%}">
+
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Project</span></a>
                     <ul>
                         {% if request.user.is_superuser %}
-                        <li class="{% if request.path == 'create-project' %} active {%endif%}"><a href="{% url 'create-project' %}">Create Project</a></li>
+                        <li class="{% if request.path == createproject %} active {%endif%}"><a href="{% url 'createproject' %}">Create Project</a></li>
                         
                         {% endif %}
-                        <li class="{% if request.path == 'list-project' %} active {%endif%}"><a href="{% url 'list-project' %}">Project List</a></li>
+                        <li class="{% if request.path == listproject %} active {%endif%}"><a href="{% url 'listproject' %}">Project List</a></li>
                     </ul>
                 </li>
                 

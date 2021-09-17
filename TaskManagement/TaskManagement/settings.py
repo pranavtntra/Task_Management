@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     "task",
     "timeline",
     "djrichtextfield",
+    'widget_tweaks',
     "corsheaders",
 ]
 
