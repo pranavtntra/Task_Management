@@ -1,0 +1,32 @@
+{% extends "dashboard.html"%}
+{% load static %}
+{% block content%}
+{% if user.is_authenticated %}
+        <title>{% block title %}Users{% endblock %}</title>
+        {% if request.user.is_superuser %}
+        {% comment %} <div class="container-fluid"> {% endcomment %}
+        <div class="row">
+            <div class="col-md-10">
+                <input name="search_here" url="{% url 'searchuser' %}" value="{% if search %}{{search}}{% else %}{% endif %}" id="search_here" type="text" placeholder="Search..">
+            </div>
+            <div class="col-md-2">
+             <a class="btn btn-outline-dark btn-sm btn-block mb-3" href="{% url 'createuser' %}">Create User +</a>
+            </div> 
+        </div>
+
+        <div id="search_result">
+        {% include  'account/user_details_list.html' %}
+        </div>
+        {% endif %}
+    </div> 
+
+{% else %}
+    <li><a href="{% url 'account_email' %}">Change E-mail</a></li>
+    <li><a href="{% url 'account_logout' %}">Sign Out</a></li>
+{% endif %}
+{% endblock %}
+
+{% block extrajs %}
+<script src={% static "js/jquery/custom.js" %}></script>
+
+{% endblock %}

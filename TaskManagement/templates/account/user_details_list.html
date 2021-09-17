@@ -1,6 +1,6 @@
 {% load static %}
 <div class="shadow-lg mb-5 bg-body rounded">
-{% if not object_list %}
+{% if not page_obj %}
         <p>{{error_message}}</p>
 {% else %}
 <table id="btable" class="table table-sm table-hover">
@@ -13,7 +13,7 @@
         <th class="dropdown-toggle" onclick="sortTable(5)"><b>Designation</b></th>
         <th colspan=2><b><u>Action</u></b></th>
     </tr>
-    {% for details in object_list %}
+    {% for details in page_obj %}
     <tr class="">
         <td><b>{{details.username}}</b></td>
         <td><b>{{details.first_name}}</b></td>
@@ -22,16 +22,25 @@
         <td><b>{{details.email}}</b></td>
         <td><b>{{details.designation}}</b></td>
         <td>
-        <a type="button" href="{% url 'updateuser' details.id %}" class="btn btn-outline-secondary">Update</a></td>     
+            <a type="button" href="{% url 'updateuser' details.id %}" class="btn btn-outline-secondary">Update</a>
+        </td>
         <td>
             <form id='person-delete' method="POST" action="{% url 'deleteuser' details.id %}">
-                {% csrf_token %}
-                <button class="btn btn-outline-danger" onClick="return confirm('Are you sure to delete?');">Delete</button>
+            {% csrf_token %}
+            <button class="btn btn-outline-danger" onClick="return confirm('Are you sure to delete?');">Delete</button>
             </form>
-        </td>
+        </td>  
+        
     </tr>
-    {% endfor %}   
+    {% endfor %}  
     
 </table>
+<div>
+    {% include 'account/_pagination_ajax.html' with page_obj=page_obj %}
+</div>
 {% endif %}
 </div>
+{% block extrajs %}
+<script src={% static "js/jquery/custom.js" %}></script>
+
+{% endblock %}

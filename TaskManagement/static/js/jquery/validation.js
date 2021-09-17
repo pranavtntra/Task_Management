@@ -236,10 +236,10 @@ $(document).ready(function() {
             },
         messages: {
             old_password: {
-                required: "Please provide a password",
+                required: "This field is required.",
             },
             new_password1: {
-                required: "Please provide a password",
+                required: "This field is required.",
                 minlength: "Your password must be at least 8 characters long"
             },
             new_password2: {

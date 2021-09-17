@@ -1,5 +1,15 @@
 {% extends 'dashboard.html'%}
 {% load static %}
+{% block extra_css %}
+<style>
+.error{
+        color:red;
+}
+.errorlist{
+        color:red;
+}
+</style>
+{% endblock %}
 {% block content%}
 {% if user.is_authenticated %}
         <title>{% block title %}Add User{% endblock %}</title>
