@@ -1,42 +1,40 @@
-{% extends "dashboard.html"%}
-
-{% block content %}
+{% extends "dashboard.html"%} {% block content %}
 <title>{% block title %}Task Detail{% endblock %}</title>
 <div class="tab-content">
     <div class="tab-pane fade show active" id="Project-OnGoing" role="tabpanel">
-        
+
         <div class="row">
             <div class="">
                 <div class="card">
                     <div class="card-header">
-                            <h3 class="card-title"><strong>Task:</strong>{{task_detail.title}}</h3>
-                            <div class="card-options">
-                                <label class="custom-switch m-0">
+                        <h3 class="card-title"><strong>Task:</strong>{{task_detail.title}}</h3>
+                        <div class="card-options">
+                            <label class="custom-switch m-0">
                                     <input type="checkbox" value="1" class="custom-switch-input" checked>
                                
                                 </label>
-                                <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
-                            </div>
+                            <a href="#" class="card-options-collapse" data-toggle="card-collapse"><i class="fe fe-chevron-up"></i></a>
+                        </div>
                     </div>
                     <div class="card-body">
-                            <div class="row">
-                                <div class="col-5 py-1"><strong>Description:</strong></div>
-                                <div class="col-7 py-1">{{task_detail.description| safe}}</div>
-                                <div class="col-5 py-1"><strong>Start Date:</strong></div>
-                                <div class="col-7 py-1">{{task_detail.start_date}}</div>
-                                <div class="col-5 py-1"><strong>End Date:</strong></div>
-                                <div class="col-7 py-1">{{task_detail.end_date}}</div>
-                                <div class="col-5 py-1"><strong>Status</strong></div>
-                                <div class="col-7 py-1"><strong>{{ task_detail.status}}</strong></div>
-                                <div class="col-5 py-1"><strong>Priority</strong></div>
-                                <div class="col-7 py-1"><strong>{{task_detail.priority}}</strong></div>
-                                <div class="col-7 py-1">
-                                
+                        <div class="row">
+                            <div class="col-5 py-1"><strong>Description:</strong></div>
+                            <div class="col-7 py-1">{{task_detail.description| safe}}</div>
+                            <div class="col-5 py-1"><strong>Start Date:</strong></div>
+                            <div class="col-7 py-1">{{task_detail.start_date}}</div>
+                            <div class="col-5 py-1"><strong>End Date:</strong></div>
+                            <div class="col-7 py-1">{{task_detail.end_date}}</div>
+                            <div class="col-5 py-1"><strong>Status</strong></div>
+                            <div class="col-7 py-1"><strong>{{ task_detail.status}}</strong></div>
+                            <div class="col-5 py-1"><strong>Priority</strong></div>
+                            <div class="col-7 py-1"><strong>{{task_detail.priority}}</strong></div>
+                            <div class="col-7 py-1">
+                                <a class="btn btn-lg btn-primary"  href="{% url 'updatestatus' %}">Update</a>
                             </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
     </div>
-</div>
-{% endblock  %}
+    {% endblock %}

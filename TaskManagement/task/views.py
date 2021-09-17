@@ -1,8 +1,7 @@
-from django.views.generic.edit import UpdateView
 from project.models import Project
 from task.models import Task
 from django.views.generic import CreateView, ListView, View, DetailView
-from task.forms import CreateTaskForm, CreateSubTaskForm
+from task.forms import CreateTaskForm, CreateSubTaskForm, UpdateStatusForm
 from django.http import JsonResponse
 from django.shortcuts import render
 import logging
@@ -135,3 +134,10 @@ class TaskListBetweenDates(View):
             logging.error(str(e))
             return render(request, "task/search_list.html", data)
 
+
+class UpdateStatus(CreateView):
+    form_class = UpdateStatusForm
+    template_name = 'task/update_status.html'
+
+    # def get_queryset(self):
+    #     return super().get_queryset()
