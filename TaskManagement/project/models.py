@@ -22,7 +22,7 @@ class Project(models.Model):
         return str(self.title)
 
     def get_absolute_url(self):
-        return reverse("list-project")
+        return reverse("listproject")
 
 
 class Role(models.Model):
