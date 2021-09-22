@@ -1,0 +1,72 @@
+{% extends "dashboard.html"%}
+{% load static %}
+{% load i18n %}
+{% load task_count_tags %}
+<title>{% block title %}Projects{% endblock %}</title>
+{% block content%}
+<div class="row">
+    {% for project in active_projects%}
+    <div class="col-xl-6 col-lg-12">
+        <div class="card">
+            {% get_task_count project as tasks_count %}
+            {% get_team_size project as team_count %}
+            {% get_project_finish project as project_finish%}
+            <div class="card-header">
+                {% get_task_status_count project as tasks_status_count %}
+                {% get_role_count project as role_count %}
+                <h3 class="card-title">{{project.title}}</h3>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-4 border-right pb-1 pt-1">
+                        <label class="mb-0 font-13">Finish</label>
+                        <h4 class="font-20 font-weight-bold text-col-blue counter">{{project_finish}}%</h4>
+                    </div>
+                    <div class="col-4 border-right pb-1 pt-1">
+                        <label class="mb-0 font-13">Sprint</label>
+                        <h4 class="font-20 font-weight-bold text-col-blue counter">0</h4>
+                    </div>
+                    <div class="col-4 pb-1 pt-1">
+                        <label class="mb-0 font-13">Tasks</label>
+                        <h4 class="font-20 font-weight-bold text-col-blue counter">{{tasks_count}}</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row text-center">
+                    {% for key, value in tasks_status_count.items %}
+                    <div class="col-3 border-right pb-1 pt-1">  
+                        <label class="mb-0 font-11">{{key}}</label>
+                        <h4 class="font-15 font-weight-bold text-col-blue counter">{{value}}</h4> 
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-6 border-right">
+                        <label class="mb-0 font-11">Team Lead:</label>
+                        <h4 class="font-18 font-weight-bold text-col-blue counter">{{project.project_lead}}</h4>
+                    </div>
+                    <div class="col-6">
+                        <label class="mb-0 font-11">Team Size:</label>
+                        <h4 class="font-18 font-weight-bold text-col-blue counter">{{team_count}}</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row text-center">
+                {% for key, value in role_count.items %}
+                <div class="col-3 border-right pb-1 pt-1">
+                    <label class="mb-0 font-11">{{key}}</label>
+                    <h4 class="font-15 font-weight-bold text-col-blue counter">{{value}}</h4>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
