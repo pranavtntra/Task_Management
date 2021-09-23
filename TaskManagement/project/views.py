@@ -132,6 +132,8 @@ class UpdateProjectView(LoginRequiredMixin, UpdateView):
 class DeleteProjectView(DeleteView):
     model = Project
     success_url = reverse_lazy('listproject')
+
+    
     
 
 

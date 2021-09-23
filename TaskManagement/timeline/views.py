@@ -1,28 +1,30 @@
-from logging import exception
-from django import forms
-import django
-from django.views.generic.base import View
 from django.views.generic.list import ListView
-from accounts.models import User
 from project.models import Project
-from task.models import Task
-from django.db.models import Q
 from django.shortcuts import render
 from django.views.generic import TemplateView
-from .services import get_projects, get_dashboard
+from .services import get_projects, get_dashboard, get_piechart
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .constants import PIECHART_LABELS
+
 import logging
 
 # Create your views here.
 
 
-class Dashboard(TemplateView):
+class Dashboard(LoginRequiredMixin, TemplateView):
     """
     Show the details on dashboard
     """
     template_name = "dashboard.html"
 
-    def get_context_data(self, *args, **kwargs):
-        return get_dashboard(self, Dashboard)
+    # def get_context_data(self, *args, **kwargs):
+    #     return get_dashboard(self, Dashboard)
+
+    def get(self, request):
+        data = get_piechart(self.request.user)
+        labels = PIECHART_LABELS
+        dashboard_data = get_dashboard(self, Dashboard)
+        return render(request, 'dashboard.html', {'labels': labels, 'data': data, 'dashboard_data': dashboard_data})
 
 
 class ActiveProjects(ListView):

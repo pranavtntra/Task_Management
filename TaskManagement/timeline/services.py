@@ -1,5 +1,6 @@
 from project.models import Project
 from accounts.models import User
+from django.db.models import Q
 import logging
 
 
@@ -32,3 +33,12 @@ def get_projects(user):
         employee = Project.objects.filter(projectteam__teammate=user, status=1)
         active_projects = project_manager | employee
         return active_projects.distinct()
+
+
+def get_piechart(user):
+    if user.is_superuser:
+        projects = [Project.objects.filter(status=1).count(),Project.objects.filter(status=2).count(),Project.objects.filter(status=3).count()]
+        return projects
+    else:
+        projects = [Project.objects.filter(((Q(project_lead=user)|Q(projectteam__teammate=user)) & Q(status=1))).distinct().count(),Project.objects.filter(((Q(project_lead=user)|Q(projectteam__teammate=user)) & Q(status=2))).distinct().count(),Project.objects.filter(((Q(project_lead=user)|Q(projectteam__teammate=user)) & Q(status=3))).distinct().count()]
+        return projects
