@@ -5,6 +5,7 @@
 {% load widget_tweaks %}
 
 
+
 <title>{% block title %}Projects{% endblock %}</title>
 <input onkeyup="abc(event)" name="search_here" id="search_here" type="text" placeholder="Search.." data-url="{% url 'search-project' %}">
 <strong>Start date: </strong><input type="date" id="startdate" class="search_date"  />
@@ -40,7 +41,6 @@
              {%for project in projectlist %}
             <div class="col-lg-6 col-md-12">
                 <div class="card">
-                    
                     <div class="card-header">
                         <h3 class="card-title">{{project.title}}</h3>
                        
@@ -51,7 +51,7 @@
 
                         <span class="glyphicon glyphicon-pencil"></span> Edit
                         </a>
-                        <span class="tag tag-blue mb-3" id="title"> {{project.title}}</span>
+                        <span class="tag tag-blue mb-3" id="title"> {{project.title}} </span>
                         <form id='delete_project' method="POST" action="{% url 'deleteproject' project.id %}">
                             {% csrf_token %}
                             <button class= "btn btn-primary a-btn-slide-text" style="float:right; margin-top:-39px" onClick="return confirm('Are you sure to delete?');">Delete</button>
@@ -65,7 +65,7 @@
                             <div class="col-5 py-1"><strong>Status:</strong></div>
                             <div class="col-7 py-1" id="status">{{ project.get_status_display }}</div>
                             <div class="col-5 py-1"><strong>Project Lead:</strong></div>
-                            <div class="col-7 py-1"id="lead"><strong>{{project.project_lead}}</strong></div>
+                            <div class="col-7 py-1"id="lead"><strong>{{project.project_lead}} </strong></div>
                             <div class="col-5 py-1"><strong>Project Description:</strong></div>
                             <div class="col-7 py-1"id="description"><strong>{{project.description|safe}}</strong></div>
                             <br> <br>
