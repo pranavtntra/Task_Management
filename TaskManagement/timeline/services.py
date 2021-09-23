@@ -18,10 +18,9 @@ def get_dashboard(self, Dashboard):
         project_manager = Project.objects.filter(project_lead=self.request.user, status=1).count()
         employee = Project.objects.filter(projectteam__teammate=self.request.user, status=1).count()
         dashboard["active"] = project_manager + employee
-        return dashboard
     except Exception as e:
         logging.error(str(e))
-        return dashboard
+    return dashboard
 
 
 def get_projects(user):
