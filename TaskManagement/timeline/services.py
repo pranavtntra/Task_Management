@@ -2,7 +2,7 @@ from project.models import Project
 from accounts.models import User
 from django.db.models import Q
 import logging
-
+from project.constants import STATUS
 
 def get_dashboard(self, Dashboard):
     dashboard = {}
@@ -35,10 +35,17 @@ def get_projects(user):
         return active_projects.distinct()
 
 
+def get_status_count(obj, status):
+    return obj.filter(status=status).count()
+
+
 def get_piechart(user):
-    if user.is_superuser:
-        projects = [Project.objects.filter(status=1).count(),Project.objects.filter(status=2).count(),Project.objects.filter(status=3).count()]
-        return projects
+    projects = []
+    if not user.is_superuser:
+        project = Project.objects.filter(((Q(project_lead=user)|Q(projectteam__teammate=user)))).distinct()
     else:
-        projects = [Project.objects.filter(((Q(project_lead=user)|Q(projectteam__teammate=user)) & Q(status=1))).distinct().count(),Project.objects.filter(((Q(project_lead=user)|Q(projectteam__teammate=user)) & Q(status=2))).distinct().count(),Project.objects.filter(((Q(project_lead=user)|Q(projectteam__teammate=user)) & Q(status=3))).distinct().count()]
-        return projects
+        project = Project.objects.all()
+    for status in STATUS:
+        projects.append(get_status_count(project, status[0]))
+    return projects
+    
