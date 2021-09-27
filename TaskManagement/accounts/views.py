@@ -44,7 +44,7 @@ class SearchUser(LoginRequiredMixin, View):
             return render(request, "account/user_details_list.html", data)
         except Exception as e:
             logging.error(str(e))
-            data = {"object_list": user_list}
+            data = {"page_obj": user_list}
             return render(request, "account/user_details_list.html", data)
 
 

@@ -43,6 +43,7 @@
 {% url 'mytask_list' as mytask_list %}
 {% url 'project_tasklist' as project_tasklist %}
 
+
 <!-- Page Loader -->
 <div class="page-loader-wrapper">
     <div class="loader">
@@ -203,8 +204,6 @@
     </div>
    
 
-   
-
     <div id="left-sidebar" class="sidebar ">
         <h5 class="brand-name">Task Management<a href="javascript:void(0)" class="menu_option float-right"><i class="icon-grid font-16" data-toggle="tooltip" data-placement="left" title="Grid & List Toggle"></i></a></h5>
         <nav id="left-sidebar-nav" class="sidebar-nav">
@@ -245,7 +244,6 @@
                 </li>
                     {% endif %}
 
-
                 <li>
                     <a href="javascript:void(0)" class="has-arrow arrow-c"><i class="fa fa-lock"></i><span>Reports</span></a>
                     <ul>
@@ -260,8 +258,6 @@
                         <li><a href="">Employee Report</a></li>
                     </ul>
                 </li>
-
-                
             </ul>
         </nav>        
     </div>
@@ -272,24 +268,20 @@
             <div class="page-header">
                 <div class="left">
                     <a href="javascript:void(0)" class="icon menu_toggle mr-3"><i class="fa  fa-align-left"></i></a>
-                    {% block title %}{{ section.title }}{% endblock %}
-                    
+                    {% block title %}
+                        <h4>Welcome {{request.user.username}}!</h4>
+                    {% endblock %}     
                 </div>
                 <div class="right">
-
-                     
-                    <div class="notification d-flex">
-                        
+                    {{request.user.username}} 
+                    <div class="notification d-flex">    
                         <div class="dropdown d-flex">
                             <a class="nav-link icon d-none d-md-flex btn btn-default btn-icon ml-2" data-toggle="dropdown"><img class="card-profile-img" src="{% static 'images/sm/userprofile.jpg' %}" alt="" style="margin:0;padding:0;width:40px;height:40px;"></a>
                             <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                <!-- <a class="dropdown-item" href="page-profile.html"><i class="dropdown-icon fe fe-user"></i> Profile</a>
-                                -->
                                 <a class="dropdown-item" href="{% url 'userprofile' %}"><i class="dropdown-icon fe fe-log-out"></i> Profile</a>
                                 <a class="dropdown-item" href="{% url 'changepassword' %}"><i class="dropdown-icon fe fe-log-out"></i> Change Password</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="dropdown-icon fe fe-log-out"></i> Sign out</a>
-                                
+                                <a class="dropdown-item" href="{% url 'account_logout' %}"><i class="dropdown-icon fe fe-log-out"></i> Sign out</a>  
                             </div>
                         </div>
                     </div>
@@ -300,11 +292,95 @@
     <div class="section-body mt-3">
         <div class="container-fluid">
             {% block content%}
+            {% if user.is_superuser %}
+                <div class="row clearfix row-deck">
+                    <div class="col-xl-2 col-lg-4 col-md-6">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Total Users</h3>
+                            </div>
+                        <div class="card-body">
+                        <h5 class="number mb-0 font-32 counter">{{dashboard_data.total_user}}</h5>
+                        <span class="font-12">Total employees...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-4 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Project Manager</h3>
+                        </div>
+                    <div class="card-body">
+                    <h5 class="number mb-0 font-32 counter">{{dashboard_data.project_manager}}</h5>
+                    <span class="font-12">Currently Project Manager...</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-4 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                        <h3 class="card-title">Employees</h3>
+                        </div>
+                        <div class="card-body">
+                        <h5 class="number mb-0 font-32 counter">{{dashboard_data.employee}}</h5>
+                        <span class="font-12">Currently Project members...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-4 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Total Projects</h3>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="number mb-0 font-32 counter">{{dashboard_data.total_projects}}</h5>
+                            <span class="font-12">Total Projects...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-2 col-lg-4 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Active Projects</h3>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="number mb-0 font-32 counter">{{dashboard_data.active_projects}}</h5>
+                            <span class="font-12">Total Working Projects...<a href="{% url 'active_projects' %}">View</a></span>
+                        </div>
+                    </div>
+                </div>
+                {% else %}
+                <div class="row clearfix row-deck">
+                    <div class="col-xl-2 col-lg-4 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Total Projects</h3>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="number mb-0 font-32 counter">{{dashboard_data.user_total_project}}</h5>
+                            <span class="font-12">Total Projects...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-xl-2 col-lg-4 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Active Projects</h3>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="number mb-0 font-32 counter">{{dashboard_data.active}}</h5>
+                            <span class="font-12">Total Working Projects...<a href="{% url 'active_projects' %}">View</a></span>
+                        </div>
+                    </div>
+                </div>
+                </div>
+                {% endif %}
+                {% include 'timeline/piechart.html'%}
             {% endblock %}     
         </div>
     </div>
 </div>            
-
 
 <script src="{% static 'js/jquery/jquery.js' %}"></script>
 <script src="{% static 'bundles/lib.vendor.bundle.js' %}"></script>
@@ -314,7 +390,6 @@
 <script src="{% static 'bundles/c3.bundle.js' %}"></script>
 <script src="{% static 'js/jquery/bootstrap.min.js' %}"></script>
 <script src="{% static 'js/core.js' %}"></script>
-{% comment %} <script src="{% static 'js/page/project-index.js' %}"></script> {% endcomment %}
 
 {% block extrajs %}
 {% endblock %}
