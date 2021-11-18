@@ -14,4 +14,5 @@ urlpatterns = [
     path('searchbydates/', TaskListBetweenDates.as_view(), name='searchbydates'),
     path('ajax/load_task/', views.load_task, name='ajax_load_task'),
     path('updatestatus/', UpdateStatus.as_view(), name="updatestatus"),
+    path('load_message', views.load_message, name="load_message"),
 ]

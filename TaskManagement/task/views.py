@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from project.models import Project
 from task.models import Task
 from django.views.generic import CreateView, ListView, View, DetailView
@@ -22,6 +23,17 @@ class CreateTaskView(LoginRequiredMixin, PassRequestToFormViewMixin, CreateView)
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         return super(CreateTaskView, self).form_valid(form)
+
+
+def load_message(request):
+    assigned_to = request.GET.get('assigned_to')
+    print(assigned_to)
+    task = Task.objects.filter(assigned_to=assigned_to)
+    print(task)
+    task_count = task.count()
+    print(task)
+
+    return HttpResponse(task_count)
 
 
 class CreateSubTaskView(LoginRequiredMixin, PassRequestToFormViewMixin, CreateView):
@@ -108,6 +120,7 @@ class TaskList(LoginRequiredMixin, View):
 
 class SearchTaskView(View):
     """for search task in all the tasks"""
+
     def get(self, request):
         try:
             project_id = self.request.GET.get('id', None)
@@ -122,6 +135,7 @@ class SearchTaskView(View):
 
 class TaskListBetweenDates(View):
     """ Display task in range of selected dates"""
+
     def get(self, request):
         try:
             project_id = self.request.GET.get('id', None)
