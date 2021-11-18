@@ -14,30 +14,30 @@ class MyCustomSignupForm(SignupForm):
         required=True,
         max_length=122,
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Enter your email name"}
+            attrs={"placeholder": "Enter your email name"}
         ),
     )
     username = forms.CharField(
         max_length=122,
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Enter your username"}
+            attrs={"placeholder": "Enter your username"}
         ),
     )
     first_name = forms.CharField(
         max_length=122,
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Enter your first name"}
+            attrs={"placeholder": "Enter your first name"}
         ),
     )
     last_name = forms.CharField(
         max_length=122,
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Enter your last name"}
+            attrs={"placeholder": "Enter your last name"}
         ),
     )
     contact = PhoneNumberField(
         widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Enter your contact number"}
+            attrs={"placeholder": "Enter your contact number"}
         )
     )
     designation = forms.ChoiceField(choices=Designation)
