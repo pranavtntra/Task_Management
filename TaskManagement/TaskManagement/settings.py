@@ -179,8 +179,6 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_SESSION_REMEMBER = None
 # SESSION_COOKIE_AGE = 5
- 
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'

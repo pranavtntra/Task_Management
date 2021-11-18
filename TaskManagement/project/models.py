@@ -7,7 +7,6 @@ from project.constants import STATUS
 # Create your models here.
 
 
-
 class Project(models.Model):
     """A project model is for creating a multiple projects"""
 
@@ -38,5 +37,5 @@ class ProjectTeam(models.Model):
     """A project-team is creating team for particular project"""
 
     project = models.ForeignKey(Project, on_delete=models.CASCADE)
-    teammate = models.ForeignKey(User, on_delete=models.CASCADE,null=True)
+    teammate = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     role = models.ForeignKey(Role, on_delete=models.CASCADE)
