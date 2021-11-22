@@ -1,6 +1,6 @@
 from django import template
 from task.models import Task
-from project.models import ProjectTeam, Role
+from project.models import ProjectTeam, Role, Project
 
 register = template.Library()
 
@@ -27,3 +27,8 @@ def get_role_count(proj_id):
     for role in roles:
         result[role["name"]] = ProjectTeam.objects.filter(project__id=proj_id.id, role__name=role["name"]).count()
     return result
+
+@register.simple_tag
+def get_project_count(user_id):
+    task = len(set([task.project for task in Task.objects.filter(assigned_to=user_id)]))
+    return Project.objects.filter(project_lead=user_id).count() or task
