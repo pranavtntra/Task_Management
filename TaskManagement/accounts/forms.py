@@ -1,9 +1,10 @@
-from accounts.models import User
+from accounts.models import User, Technology
 from django import forms
 from allauth.account.forms import SignupForm
 from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.forms import PasswordChangeForm
 from accounts.constants import DESIGNATION
+from django.forms import MultiWidget, TextInput
 
 Designation = DESIGNATION
 
@@ -93,12 +94,25 @@ class AddUserForm(forms.ModelForm):
         )
     )
     designation = forms.ChoiceField(choices=Designation)
+    technologies = forms.ModelMultipleChoiceField(
+        queryset= Technology.objects.all(),
+        widget=forms.CheckboxSelectMultiple
+     )
+    topic = forms.CharField(max_length=500)
 
     class Meta:
         model = User
         fields = ('email', 'username', 'first_name',
-                  'last_name', 'contact', 'designation')
+                  'last_name', 'contact', 'designation', 'technologies',)
 
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     for field in self.fields:
+    #         widget = MultiWidget(widgets=[TextInput, TextInput])
+    #         widget.render('name', ['john', 'paul'])
+    #         self.fields[field].widget = widget
+    #         print(field)
+    #
 
 class UserUpdateForm(forms.ModelForm):
     """
