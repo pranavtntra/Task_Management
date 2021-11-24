@@ -15,9 +15,18 @@
         <title>{% block title %}Add User{% endblock %}</title>
         
         <form class="signup" id="user_signup_form" method="post" action="{% url 'createuser' %}">
-        
         {% csrf_token %}
-        {{ form.as_p }}
+        {% for field in form %}
+                {% if field.name == 'technologies' %}
+                <div class="col-md-6 form-group">
+                <label for="{{field.name}}">{{field.label}}
+                        {{field}}</label></div>
+                {% else %}
+                <div class="col-md-6 form-group">
+                <label for="{{field.name}}">{{field.label}}
+                        {{field}}</label></div>
+                {% endif %}
+        {% endfor %}
         {% if redirect_field_value %}
         <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
         {% endif %}
