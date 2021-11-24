@@ -59,12 +59,13 @@ class AddUser(LoginRequiredMixin, CreateView):
     success_url = 'userlist'
 
 
-
     def post(self, request, *args, **kwargs):
         try:
             form = AddUserForm(request.POST)
+            import code;
+            code.interact(local=dict(globals(), **locals()))
             if form.is_valid():
-                userdata = form.save(commit=False)
+                userdata = form.save()
                 userdata.set_password(userdata.email)
                 userdata.email_verified = True
                 userdata.save()
