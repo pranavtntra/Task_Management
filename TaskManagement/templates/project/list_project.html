@@ -17,8 +17,8 @@
       <option value="S-">By Start date (Desc)</option>
       <option value="E+">By End date (Asc)</option>
       <option value="E-">By End date (Desc)</option>
-    </select>    
-</div>    
+    </select>
+</div>
 <div class="tab-content delete_content">
     <div class="tab-pane fade show active" id="Project-OnGoing" role="tabpanel">
         <div class="row">
@@ -53,10 +53,10 @@
                                 <div class="col-5 py-1"><strong>Project Description:</strong></div>
                                 <div class="col-7 py-1"id="description"><strong>{{project.description|safe}}</strong></div>
                                 <br> <br>
-                                {% if request.user.is_superuser or request.user.is_staff %} 
-                                    <button type="button" class="btn btn-primary btn add", value="{{project.id}}"  id ="add" data-url="{% url 'add-member' %}">Add Member</button>
-                                {% endif %}&nbsp;&nbsp;
-                                <button type="button" class="btn btn-primary btn view",  value="{{project.id}}", id ="view" data-url="{% url 'view-member' %}">View Members</button>   
+                                 {% if request.user.is_superuser or request.user.is_staff %}
+                            <button type="button" class="btn btn-primary btn add", value="{{project.id}}"  id ="add" data-url="{% url 'add-member' %}">Add Member</button>
+                            {% endif %}&nbsp;&nbsp;
+                            <button type="button" class="btn btn-primary btn view",  value="{{project.id}}", id ="view" data-url="{% url 'view-member' %}">View Members</button>
                             </div>
                         </div>
                     </div>
@@ -68,9 +68,11 @@
 <div class="tab-content" id="search_result" >
     {% include  'project/listproject.html' %}
 </div>
-{% endblock %} 
 
+{% endblock %}
 {% block extrajs %}
+
 <script src="{% static 'js/jquery/ajax_search.js' %}"></script>
 <script src="{% static 'js/jquery/add_member.js' %}"></script>
-{% endblock %} 
+
+{% endblock %}
