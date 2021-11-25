@@ -11,7 +11,7 @@ from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 import logging
 import json
-
+from accounts.models import IntermediateUserTech
 
 class DatetimeEncoder(json.JSONEncoder):
     def default(self, obj):
@@ -62,13 +62,18 @@ class AddUser(LoginRequiredMixin, CreateView):
     def post(self, request, *args, **kwargs):
         try:
             form = AddUserForm(request.POST)
-            import code;
-            code.interact(local=dict(globals(), **locals()))
+            # import code;
+            # code.interact(local=dict(globals(), **locals()))
             if form.is_valid():
+                print("Inside")
                 userdata = form.save()
                 userdata.set_password(userdata.email)
                 userdata.email_verified = True
                 userdata.save()
+                print(form.data)
+                print(userdata.id)
+                # uu = User.objects.filter(id=userdata.id).first()
+                IntermediateUserTech.objects.filter(user_name_id__id=userdata.id).update(topic=form.data['topic'])
                 userd = AccountManagement.set_email(self, userdata)
                 return redirect('userlist')
             return render(request, 'account/createuser.html', {'form': form})
