@@ -5,10 +5,10 @@ STATUS = [
 ]
 
 SORTER = {
-                "T+" : 'title',
-                "T-" : '-title',
-                "S+" : 'start_date',
-                "S-" : '-start_date',
-                "E+" : 'end_date',
-                "E-" : '-end_date'
-                }
+    "T+": 'title',
+    "T-": '-title',
+    "S+": 'start_date',
+    "S-": '-start_date',
+    "E+": 'end_date',
+    "E-": '-end_date'
+}

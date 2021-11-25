@@ -7,7 +7,6 @@ from django.views.generic.edit import DeleteView, UpdateView, CreateView
 from django.contrib.auth.views import PasswordChangeView
 from django.urls import reverse_lazy
 from accounts.services import AccountManagement
-from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 import logging
@@ -28,10 +27,12 @@ class UserList(LoginRequiredMixin, ListView):
     template_name = 'account/userlist.html'
     paginate_by = 7
     ordering = ['-id']
-    
+
+
 
 class SearchUser(LoginRequiredMixin, View):
     """show the details of searched user"""
+
     def get(self, request, *args, **kwargs):
         try:
             search = self.request.GET.get('search')
@@ -57,6 +58,8 @@ class AddUser(LoginRequiredMixin, CreateView):
     template_name = 'account/createuser.html'
     success_url = 'userlist'
 
+
+
     def post(self, request, *args, **kwargs):
         try:
             form = AddUserForm(request.POST)
@@ -73,7 +76,7 @@ class AddUser(LoginRequiredMixin, CreateView):
             return render(request, 'account/createuser.html', {'form': form})
 
 
-class UserProfile(LoginRequiredMixin,ListView):
+class UserProfile(LoginRequiredMixin, ListView):
     """show the profile of user"""
     model = User
     template_name = 'account/userprofile.html'

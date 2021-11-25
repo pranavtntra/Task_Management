@@ -1,1 +1,1 @@
-PIECHART_LABELS = ["In-Progress","To-Do","Done"]
+PIECHART_LABELS = ["In-Progress", "To-Do", "Done"]

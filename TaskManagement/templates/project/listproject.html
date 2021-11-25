@@ -5,50 +5,48 @@
             <p>{{error_message}}</p>
         {% endif %}
         {% for project in search_projectlist %}
-        <div class="col-lg-6 col-md-12">
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">{{project.title}}</h3>
-                </div>
-                <div class="card-body">
-                    <a type="button" href="{% url 'updateproject' project.id %}" class="btn btn-primary a-btn-slide-text" style="float:right; margin-right:75px">
-
-                        <span class="glyphicon glyphicon-pencil"></span> Edit
-                        </a>
-                        <span class="tag tag-blue mb-3" id="title"> {{project.title}}</span>
-                        <form id='delete_project' method="POST" action="{% url 'deleteproject' project.id %}">
-                            {% csrf_token %}
-                            <button class= "btn btn-primary a-btn-slide-text" style="float:right; margin-top:-39px" onClick="return confirm('Are you sure to delete?');">Delete</button>
+            <div class="col-lg-6 col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{project.title}}</h3>
+                    </div>
+                    <div class="card-body">
+                        {% if request.user.is_superuser %}
+                            <a type="button" href="{% url 'updateproject' project.id %}" class="btn btn-primary a-btn-slide-text" style="float:right; margin-right:75px">
+                                <span class="glyphicon glyphicon-pencil"></span> Edit
+                            </a>
+                        {% endif %}
+                        <span class="tag tag-blue mb-3" id="title"> {{project.title}} </span>
+                        {% if request.user.is_superuser %}
+                            <form id='delete_project' method="POST" action="{% url 'deleteproject' project.id %}">
+                                {% csrf_token %}
+                                <button class= "btn btn-primary a-btn-slide-text" style="float:right; margin-top:-39px" onClick="return confirm('Are you sure to delete?');">Delete</button>
                             </form>
-                    
-                    <br>
-                    <div class="row">
-                        <div class="col-5 py-1"><strong>Start Date:</strong></div>
-                        <div class="col-7 py-1"id="start_date">{{project.start_date}}</div>
-                        <div class="col-5 py-1"><strong>End Date:</strong></div>
-                        <div class="col-7 py-1"id="end_date">{{project.end_date}}</div>
-                        <div class="col-5 py-1"><strong>Status:</strong></div>
-                        <div class="col-7 py-1" id="status">{{ project.get_status_display }}</div>
-                        <div class="col-5 py-1"><strong>Project Lead:</strong></div>
-                        <div class="col-7 py-1"id="lead"><strong>{{project.project_lead}}</strong></div>
-                        <div class="col-5 py-1"><strong>Project Description:</strong></div>
-                        <div class="col-7 py-1"id="description"><strong>{{project.description|safe}}</strong></div>
-                        <br><br>
-                        {% if request.user.is_superuser or request.user.is_staff %} 
-                            <button type="button" class="btn btn-primary btn add", value="{{project.id}}"  id ="add" data-url="{% url 'add-member' %}">Add Member</button>
-                        {% endif %}&nbsp;&nbsp;
-                            <button type="button" class="btn btn-primary btn view",  value="{{project.id}}", id ="view" data-url="{% url 'view-member' %}">View Members</button>
-                       
+                        {% endif %}
+                        <br>
+                        <div class="row">
+                            <div class="col-5 py-1"><strong>Start Date:</strong></div>
+                            <div class="col-7 py-1"id="start_date">{{project.start_date}}</div>
+                            <div class="col-5 py-1"><strong>End Date:</strong></div>
+                            <div class="col-7 py-1"id="end_date">{{project.end_date}}</div>
+                            <div class="col-5 py-1"><strong>Status:</strong></div>
+                            <div class="col-7 py-1" id="status">{{ project.get_status_display }}</div>
+                            <div class="col-5 py-1"><strong>Project Lead:</strong></div>
+                            <div class="col-7 py-1"id="lead"><strong>{{project.project_lead}}</strong></div>
+                            <div class="col-5 py-1"><strong>Project Description:</strong></div>
+                            <div class="col-7 py-1"id="description"><strong>{{project.description|safe}}</strong></div>
+                            <br><br>
+                            {% if request.user.is_superuser or request.user.is_staff %} 
+                                <button type="button" class="btn btn-primary btn add", value="{{project.id}}"  id ="add" data-url="{% url 'add-member' %}">Add Member</button>
+                            {% endif %}&nbsp;&nbsp;
+                                <button type="button" class="btn btn-primary btn view",  value="{{project.id}}", id ="view" data-url="{% url 'view-member' %}">View Members</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
         {% endfor %}
     </div>
 </div>
-</div>
-
-
 {% block extrajs %}
 
 <script src="{% static 'js/jquery/ajax_search.js' %}"></script>
