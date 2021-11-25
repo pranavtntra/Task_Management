@@ -1,6 +1,6 @@
 from django import template
 from task.models import Task
-from project.models import ProjectTeam, Role
+from project.models import ProjectTeam, Role, Project
 
 register = template.Library()
 
@@ -27,3 +27,24 @@ def get_role_count(proj_id):
     for role in roles:
         result[role["name"]] = ProjectTeam.objects.filter(project__id=proj_id.id, role__name=role["name"]).count()
     return result
+
+@register.simple_tag
+def get_project_count(user_id):
+    """ for count of project allocation to project manager and employee. """
+    task = len(set([task.project for task in Task.objects.filter(assigned_to=user_id)]))
+    return Project.objects.filter(project_lead=user_id).count() or task
+
+@register.simple_tag
+def get_project_title(user_id):
+    """ for display a list of projects which are allocated to project manager and employee
+        tasks : to get project list of employee,
+        projects : to get project list of employee,
+        we used update method to join both list and for get title
+    """
+    tasks = set([task.project for task in Task.objects.filter(assigned_to=user_id)])
+    projects = Project.objects.filter(project_lead=user_id)
+    tasks.update(set(projects))
+    data = ''
+    for p_title in tasks:
+        data += p_title.title +","
+    return data[:-1]

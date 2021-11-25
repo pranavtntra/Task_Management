@@ -27,9 +27,11 @@ class CreateTaskForm(forms.ModelForm):
         if self.request.user.is_superuser:
             self.fields["project"].queryset = Project.objects.all()
         else:
-            self.fields["project"].queryset = Project.objects.filter(project_lead=self.request.user)
+            self.fields["project"].queryset = Project.objects.filter(
+                project_lead=self.request.user)
 
-        self.fields["assigned_to"].queryset = User.objects.filter(designation="Employee")
+        self.fields["assigned_to"].queryset = User.objects.filter(
+            designation="Employee")
 
 
 class CreateSubTaskForm(forms.ModelForm):
@@ -56,14 +58,16 @@ class CreateSubTaskForm(forms.ModelForm):
             try:
                 project_id = self.data.get('project')
                 parent_t = Task.objects.filter(project=project_id)
-                self.fields['parent_task'].queryset = parent_t.filter(assigned_to=self.request.user)
+                self.fields['parent_task'].queryset = parent_t.filter(
+                    assigned_to=self.request.user)
             except (ValueError, TypeError):
                 logging.error(ValueError, TypeError)
 
     def clean_title(self):
         title = self.cleaned_data['title']
         if Task.objects.filter(title=title).exists():
-            raise forms.ValidationError(u'title "%s" is already in use!' % title)
+            raise forms.ValidationError(
+                u'title "%s" is already in use!' % title)
         return title
 
 
