@@ -6,7 +6,7 @@
         <div class="card">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-lg-2 col-md-4 col-sm-6">
+                                    <div class="col-md-2">
                                         <select id="project_tasklist" data-url='{% url "tasklist" %}'>
                                         <option disabled = "true" selected> Projects </option>
                                             {% for project in projectlist %}
@@ -14,21 +14,23 @@
                                             {% endfor %}
                                         </select>
                                     </div>
-                                    <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <div class="col-md-3">
                                          <input name="search_here" id="search_here" data-url="{% url 'search_task' %}" type="text" placeholder="Search..">
                                     </div>
-                                    <div class="col-lg-6 col-md-4 col-sm-6">
-                            
+                                    <div class="col-md-5">
                                         <div class="input-group">
                                             <input type="date" name="start_date" id="start_date">
                                             <input type="date" name="end_date" id="end_date">
-                                            <div class="col-lg-2">
+                                            <div class="col-md-3">
                                                 <input type="submit" value="search" class="btn btn-primary btn-block"  id="search" data-url="{% url 'searchbydates' %}">
                                             </div>
                                         </div>
                                         <div clas = "input-group">
                                         </div> 
-                                    </div>   
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <a class="btn btn-outline-dark btn-sm btn-block mb-3" href="{% url 'add_sprint' %}">Create sprint +</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,6 @@
 from accounts.models import User
 from django import forms
-from task.models import Task
+from task.models import Task, Sprint
 from project.models import Project
 from task.constants import STATUS
 import logging
@@ -75,3 +75,13 @@ class UpdateStatusForm(forms.ModelForm):
     class Meta:
         model = Task
         fields = ('title', 'status')
+
+class CreateSprintForm(forms.ModelForm):
+
+    class Meta:
+        model = Sprint
+        fields = "__all__"
+        widgets = {
+            'start_date': forms.DateInput(attrs={'type': 'date'}),
+            'end_date': forms.DateInput(attrs={'type': 'date'}),
+        }

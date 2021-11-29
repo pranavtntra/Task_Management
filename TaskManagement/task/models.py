@@ -49,3 +49,6 @@ class Sprint(models.Model):
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(max_length=30, choices=SPRINT_STATUS)
+
+    def get_absolute_url(self):
+        return reverse("dashboard")

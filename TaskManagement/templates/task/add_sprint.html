@@ -1,0 +1,35 @@
+{% extends 'dashboard.html' %}
+{% load static %}
+{% block content %}
+<title>{% block title %}Add Sprint{% endblock %}</title>
+<div class="tab-content">
+    <div class="tab-pane fade show active" id="todo-add" role="tabpanel">
+        <div class="card">
+            <form class="card-body" action="" method="post" id="add_sprint" >
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class= "row">
+                        <label class="col-md-3 col-form-label">{{field.label_tag}} <span class="text-danger">*</span></label>
+                        <div class="col-md-7">{{field}}</div>
+                    </div>
+                    {% for error in field.errors %}
+                        {{error}}
+                    {% endfor %}
+                {% endfor %}
+
+                <div class="form-group row">
+                    <label class="col-md-3 col-form-label"></label>
+                    <div class="col-md-7">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-outline-secondary">Cancel</button>
+                  </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock  %}
+{% block extrajs %}
+
+{% endblock %}

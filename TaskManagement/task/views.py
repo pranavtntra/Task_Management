@@ -2,7 +2,7 @@ from django.http.response import HttpResponse
 from project.models import Project
 from task.models import Task
 from django.views.generic import CreateView, ListView, View, DetailView
-from task.forms import CreateTaskForm, CreateSubTaskForm, UpdateStatusForm
+from task.forms import CreateTaskForm, CreateSubTaskForm, UpdateStatusForm, CreateSprintForm
 from django.http import JsonResponse
 from django.shortcuts import render
 import logging
@@ -155,3 +155,14 @@ class UpdateStatus(CreateView):
 
     # def get_queryset(self):
     #     return super().get_queryset()
+
+
+class CreateSprint(LoginRequiredMixin, CreateView):
+
+    form_class = CreateSprintForm
+    template_name = 'task/add_sprint.html'
+    # initial = {'start_date': datetime.date.today()}
+
+    # def form_valid(self, form):
+    #     form.instance.created_by = self.request.user
+    #     return super(CreateTaskView, self).form_valid(form)
