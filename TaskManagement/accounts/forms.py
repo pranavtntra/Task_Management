@@ -98,21 +98,17 @@ class AddUserForm(forms.ModelForm):
         queryset= Technology.objects.all(),
         widget=forms.CheckboxSelectMultiple
      )
-    topic = forms.CharField(max_length=500)
+    # topic = forms.CharField(max_length=500)
 
     class Meta:
         model = User
         fields = ('email', 'username', 'first_name',
                   'last_name', 'contact', 'designation', 'technologies',)
 
-    # def __init__(self, *args, **kwargs):
-    #     super().__init__(*args, **kwargs)
-    #     for field in self.fields:
-    #         widget = MultiWidget(widgets=[TextInput, TextInput])
-    #         widget.render('name', ['john', 'paul'])
-    #         self.fields[field].widget = widget
-    #         print(field)
-    #
+    def __init__(self, *args, **kwargs):
+        super(AddUserForm, self).__init__(*args, **kwargs)
+        self.fields['technologies'].widget.attrs.update({"class" : "technologies"})
+
 
 class UserUpdateForm(forms.ModelForm):
     """
