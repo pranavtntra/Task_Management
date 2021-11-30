@@ -32,12 +32,16 @@
         {% endif %}
         <button type="submit" class="btn btn-primary">Sign Up &raquo;</button>
         </form>
-        
+
+
+
 {% endif %}
 
 {% endblock %}
 
 {% block extrajs %}
+<script src="{% static 'js/jquery/topic.js' %}"></script>
+
 <script src="{% static 'js/jquery/custom.js' %}"></script>
 <script src="{% static 'js/jquery/jquery_validate.min.js' %}"></script>
 <script src="{% static 'js/jquery/validation.js' %}"></script>
