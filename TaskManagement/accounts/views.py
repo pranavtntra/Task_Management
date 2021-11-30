@@ -70,10 +70,6 @@ class AddUser(LoginRequiredMixin, CreateView):
                 userdata.set_password(userdata.email)
                 userdata.email_verified = True
                 userdata.save()
-                print(form.data)
-                print(userdata.id)
-                print(form.data.get('technologies'))
-                # u = User.objects.filter(id=userdata.id).first()
                 for tech, topic in zip(form.data.getlist('technologies', ''), form.data.getlist('topic', '')):
                     IntermediateUserTech.objects.filter(user_name_id=userdata, technologies_id=tech).update(topic=topic)
                 userd = AccountManagement.set_email(self, userdata)
