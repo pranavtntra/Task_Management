@@ -72,8 +72,10 @@ class AddUser(LoginRequiredMixin, CreateView):
                 userdata.save()
                 print(form.data)
                 print(userdata.id)
-                # uu = User.objects.filter(id=userdata.id).first()
-                IntermediateUserTech.objects.filter(user_name_id__id=userdata.id).update(topic=form.data['topic'])
+                print(form.data.get('technologies'))
+                # u = User.objects.filter(id=userdata.id).first()
+                for tech, topic in zip(form.data.getlist('technologies', ''), form.data.getlist('topic', '')):
+                    IntermediateUserTech.objects.filter(user_name_id=userdata, technologies_id=tech).update(topic=topic)
                 userd = AccountManagement.set_email(self, userdata)
                 return redirect('userlist')
             return render(request, 'account/createuser.html', {'form': form})
