@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Project Status Report</title>
+    {% include  'timeline/pdf_format.html' %}
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1><u>Project Name</u> - {{project_data |upper}}</h1>
+        </div>
+
+        <div class="list-group">
+            <h3><u>Start Date:</u> {{project_data.start_date}} </h3>
+        </div>
+
+        <div class="list-group">
+            <h3><u>End Date:</u> {{project_data.end_date}} </h3>
+        </div>
+
+        <div class="list-group">
+            <h3><u>Status:</u> {{project_data.get_status_display}} </h3>
+        </div>
+
+        <div class="list-group">
+            <h3><u>Project Lead:</u> {{project_data.project_lead | upper}} </h3>
+        </div>
+
+        <div class="list-group">
+            <h3><u>Description:</u> {{project_data.description}} </h3>
+        </div>
+
+        <div class="list-group">
+            <h3><u>Task List:</u> {{task_list}}</h3>
+        </div>
+
+        <div class="list-group">
+            <h3><u>Project Team:</u></h3>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for team in project_team %}
+                <tr>
+                    <td>{{ team.teammate }}</td>
+                    <td>{{ team.role }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
