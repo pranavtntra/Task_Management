@@ -1,18 +1,13 @@
 from django import forms
-from accounts.models import User
 from project.models import Project, ProjectTeam
-from djrichtextfield.models import RichTextField
 import datetime
-from django.core.exceptions import ValidationError
 
 
 class CreateProjectForm(forms.ModelForm):
     title = forms.CharField()
-    start_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required','id':'start'}))
-    end_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required','id':'end'}))
-    
+    start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required', 'id': 'start'}))
+    end_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required', 'id': 'end'}))
 
-    
     class Meta:
         model = Project
         fields = (
@@ -24,13 +19,12 @@ class CreateProjectForm(forms.ModelForm):
             "status",
         )
 
-
     def clean_title(self):
         title = self.cleaned_data['title']
         if Project.objects.filter(title=title).exists():
             raise forms.ValidationError("title already exists.")
         return title
-    
+
     def clean(self):
         start_date = self.cleaned_data.get('start_date')
         end_date = self.cleaned_data.get('end_date')
@@ -40,18 +34,18 @@ class CreateProjectForm(forms.ModelForm):
             raise forms.ValidationError("End date should be greater than start date.")
         return self.cleaned_data
 
+
 class AddMemberForm(forms.ModelForm):
     class Meta:
         model = ProjectTeam
-        fields =('teammate','role')
+        fields = ('teammate', 'role')
+
 
 class ProjectUpdateForm(forms.ModelForm):
     title = forms.CharField()
-    start_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required','id':'start'}))
-    end_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required','id':'end'}))
-    
+    start_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required', 'id': 'start'}))
+    end_date = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'placeholder': 'YYYY-MM-DD', 'required': 'required', 'id': 'end'}))
 
-    
     class Meta:
         model = Project
         fields = (
@@ -62,27 +56,3 @@ class ProjectUpdateForm(forms.ModelForm):
             "project_lead",
             "status",
         )
-
-
- 
-
-
-
-    
-        
-
-
-
-
-
-
-       
-        
-
-        
-        
-        
-
-
-        
-

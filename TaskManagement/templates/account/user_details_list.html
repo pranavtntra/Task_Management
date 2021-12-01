@@ -1,4 +1,6 @@
 {% load static %}
+<!--{% load task_count_tags %}-->
+{% load projects_count_tags %}
 <div class="shadow-lg mb-5 bg-body rounded">
 {% if not page_obj %}
         <p>{{error_message}}</p>
@@ -11,9 +13,14 @@
         <th><b>Contact</b></th>
         <th class="dropdown-toggle" onclick="sortTable(4)"><b>Email Address</b></th>
         <th class="dropdown-toggle" onclick="sortTable(5)"><b>Designation</b></th>
+<!--        <th><b>Task Allocation</b></th>-->
+        <th><b>Allocation</b></th>
         <th colspan=2><b><u>Action</u></b></th>
     </tr>
     {% for details in page_obj %}
+<!--        {% get_user_task_allocation details as tasks_count %}-->
+        {% get_project_count details as project_count %}
+        {% get_project_title details as project_title%}
     <tr class="">
         <td><b>{{details.username}}</b></td>
         <td><b>{{details.first_name}}</b></td>
@@ -21,6 +28,9 @@
         <td><b>{{details.contact}}</b></td>
         <td><b>{{details.email}}</b></td>
         <td><b>{{details.designation}}</b></td>
+<!--        <td>{{tasks_count}}</td>-->
+        <td> <span title="{{project_title}}">{{project_count}}</span></td>
+        <td></td>
         <td>
             <a type="button" href="{% url 'updateuser' details.id %}" class="btn btn-outline-secondary">Update</a>
         </td>
@@ -41,5 +51,4 @@
 {% endif %}
 </div>
 {% block extrajs %}
-
 {% endblock %}
