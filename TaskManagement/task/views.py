@@ -137,6 +137,7 @@ class TaskListBetweenDates(View):
     """ Display task in range of selected dates"""
 
     def get(self, request):
+        data = {}
         try:
             project_id = self.request.GET.get('id', None)
             start_date = self.request.GET.get('start_date')

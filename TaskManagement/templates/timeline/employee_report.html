@@ -1,0 +1,23 @@
+{% extends "dashboard.html"%}
+{% load static %}
+{% load i18n %}
+<title>{% block title %}Reports{% endblock %}</title>
+{% block content%}
+{% if request.user.is_superuser %}
+<div class="shadow-lg p-5 mb-5 bg-body rounded">
+    <h4>Employee Status Report</h4>
+    <div class="row">
+        <form action="{% url 'employee_pdf' %}">
+            <select name="emp_list">
+                {% for i in employee_list %}
+                <option>{{ i }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="View Report">
+        </form>
+    </div>
+    <div class="row">
+    </div>
+</div>
+{% endif %}
+{% endblock %}
