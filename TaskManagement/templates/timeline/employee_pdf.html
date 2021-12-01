@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Employee Status Report</title>
+    {% include  'timeline/pdf_format.html' %}
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-header">
+            <h1>Employee Name - {{emp_data |upper}}</h1>
+        </div>
+
+        <div class="list-group">
+            <p>Email Address: {{emp_data.email}} </p>
+        </div>
+
+        <div class="list-group">
+            <p>Contact: {{emp_data.contact}} </p>
+        </div>
+
+        <div class="list-group">
+            <p>Designation: {{emp_data.designation}} </p>
+        </div>
+
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Project Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Lead</th>
+                <th>Total   Task</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for project in proj_list %}
+                <tr>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.start_date }}</td>
+                    <td>{{ project.end_date }}</td>
+                    <td>{{ project.get_status_display }}</td>
+                    <td>{{ project.lead }}</td>
+                    <td>{{ project.task_count }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

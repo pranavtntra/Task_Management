@@ -43,6 +43,7 @@
 {% url 'add_subtask' as add_subtask %}
 {% url 'mytask_list' as mytask_list %}
 {% url 'project_tasklist' as project_tasklist %}
+{% url 'employee_report' as employee_report %}
 
 
 <!-- Page Loader -->
@@ -250,13 +251,15 @@
                     <ul>
                         <li><a href="">Projects Report</a>
                             <ul>
-                                <li><a href="">Project Status</a></li>
-                                <li><a href="">Completed Project</a></li>
-                                <li><a href="">Active Project</a></li>
-                                <li><a href="">Sprint Report</a></li>
+                                <li><a href="{% url 'project_status_report' %}">Project Status</a></li>
+                                <li><a href="{% url 'complete_project_report' %}">Completed Project</a></li>
+                                <li><a href="{% url 'active_project_report' %}">Active Project</a></li>
+                                <li><a href="{% url 'sprint_report' %}">Sprint Report</a></li>
                             </ul>
                         </li>
-                        <li><a href="">Employee Report</a></li>
+                        {% if request.user.is_superuser %}
+                        <li><a href="{% url 'employee_report' %}">Employee Report</a></li>
+                        {% endif %}
                     </ul>
                 </li>
             </ul>

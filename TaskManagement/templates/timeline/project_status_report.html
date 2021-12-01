@@ -1,0 +1,21 @@
+{% extends "dashboard.html"%}
+{% load static %}
+{% load i18n %}
+<title>{% block title %}Reports{% endblock %}</title>
+{% block content%}
+<div class="shadow-lg p-5 mb-5 bg-body rounded">
+    <h4>Project Status Report</h4>
+    <div class="row">
+        <form action="{% url 'project_status_pdf' %}">
+            <select name="project_list">
+                {% for project in project_status %}
+                <option>{{ project }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="View Report">
+        </form>
+    </div>
+    <div class="row">
+    </div>
+</div>
+{% endblock %}
