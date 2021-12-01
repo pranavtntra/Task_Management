@@ -10,7 +10,7 @@
         <form action="{% url 'employee_pdf' %}">
             <select name="emp_list">
                 {% for i in employee_list %}
-                <option>{{ i }}</option>
+                <option>{{ i.username }}</option>
                 {% endfor %}
             </select>
             <input type="submit" value="View Report">
