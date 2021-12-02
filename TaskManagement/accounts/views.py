@@ -68,6 +68,8 @@ class AddUser(LoginRequiredMixin, CreateView):
                 userdata.set_password(userdata.email)
                 userdata.email_verified = True
                 userdata.save()
+                if userdata.designation == 'Project Manager':
+                    userdata.is_staff = True
                 userd = AccountManagement.set_email(self, userdata)
                 return redirect('userlist')
             return render(request, 'account/createuser.html', {'form': form})
