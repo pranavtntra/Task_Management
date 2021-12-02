@@ -11,6 +11,19 @@ TASKTYPES = TASKTYPES
 SPRINT_STATUS = SPRINT_STATUS
 
 
+class Sprint(models.Model):
+    """A sprint model is a group of related tasks combined together has to be completed in specific time."""
+
+    name = models.CharField(max_length=50, blank=True, null=True)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    status = models.CharField(max_length=30, choices=SPRINT_STATUS)
+
+    def get_absolute_url(self):
+        return reverse("dashboard")
+
+
 class Task(models.Model):
     STATUS = STATUS
     """Task is a model of task where number of tasks will be created for particular project"""
@@ -30,6 +43,7 @@ class Task(models.Model):
     parent_task = models.ForeignKey(
         "self", on_delete=models.CASCADE, null=True, blank=True
     )
+    sprint = models.ForeignKey(Sprint, on_delete=models.CASCADE, null=True, blank=True)
 
     def get_absolute_url(self):
         return reverse("dashboard")
@@ -41,14 +55,4 @@ class Task(models.Model):
         return reverse("dashboard")
 
 
-class Sprint(models.Model):
-    """A sprint model is a group of related tasks combined together has to be completed in specific time."""
 
-    name = models.CharField(max_length=50, blank=True, null=True)
-    task = models.ForeignKey(Task, on_delete=models.CASCADE)
-    start_date = models.DateField()
-    end_date = models.DateField()
-    status = models.CharField(max_length=30, choices=SPRINT_STATUS)
-
-    def get_absolute_url(self):
-        return reverse("dashboard")
