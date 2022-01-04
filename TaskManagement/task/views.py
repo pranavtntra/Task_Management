@@ -1,6 +1,6 @@
 from django.http.response import HttpResponse
 from project.models import Project
-from task.models import Task
+from task.models import Task, Sprint
 from django.views.generic import CreateView, ListView, View, DetailView
 from task.forms import CreateTaskForm, CreateSubTaskForm, UpdateStatusForm, CreateSprintForm
 from django.http import JsonResponse
@@ -10,6 +10,8 @@ from task.mixins import PassRequestToFormViewMixin
 import datetime
 from django.contrib.auth.mixins import LoginRequiredMixin
 from task.services import get_tasklist, search_task, search_task_by_dates
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 # Create your views here.
 
 
@@ -161,8 +163,31 @@ class CreateSprint(LoginRequiredMixin, CreateView):
 
     form_class = CreateSprintForm
     template_name = 'task/add_sprint.html'
-    # initial = {'start_date': datetime.date.today()}
 
-    # def form_valid(self, form):
-    #     form.instance.created_by = self.request.user
-    #     return super(CreateTaskView, self).form_valid(form)
+
+class SprintProjectListView(LoginRequiredMixin, ListView):
+    """Display list of project so that we can select it and get sprint list"""
+    model = Project
+    template_name = "Sprint/sprint_list.html"
+    context_object_name = "projectlist"
+
+class SprintListView(LoginRequiredMixin, View):
+    model = Project
+    template_name = "Sprint/sprint_list.html"
+    context_object_name = "sprintlist"
+
+    def get(self, request):
+        try:
+            project_id = self.request.GET.get('id', None)
+            print(project_id)
+            project_id = Project.objects.filter(id=project_id)
+            print(project_id)
+            if project_id.exists():
+                project = project_id.first()
+                sprint_list = Sprint.objects.filter(project=project).values('name')
+                print(sprint_list)
+                sprints = json.dumps(list(sprint_list), cls=DjangoJSONEncoder)
+            data = {"sprints": sprints}
+            return JsonResponse(data, safe=False)
+        except Exception as e:
+            logging.error(str(e))

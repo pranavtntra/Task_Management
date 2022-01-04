@@ -1,5 +1,5 @@
 from django.urls import path
-from task.views import CreateTaskView, CreateSubTaskView, UpdateStatus, SearchTaskView, TaskSubListView, TaskListView, TaskListBetweenDates, ProjectTaskListView, TaskList, TaskDetailView, CreateSprint
+from task.views import CreateTaskView, CreateSubTaskView, UpdateStatus, SearchTaskView, TaskSubListView, TaskListView, TaskListBetweenDates, ProjectTaskListView, TaskList, TaskDetailView, CreateSprint, SprintProjectListView, SprintListView
 from . import views
 
 urlpatterns = [
@@ -17,4 +17,6 @@ urlpatterns = [
     path('updatestatus/', UpdateStatus.as_view(), name="updatestatus"),
     path('load_message', views.load_message, name="load_message"),
     path('add_sprint/', CreateSprint.as_view(), name="add_sprint"),
+    path('project_sprintlist/', SprintProjectListView.as_view(), name="project_sprintlist"),
+    path('sprint_list', SprintListView.as_view(), name="sprint_list"),
 ]

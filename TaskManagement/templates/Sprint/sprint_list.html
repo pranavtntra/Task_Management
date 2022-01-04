@@ -1,0 +1,77 @@
+{% extends 'dashboard.html' %} {% load static %} {% block content %}
+<title>{% block title %}Sprint List{% endblock %}</title>
+<div class="section-body mt-2">
+    <div class="container-fluid">
+        <div class="tab-content">
+        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <select id="project_sprintlist" data-url='{% url "sprint_list" %}'>
+                                        <option disabled = "true" selected> Projects </option>
+                                            {% for project in projectlist %}
+                                            <option value={{project.id}} id="project_id">{{ csrf_input }}{{project.title }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+
+                                    <div class="col-lg-2">
+                                        <a class="btn btn-outline-dark btn-sm btn-block mb-3" href="{% url 'add_sprint' %}">Create sprint +</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+        </div>
+    </div>
+</div>
+<div class="container-fluid">
+    <div class="tab-content">
+        <div class="tab-pane fade show active" id="todo-add" role="tabpanel" id="mytable">
+            <div class="card" id="card">
+                <div class="card-body">
+                    <div class="table-responsive todo_list" id="search-results">
+                        <ul data-role="listview">
+                            <li data-role="collapsible" data-iconpos="right" data-inset="false">
+                            <h2>Birds</h2>
+                            <ul data-role="listview" data-theme="b">
+                              <li style="margin:0px;padding:0px;"><a href="#">Condor</a></li>
+                              <li style="margin:0px;padding:0px;"><a href="#">Eagle</a></li>
+                              <li style="margin:0px;padding:0px;"><a href="#">Sparrow</a></li>
+                            </ul>
+                          </li>
+                        </ul>
+<!--                        <table class="table table-hover table-striped table-vcenter mb-0 text-nowrap"  id="mytable">-->
+<!--                        <thead>-->
+<!--                            <tr>-->
+<!--                                <th class="dropdown-toggle" onclick="sortTable(0)">name</th>-->
+
+<!--                            </tr>-->
+<!--                        </thead>-->
+<!--                        <tbody id="search-results">-->
+<!--                            {% for data in sprintlist %}-->
+<!--                                <tr>-->
+<!--                                    <td>{{data.name}}</td>-->
+<!--                                <table><tr><td>Helloo</td></tr></table>-->
+<!--                                </tr>-->
+
+<!--                            {% endfor %}-->
+
+
+<!--                        </tbody>-->
+
+<!--                    </table>-->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+{% block extrajs %}
+
+<script src="{% static 'js/jquery/jquery.js' %}"></script>
+<script src="{% static 'js/jquery/tasklistbyproject.js' %}"></script>
+<script src="{% static 'js/jquery/sprint_list.js' %}"></script>
+{% endblock %}

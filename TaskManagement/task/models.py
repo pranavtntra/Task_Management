@@ -15,7 +15,7 @@ class Sprint(models.Model):
     """A sprint model is a group of related tasks combined together has to be completed in specific time."""
 
     name = models.CharField(max_length=50, blank=True, null=True)
-    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, blank=True, null=True)
     start_date = models.DateField()
     end_date = models.DateField()
     status = models.CharField(max_length=30, choices=SPRINT_STATUS)
